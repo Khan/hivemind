@@ -7,6 +7,7 @@ class DescriptionEditor extends React.Component {
     super(props);
     const editorState = EditorState.createWithContent(this.rawContentStateToContentState(props.value));
     this.state = {editorState};
+    this.onFocus = () => this.refs.editor.focus();
     this.onChange = (editorState) => {
       this.setState({editorState});
 
@@ -34,10 +35,14 @@ class DescriptionEditor extends React.Component {
 
   render() {
     return (
-      <Editor
-        editorState={this.state.editorState}
-        onChange={this.onChange}
-      />
+      <div onClick={this.onFocus} className="descriptionEditor">
+        <Editor
+          editorState={this.state.editorState}
+          onChange={this.onChange}
+          placeholder="Notes, quotes, takeaways…"
+          ref="editor"
+        />
+      </div>
     );
   }
 }
@@ -59,14 +64,14 @@ export default class Entry extends React.Component {
   render() {
     return (
       <div className="entry">
-      	<h2><input value={this.props.entry.title} onChange={this.onChangeTitle} /></h2>
+      	<h2><input value={this.props.entry.title} onChange={this.onChangeTitle} placeholder="Title" /></h2>
         <DescriptionEditor
           value={this.props.entry.description}
           onChange={this.onChangeDescription}
         />
-      <p>
-        <button onClick={this.props.onDelete}>Delete Entry</button>
-      </p>
+        <p>
+          <button onClick={this.props.onDelete}>Delete Entry</button>
+        </p>
       </div>
     );
   }
