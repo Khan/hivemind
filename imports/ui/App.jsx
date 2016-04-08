@@ -10,6 +10,8 @@ class App extends Component {
   handleEntryChange(newEntry) {
     const serializedEntry = {
       title: newEntry.title,
+      author: newEntry.author,
+      URL: newEntry.URL,
       // The description is fancy--can't store it directly.
       description: EJSON.stringify(newEntry.description),
     };
