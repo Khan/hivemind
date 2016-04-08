@@ -64,6 +64,9 @@ export default class Entry extends React.Component {
           value={this.props.entry.description}
           onChange={this.onChangeDescription}
         />
+      <p>
+        <button onClick={this.props.onDelete}>Delete Entry</button>
+      </p>
       </div>
     );
   }

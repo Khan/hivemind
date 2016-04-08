@@ -17,12 +17,23 @@ class App extends Component {
     Entries.update(newEntry._id, {$set: serializedEntry});
   }
 
+  addEntry() {
+    Entries.insert({
+      createdAt: new Date()
+    });
+  }
+
+  deleteEntry(entry) {
+    Entries.remove(entry._id)
+  }
+
   renderEntries() {
     return this.props.entries.map((entry) => (
       <Entry
         key={entry._id}
         entry={entry}
         onChange={this.handleEntryChange}
+        onDelete={() => this.deleteEntry(entry)}
       />
     ));
   }
@@ -33,6 +44,7 @@ class App extends Component {
         <header>
           <h1>Entries</h1>
         </header>
+        <button onClick={this.addEntry}>Add Entry</button>
         {this.renderEntries()}
       </div>
     );
@@ -45,11 +57,12 @@ App.propTypes = {
 
 export default createContainer(() => {
   return {
-    entries: Entries.find({})
+    entries: Entries.find({}, {sort: ["createdAt", "desc"]})
       .fetch() // A shame this can't stay lazy...
       // Deserialize the fancy description.
       .map((entry) => {
-        return {...entry, description: EJSON.parse(entry.description)}
+        const description = entry.description ? EJSON.parse(entry.description) : undefined
+        return {...entry, description: description}
       }),
   };
 }, App);
