@@ -8,9 +8,13 @@ import Entry from './Entry.jsx';
 // App component - represents the whole app
 class App extends Component {
   handleEntryChange(newEntry) {
-    // The description is fancy--can't store it directly.
-    const stringifiedRawContent = EJSON.stringify(newEntry.description);
-    Entries.update(newEntry._id, {$set: {description: stringifiedRawContent}})
+    const serializedEntry = {
+      title: newEntry.title,
+      // The description is fancy--can't store it directly.
+      description: EJSON.stringify(newEntry.description),
+    };
+
+    Entries.update(newEntry._id, {$set: serializedEntry});
   }
 
   renderEntries() {

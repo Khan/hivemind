@@ -48,14 +48,18 @@ export default class Entry extends React.Component {
     super(props);
 
     this.onChangeDescription = (rawContentState) => {
-      this.props.onChange({...this.props.entry, description: rawContentState})
+      this.props.onChange({...this.props.entry, description: rawContentState});
+    }
+
+    this.onChangeTitle = (event) => {
+      this.props.onChange({...this.props.entry, title: event.target.value});
     }
   }
 
   render() {
     return (
       <div className="entry">
-      	<h2>{this.props.entry.title}</h2>
+      	<h2><input value={this.props.entry.title} onChange={this.onChangeTitle} /></h2>
         <DescriptionEditor
           value={this.props.entry.description}
           onChange={this.onChangeDescription}
