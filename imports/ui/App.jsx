@@ -57,7 +57,7 @@ App.propTypes = {
 
 export default createContainer(() => {
   return {
-    entries: Entries.find({}, {sort: ["createdAt", "desc"]})
+    entries: Entries.find({}, {sort: [["createdAt", "desc"]]})
       .fetch() // A shame this can't stay lazy...
       // Deserialize the fancy description.
       .map((entry) => {

@@ -65,6 +65,7 @@ export default class Entry extends React.Component {
     return (
       <div className="entry">
       	<h2><input value={this.props.entry.title} onChange={this.onChangeTitle} placeholder="Title" /></h2>
+        <p>Created on {this.props.entry.createdAt.toISOString()}</p>
         <DescriptionEditor
           value={this.props.entry.description}
           onChange={this.onChangeDescription}
