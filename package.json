@@ -8,9 +8,9 @@
     "draft-js": "^0.4.0",
     "immutable": "^3.7.6",
     "meteor-node-stubs": "~0.2.0",
-    "react": "^0.14.8",
-    "react-addons-pure-render-mixin": "^0.14.8",
-    "react-dom": "^0.14.8"
+    "react": "15",
+    "react-addons-pure-render-mixin": "15",
+    "react-dom": "15"
   },
   "devDependencies": {
     "eslint": "^2.7.0"
