@@ -47,6 +47,123 @@ class DescriptionEditor extends React.Component {
   }
 }
 
+class TagEditor extends React.Component {
+  constructor(props) {
+    super(props);
+    const editorState = EditorState.createEmpty();
+    this.state = {editorState};
+
+    this.onChange = (editorState) => {
+      const contentState = editorState.getCurrentContent();
+      const blockMap = contentState.getBlockMap();
+      const [firstBlockKey, firstBlock] = blockMap.entries().next().value;
+      let firstNonEntityCharacter = firstNonEntityCharacterInContentBlock(firstBlock);
+
+      const newSelection = editorState.getSelection();
+      const firstBlockSelection = newSelection.merge({
+        anchorKey: firstBlockKey,
+        anchorOffset: Math.max(newSelection.getAnchorOffset(), firstNonEntityCharacter),
+        focusKey: firstBlockKey,
+        focusOffset: Math.max(newSelection.getFocusOffset(), firstNonEntityCharacter),
+      });
+
+      let newEditorState = editorState;
+      if (!editorState.getCurrentContent().equals(contentState)) {
+        newEditorState = EditorState.push(editorState, contentState);
+      }
+      if (!firstBlockSelection.equals(newSelection)) {
+        newEditorState = EditorState.forceSelection(newEditorState, firstBlockSelection);
+      }
+      console.log(newEditorState.toJS());
+      this.setState({editorState: newEditorState});
+
+      let tags = new Set(firstBlock.getCharacterList()
+        .map((characterMetadata) => {
+          const entityKey = characterMetadata.getEntity()
+          if (entityKey && Draft.Entity.get(entityKey).getType()) {
+            return Draft.Entity.get(entityKey).getData().name;
+          } else {
+            return null;
+          }
+        })
+        .filter((name) => name !== null)
+      )
+      console.log(tags);
+    };
+
+    this.handleReturn = () => {
+      const {editorState} = this.state;
+      const currentContent = editorState.getCurrentContent();
+      const block = currentContent.getBlockMap().first();
+
+      const startingLocation = firstNonEntityCharacterInContentBlock(block);
+      const endingLocation = block.getLength();
+
+      const text = block.getText().substr(startingLocation, endingLocation);
+      const tagEntityKey = Draft.Entity.create('tag', 'IMMUTABLE', { name: text });
+
+      const tagTextSelection = editorState.getSelection()
+        .merge({
+          anchorOffset: startingLocation,
+          focusOffset: endingLocation,
+        });
+
+      let tagReplacedContent = Draft.Modifier.replaceText(
+        currentContent,
+        tagTextSelection,
+        text,
+        null,
+        tagEntityKey
+      );
+
+      const newEditorState = EditorState.push(
+        editorState,
+        tagReplacedContent,
+        'insert-tag',
+      );
+      this.onChange(
+        EditorState.forceSelection(newEditorState, tagReplacedContent.getSelectionAfter())
+      );
+      console.log(newEditorState.toJS());
+      return true;
+    }
+
+    this.handlePastedInput = (text) => {
+      const editorState = this.state.editorState;
+      const contentState = editorState.getCurrentContent();
+      const newContentState = Draft.Modifier.replaceText(
+        contentState,
+        editorState.getSelection(),
+        text.replace(/(\r\n|\n|\r)/gm,""),
+      );
+      this.onChange(EditorState.push(editorState, newContentState));
+      return true;
+    }
+  }
+
+  render() {
+    return <Editor
+      editorState={this.state.editorState}
+      handleReturn={this.handleReturn}
+      handlePastedText={this.handlePastedInput}
+      onChange={this.onChange}
+      onBlur={() => {console.log("BLUR");}}
+      stripPastedStyles={true}
+      placeholder="Tags"
+    />
+  }
+}
+
+function firstNonEntityCharacterInContentBlock(contentBlock) {
+  for (let characterEntry of contentBlock.getCharacterList().entries()) {
+    const [characterIndex, characterMetadata] = characterEntry;
+    if (characterMetadata.getEntity() == null) {
+      return characterIndex;
+    }
+  }
+  return contentBlock.getLength()
+}
+
 // Represents a single hivemind database entry
 export default class Entry extends React.Component {
   constructor(props) {
@@ -80,6 +197,7 @@ export default class Entry extends React.Component {
           value={this.props.entry.description}
           onChange={this.onChangeDescription}
         />
+        <TagEditor />
         <p>
           <button onClick={this.props.onDelete}>Delete Entry</button>
         </p>
