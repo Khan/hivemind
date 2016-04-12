@@ -47,7 +47,7 @@ class DescriptionEditor extends React.Component {
   }
 }
 
-function findTag(contentBlock, callback) {
+function findTags(contentBlock, callback) {
   let currentEntityStartingLocation = 0;
   let currentEntityKey = null;
   for (let entry of contentBlock.getCharacterList().entries()) {
@@ -55,7 +55,9 @@ function findTag(contentBlock, callback) {
     const entityKey = characterMetadata.getEntity();
     if (entityKey !== currentEntityKey) {
       if (currentEntityKey !== null) {
-        callback(currentEntityStartingLocation, index);
+        if (currentEntityKey !== null && Draft.Entity.get(currentEntityKey).getType() === "tag") {
+          callback(currentEntityStartingLocation, index);
+        }
         currentEntityStartingLocation = index;
       }
       currentEntityKey = entityKey;
@@ -66,21 +68,16 @@ function findTag(contentBlock, callback) {
   }
 }
 
-const styles = {
-  tag: {
-    color: "red"
-  }
-};
 const Tag = (props) => {
   const {name} = Draft.Entity.get(props.entityKey).getData();
-  return <span style={styles.tag}>{name}</span>
+  return <span style={{color: "red", padding: "0px 10px"}}>{name}</span>
 };
 
 class TagEditor extends React.Component {
   constructor(props) {
     super(props);
-    const editorState = EditorState.createEmpty(new Draft.CompositeDecorator([{
-      strategy: findTag,
+    const editorState = editorStateDisplayingTags(props.tags || [], new Draft.CompositeDecorator([{
+      strategy: findTags,
       component: Tag,
     }]));
     this.state = {editorState};
@@ -110,18 +107,10 @@ class TagEditor extends React.Component {
       console.log(newEditorState.toJS());
       this.setState({editorState: newEditorState});
 
-      let tags = new Set(firstBlock.getCharacterList()
-        .map((characterMetadata) => {
-          const entityKey = characterMetadata.getEntity()
-          if (entityKey && Draft.Entity.get(entityKey).getType()) {
-            return Draft.Entity.get(entityKey).getData().name;
-          } else {
-            return null;
-          }
-        })
-        .filter((name) => name !== null)
-      )
-      console.log(tags);
+      const newTags = tagsForContentState(contentState);
+      if (!Immutable.Iterable(newTags).equals(Immutable.Iterable(this.props.tags))) {
+        this.props.onChange(newTags)
+      }
     };
 
     this.handleReturn = () => {
@@ -133,7 +122,7 @@ class TagEditor extends React.Component {
       const endingLocation = block.getLength();
 
       const text = block.getText().substr(startingLocation, endingLocation);
-      const tagEntityKey = Draft.Entity.create('tag', 'IMMUTABLE', { name: text });
+      const tagEntityKey = createEntityForTag(text);
 
       const tagTextSelection = editorState.getSelection()
         .merge({
@@ -174,6 +163,15 @@ class TagEditor extends React.Component {
     }
   }
 
+  componentWillReceiveProps(newProps) {
+    const currentTags = tagsForContentState(this.state.editorState.getCurrentContent());
+    if (!Immutable.Iterable(currentTags).equals(Immutable.Iterable(newProps.tags))) {
+      this.setState({
+        editorState: editorStateDisplayingTags(newProps.tags, this.state.editorState.getDecorator())
+      });
+    }
+  }
+
   render() {
     return <Editor
       editorState={this.state.editorState}
@@ -185,6 +183,37 @@ class TagEditor extends React.Component {
       placeholder="Tags"
     />
   }
+}
+
+function createEntityForTag(tag) {
+  return Draft.Entity.create('tag', 'IMMUTABLE', { name: tag });
+}
+
+function editorStateDisplayingTags(tags, decorator) {
+  const contentState = Immutable.Iterable(tags).reduce((reduction, tag) => {
+    return Draft.Modifier.insertText(
+      reduction,
+      reduction.getSelectionAfter(),
+      tag,
+      null,
+      createEntityForTag(tag)
+    );
+  }, Draft.ContentState.createFromText(""));
+  return EditorState.createWithContent(contentState, decorator);
+}
+
+function tagsForContentState(contentState) {
+  if (contentState.getBlockMap().count() !== 1) {
+    throw "contentState should have exactly one block";
+  }
+
+  const contentBlock = contentState.getBlockMap().first();
+  let tags = [];
+  findTags(contentBlock, (firstLocation, lastLocation) => {
+    tags.push(Draft.Entity.get(contentBlock.getEntityAt(firstLocation)));
+  });
+
+  return tags.map((entity) => entity.getData().name);
 }
 
 function firstNonEntityCharacterInContentBlock(contentBlock) {
@@ -217,6 +246,10 @@ export default class Entry extends React.Component {
     this.onChangeURL = (event) => {
       this.props.onChange({...this.props.entry, URL: event.target.value});
     }
+
+    this.onChangeTags = (newTags) => {
+      this.props.onChange({...this.props.entry, tags: newTags});
+    }
   }
 
   render() {
@@ -230,7 +263,10 @@ export default class Entry extends React.Component {
           value={this.props.entry.description}
           onChange={this.onChangeDescription}
         />
-        <TagEditor />
+        <TagEditor
+          onChange={this.onChangeTags}
+          tags={this.props.entry.tags}
+        />
         <p>
           <button onClick={this.props.onDelete}>Delete Entry</button>
         </p>
