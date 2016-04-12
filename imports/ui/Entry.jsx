@@ -47,10 +47,42 @@ class DescriptionEditor extends React.Component {
   }
 }
 
+function findTag(contentBlock, callback) {
+  let currentEntityStartingLocation = 0;
+  let currentEntityKey = null;
+  for (let entry of contentBlock.getCharacterList().entries()) {
+    const [index, characterMetadata] = entry;
+    const entityKey = characterMetadata.getEntity();
+    if (entityKey !== currentEntityKey) {
+      if (currentEntityKey !== null) {
+        callback(currentEntityStartingLocation, index);
+        currentEntityStartingLocation = index;
+      }
+      currentEntityKey = entityKey;
+    }
+  }
+  if (currentEntityKey !== null) {
+    callback(currentEntityStartingLocation, contentBlock.getLength());
+  }
+}
+
+const styles = {
+  tag: {
+    color: "red"
+  }
+};
+const Tag = (props) => {
+  const {name} = Draft.Entity.get(props.entityKey).getData();
+  return <span style={styles.tag}>{name}</span>
+};
+
 class TagEditor extends React.Component {
   constructor(props) {
     super(props);
-    const editorState = EditorState.createEmpty();
+    const editorState = EditorState.createEmpty(new Draft.CompositeDecorator([{
+      strategy: findTag,
+      component: Tag,
+    }]));
     this.state = {editorState};
 
     this.onChange = (editorState) => {
@@ -58,6 +90,7 @@ class TagEditor extends React.Component {
       const blockMap = contentState.getBlockMap();
       const [firstBlockKey, firstBlock] = blockMap.entries().next().value;
       let firstNonEntityCharacter = firstNonEntityCharacterInContentBlock(firstBlock);
+      console.log(firstNonEntityCharacter);
 
       const newSelection = editorState.getSelection();
       const firstBlockSelection = newSelection.merge({
@@ -161,7 +194,7 @@ function firstNonEntityCharacterInContentBlock(contentBlock) {
       return characterIndex;
     }
   }
-  return contentBlock.getLength()
+  return contentBlock.getLength();
 }
 
 // Represents a single hivemind database entry
