@@ -1,3 +1,28 @@
 .entry {
   border: 1px solid black;
 }
+
+.tagBlock {
+  display: inline;
+  padding: 0px 5px;
+}
+
+.unconfirmedTagBlock {
+  display: inline;
+}
+
+.unconfirmedTagBlock br {
+  display: none;
+}
+
+.unconfirmedTagBlock:only-child {
+  display: inherit;
+}
+
+.unconfirmedTagBlock:only-child br {
+  display: inherit;
+}
+
+.unconfirmedTagBlock .public-DraftStyleDefault-block {
+  display: inline;
+}

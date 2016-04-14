@@ -54,12 +54,10 @@ function findTags(contentBlock, callback) {
     const [index, characterMetadata] = entry;
     const entityKey = characterMetadata.getEntity();
     if (entityKey !== currentEntityKey) {
-      if (currentEntityKey !== null) {
-        if (currentEntityKey !== null && Draft.Entity.get(currentEntityKey).getType() === "tag") {
-          callback(currentEntityStartingLocation, index);
-        }
-        currentEntityStartingLocation = index;
+      if (currentEntityKey !== null && Draft.Entity.get(currentEntityKey).getType() === "tag") {
+        callback(currentEntityStartingLocation, index);
       }
+      currentEntityStartingLocation = index;
       currentEntityKey = entityKey;
     }
   }
@@ -69,45 +67,44 @@ function findTags(contentBlock, callback) {
 }
 
 const Tag = (props) => {
-  const {name} = Draft.Entity.get(props.entityKey).getData();
-  return <span style={{color: "red", padding: "0px 10px"}}>{name}</span>
+  return <span style={{
+      color: "#999",
+      padding: "0px 0px"
+  }}>#{props.blockProps.name}</span>
 };
 
 class TagEditor extends React.Component {
   constructor(props) {
     super(props);
-    const editorState = editorStateDisplayingTags(props.tags || [], new Draft.CompositeDecorator([{
+    const editorState = editorStateDisplayingTags(props.tags || []/*, new Draft.CompositeDecorator([{
       strategy: findTags,
       component: Tag,
-    }]));
+    }])*/);
     this.state = {editorState};
 
     this.onChange = (editorState) => {
-      const contentState = editorState.getCurrentContent();
-      const blockMap = contentState.getBlockMap();
-      const [firstBlockKey, firstBlock] = blockMap.entries().next().value;
-      let firstNonEntityCharacter = firstNonEntityCharacterInContentBlock(firstBlock);
-      console.log(firstNonEntityCharacter);
-
-      const newSelection = editorState.getSelection();
-      const firstBlockSelection = newSelection.merge({
-        anchorKey: firstBlockKey,
-        anchorOffset: Math.max(newSelection.getAnchorOffset(), firstNonEntityCharacter),
-        focusKey: firstBlockKey,
-        focusOffset: Math.max(newSelection.getFocusOffset(), firstNonEntityCharacter),
-      });
-
-      let newEditorState = editorState;
-      if (!editorState.getCurrentContent().equals(contentState)) {
-        newEditorState = EditorState.push(editorState, contentState);
+      let contentState = editorState.getCurrentContent();
+      const lastBlock = contentState.getBlockMap().last();
+      if (lastBlock.getType() == "tag") {
+        const penultimateBlock = contentState.getBlockBefore(lastBlock.getKey());
+        editorState = EditorState.push(editorState, Draft.Modifier.removeRange(
+          contentState,
+          new Draft.SelectionState({
+            anchorKey: penultimateBlock.getKey(),
+            anchorOffset: penultimateBlock.getLength(),
+            focusKey: lastBlock.getKey(),
+            focusOffset: lastBlock.getLength(),
+            hasFocus: true,
+            isBackward: false,
+          }),
+          "backward"
+        ));
       }
-      if (!firstBlockSelection.equals(newSelection)) {
-        newEditorState = EditorState.forceSelection(newEditorState, firstBlockSelection);
-      }
-      console.log(newEditorState.toJS());
-      this.setState({editorState: newEditorState});
+      this.setState({editorState});
+      console.log(editorState)
 
-      const newTags = tagsForContentState(contentState);
+      // Update tags model.
+      const newTags = tagsForContentState(editorState.getCurrentContent());
       if (!Immutable.Iterable(newTags).equals(Immutable.Iterable(this.props.tags))) {
         this.props.onChange(newTags)
       }
@@ -115,8 +112,8 @@ class TagEditor extends React.Component {
 
     this.handleReturn = () => {
       const {editorState} = this.state;
-      const currentContent = editorState.getCurrentContent();
-      const block = currentContent.getBlockMap().first();
+      let currentContent = editorState.getCurrentContent();
+      const block = currentContent.getBlockForKey(editorState.getSelection().getFocusKey());
 
       const startingLocation = firstNonEntityCharacterInContentBlock(block);
       const endingLocation = block.getLength();
@@ -124,29 +121,40 @@ class TagEditor extends React.Component {
       const text = block.getText().substr(startingLocation, endingLocation);
       const tagEntityKey = createEntityForTag(text);
 
+      currentContent = Draft.Modifier.splitBlock(currentContent, editorState.getSelection().merge({
+        anchorOffset: startingLocation,
+        focusOffset: startingLocation,
+      }));
+      currentContent = Draft.Modifier.setBlockType(currentContent, currentContent.getSelectionAfter(), "tag")
+      const splitBlockKey = currentContent.getSelectionAfter().getFocusKey();
       const tagTextSelection = editorState.getSelection()
         .merge({
-          anchorOffset: startingLocation,
-          focusOffset: endingLocation,
+          anchorKey: splitBlockKey,
+          anchorOffset: 0,
+          focusKey: splitBlockKey,
+          focusOffset: currentContent.getBlockForKey(splitBlockKey).getLength(),
+          isBackward: false,
         });
 
-      let tagReplacedContent = Draft.Modifier.replaceText(
+      const insertedTagBlock = tagContentBlock(tagEntityKey, text);
+      const emptyBlock = emptyContentBlock();
+
+      currentContent = Draft.Modifier.replaceWithFragment(
         currentContent,
         tagTextSelection,
-        text,
-        null,
-        tagEntityKey
+        Immutable.OrderedMap([
+          [insertedTagBlock.getKey(), insertedTagBlock],
+          [emptyBlock.getKey(), emptyBlock],
+        ]),
       );
 
       const newEditorState = EditorState.push(
         editorState,
-        tagReplacedContent,
+        currentContent,
         'insert-tag',
       );
-      this.onChange(
-        EditorState.forceSelection(newEditorState, tagReplacedContent.getSelectionAfter())
-      );
-      console.log(newEditorState.toJS());
+
+      this.onChange(EditorState.forceSelection(newEditorState, currentContent.getSelectionAfter()));
       return true;
     }
 
@@ -178,11 +186,52 @@ class TagEditor extends React.Component {
       handleReturn={this.handleReturn}
       handlePastedText={this.handlePastedInput}
       onChange={this.onChange}
-      onBlur={() => {console.log("BLUR");}}
+      onBlur={() => {console.log("BLUR");}} // TODO
       stripPastedStyles={true}
+      blockRendererFn={tagBlockRenderer}
+      blockStyleFn={tagBlockStyle}
       placeholder="Tags"
     />
   }
+}
+
+function tagBlockStyle(contentBlock) {
+  if (contentBlock.getType() === 'tag') {
+    return 'tagBlock';
+  } else {
+    return 'unconfirmedTagBlock';
+  }
+}
+
+function tagBlockRenderer(contentBlock) {
+  const firstCharacter = contentBlock.getCharacterList().first();
+  if (contentBlock.getType() === 'tag' && firstCharacter && firstCharacter.getEntity()) {
+    return {
+      component: Tag,
+      editable: false,
+      props: {
+        name: Draft.Entity.get(firstCharacter.getEntity()).getData().name
+      }
+    }
+  }
+}
+
+function tagContentBlock(tagEntityKey, name) {
+  return new Draft.ContentBlock({
+    key: Draft.genKey(),
+    type: 'tag',
+    text: name,
+    characterList: Immutable.List(Immutable.Repeat(Draft.CharacterMetadata.create({ entity: tagEntityKey }), name.length)),
+  });
+}
+
+function emptyContentBlock() {
+  return new Draft.ContentBlock({
+    key: Draft.genKey(),
+    tag: 'unstyled',
+    text: "",
+    characterList: Immutable.List(),
+  });
 }
 
 function createEntityForTag(tag) {
@@ -190,28 +239,23 @@ function createEntityForTag(tag) {
 }
 
 function editorStateDisplayingTags(tags, decorator) {
-  const contentState = Immutable.Iterable(tags).reduce((reduction, tag) => {
-    return Draft.Modifier.insertText(
-      reduction,
-      reduction.getSelectionAfter(),
-      tag,
-      null,
-      createEntityForTag(tag)
-    );
-  }, Draft.ContentState.createFromText(""));
+  const contentBlockArray = Immutable.Iterable(tags).reduce((reduction, tag) => {
+    reduction.push(tagContentBlock(createEntityForTag(tag), tag))
+    reduction.push(emptyContentBlock());
+    return reduction;
+  }, [emptyContentBlock()]);
+  const contentState = Draft.ContentState.createFromBlockArray(contentBlockArray);
   return EditorState.createWithContent(contentState, decorator);
 }
 
 function tagsForContentState(contentState) {
-  if (contentState.getBlockMap().count() !== 1) {
-    throw "contentState should have exactly one block";
-  }
-
-  const contentBlock = contentState.getBlockMap().first();
   let tags = [];
-  findTags(contentBlock, (firstLocation, lastLocation) => {
-    tags.push(Draft.Entity.get(contentBlock.getEntityAt(firstLocation)));
-  });
+  for (block of contentState.getBlockMap().values()) {
+    // TODO: assume one tag per block?
+    findTags(block, (firstLocation, lastLocation) => {
+      tags.push(Draft.Entity.get(block.getEntityAt(firstLocation)));
+    });
+  }
 
   return tags.map((entity) => entity.getData().name);
 }
