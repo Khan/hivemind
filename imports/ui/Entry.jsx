@@ -15,6 +15,16 @@ class DescriptionEditor extends React.Component {
       const rawContentState = Draft.convertToRaw(editorState.getCurrentContent());
       this.props.onChange(rawContentState)
     }
+
+    this.handleKeyCommand = (command) => {
+      const newEditorState = Draft.RichUtils.handleKeyCommand(this.state.editorState, command);
+      if (newEditorState) {
+        this.onChange(newEditorState);
+        return true;
+      } else {
+        return false;
+      }
+    }
   }
 
   rawContentStateToContentState(rawContentState) {
@@ -40,6 +50,7 @@ class DescriptionEditor extends React.Component {
         <Editor
           editorState={this.state.editorState}
           onChange={this.onChange}
+          handleKeyCommand={this.handleKeyCommand}
           placeholder="Notes, quotes, takeaways…"
           ref="editor"
         />
@@ -271,6 +282,44 @@ function firstNonEntityCharacterInContentBlock(contentBlock) {
   return contentBlock.getLength();
 }
 
+class EntryImage extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {uploading: null};
+    this.onDropImage = (files) => {
+      this.setState({uploading: files});
+      this.props.onDropImage(files, () => {
+        if (files == this.state.uploading) {
+          this.setState({uploading: null});
+        }
+      });
+    }
+  }
+
+  componentWillReceiveProps(newProps) {
+    if (this.state.uploading && newProps.imageURL !== props.imageURL) {
+      this.setState({uploading: null});
+    }
+  }
+
+  render() {
+    if (this.state.uploading) {
+      return <span>Uploading</span>;
+    } else {
+      return (
+        <Dropzone
+          onDrop={this.onDropImage}
+          multiple={false}
+          accept="image/*"
+          style={{}}
+        >
+          <img src={this.props.imageURL} />
+        </Dropzone>
+      )
+    }
+  }
+}
+
 // Represents a single hivemind database entry
 export default class Entry extends React.Component {
   constructor(props) {
@@ -295,20 +344,6 @@ export default class Entry extends React.Component {
     this.onChangeTags = (newTags) => {
       this.props.onChange({...this.props.entry, tags: newTags});
     }
-
-    this.onDropImage = (files) => {
-      S3.upload({
-        files: files,
-        path: "entryImages"
-      }, (error, result) => {
-        if (error) {
-          console.error(error);
-        } else {
-          this.props.onChange({...this.props.entry, imageURL: result.secure_url})
-          console.log(`Uploaded to ${result.secure_url}`);
-        }
-      });
-    }
   }
 
   render() {
@@ -329,11 +364,10 @@ export default class Entry extends React.Component {
         <p>
           <button onClick={this.props.onDelete}>Delete Entry</button>
         </p>
-        <Dropzone
-          onDrop={this.onDropImage}
-          multiple={false}
-          accept="image/*"
-        ><img src={this.props.entry.imageURL} /></Dropzone>
+        <EntryImage
+          onDropImage={this.props.onDropImage}
+          imageURL={this.props.entry.imageURL}
+        />
       </div>
     );
   }

@@ -7,6 +7,25 @@ import Entry from './Entry.jsx';
 
 // App component - represents the whole app
 class App extends Component {
+  constructor(props) {
+    super(props)
+
+    this.onDropImage = (entry, files, callback) => {
+      S3.upload({
+        files: files,
+        path: "entryImages"
+      }, (error, result) => {
+        if (error) {
+          console.error(error);
+        } else {
+          this.handleEntryChange({...entry, imageURL: result.secure_url})
+          console.log(`Uploaded to ${result.secure_url}`);
+        }
+        callback();
+      });
+    }
+  }
+
   handleEntryChange(newEntry) {
     const serializedEntry = {
       title: newEntry.title,
@@ -38,6 +57,7 @@ class App extends Component {
         entry={entry}
         onChange={this.handleEntryChange}
         onDelete={() => this.deleteEntry(entry)}
+        onDropImage={(files, callback) => this.onDropImage(entry, files, callback) }
       />
     ));
   }
