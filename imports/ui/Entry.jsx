@@ -1,5 +1,6 @@
 import React, {PropTypes} from 'react';
 import Draft, {Editor, EditorState, ContentState} from 'draft-js';
+import Dropzone from 'react-dropzone';
 import Immutable from 'immutable';
 
 class DescriptionEditor extends React.Component {
@@ -294,6 +295,20 @@ export default class Entry extends React.Component {
     this.onChangeTags = (newTags) => {
       this.props.onChange({...this.props.entry, tags: newTags});
     }
+
+    this.onDropImage = (files) => {
+      S3.upload({
+        files: files,
+        path: "entryImages"
+      }, (error, result) => {
+        if (error) {
+          console.error(error);
+        } else {
+          this.props.onChange({...this.props.entry, imageURL: result.secure_url})
+          console.log(`Uploaded to ${result.secure_url}`);
+        }
+      });
+    }
   }
 
   render() {
@@ -314,6 +329,11 @@ export default class Entry extends React.Component {
         <p>
           <button onClick={this.props.onDelete}>Delete Entry</button>
         </p>
+        <Dropzone
+          onDrop={this.onDropImage}
+          multiple={false}
+          accept="image/*"
+        ><img src={this.props.entry.imageURL} /></Dropzone>
       </div>
     );
   }

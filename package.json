@@ -10,7 +10,8 @@
     "meteor-node-stubs": "~0.2.0",
     "react": "15",
     "react-addons-pure-render-mixin": "15",
-    "react-dom": "15"
+    "react-dom": "15",
+    "react-dropzone": "^3.4.0"
   },
   "devDependencies": {
     "eslint": "^2.7.0"

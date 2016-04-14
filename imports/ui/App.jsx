@@ -13,6 +13,7 @@ class App extends Component {
       author: newEntry.author,
       URL: newEntry.URL,
       tags: newEntry.tags,
+      imageURL: newEntry.imageURL,
       // The description is fancy--can't store it directly.
       description: EJSON.stringify(newEntry.description),
     };
