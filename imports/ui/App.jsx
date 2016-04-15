@@ -1,3 +1,4 @@
+import Immutable from 'immutable'
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import {EJSON} from 'meteor/ejson'
@@ -67,6 +68,7 @@ class App extends Component {
       <div className="container">
         <header>
           <h1>Entries</h1>
+          <p>{this.props.tags.map((tag) => <span>#{tag}&nbsp;</span>)}</p>
         </header>
         <button onClick={this.addEntry}>Add Entry</button>
         {this.renderEntries()}
@@ -88,5 +90,15 @@ export default createContainer(() => {
         const description = entry.description ? EJSON.parse(entry.description) : undefined
         return {...entry, description: description}
       }),
+    tags: fetchAllTags(),
   };
 }, App);
+
+function fetchAllTags() {
+  // TODO: Optimize. :)
+  const allTagLists = Entries.find({}, {fields: {tags: 1}})
+    .fetch()
+    .map((entry) => Immutable.Iterable(entry.tags));
+  const tags = new Set(Immutable.Iterable(allTagLists).flatten().toSet());
+  return new Array(...tags).sort();
+}
