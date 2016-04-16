@@ -1,6 +1,6 @@
 import Immutable from 'immutable'
 import React, { Component, PropTypes } from 'react';
-import { IndexLink } from 'react-router';
+import { IndexLink, Link } from 'react-router';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import { Entries } from '../api/entries.js';
@@ -13,7 +13,12 @@ class App extends Component {
       <div className="container">
         <header>
           <h1><IndexLink to="/">Hivemind</IndexLink></h1>
-          <p>{this.props.tags.map((tag) => <span>#{tag}&nbsp;</span>)}</p> {/* TODO EXTRACT */}
+          <p>
+            {/* TODO EXTRACT */}
+            {this.props.tags.map((tag) =>
+              <Link to={`/?filterTag=${tag}`} activeStyle={{color: "red"}}>#{tag}</Link>)
+            }
+          </p>
           {this.props.children}
         </header>
       </div>

@@ -80,10 +80,11 @@ function findTags(contentBlock, callback) {
 }
 
 const Tag = (props) => {
+  const tagName = props.blockProps.name;
   return <span style={{
       color: "#999",
       padding: "0px 0px"
-  }}>#{props.blockProps.name}</span>
+  }}><Link to={`/?filterTag=${tagName}`}>#{tagName}</Link></span>
 };
 
 class TagEditor extends React.Component {
