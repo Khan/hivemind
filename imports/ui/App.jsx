@@ -1,7 +1,7 @@
 import Immutable from 'immutable'
 import React, { Component, PropTypes } from 'react';
-import { createContainer } from 'meteor/react-meteor-data';
 import { IndexLink } from 'react-router';
+import { createContainer } from 'meteor/react-meteor-data';
 
 import { Entries } from '../api/entries.js';
 import EntryList from './EntryList.jsx';

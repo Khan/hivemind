@@ -9,8 +9,8 @@ export default (props) => (
         key={entry._id}
         entry={entry}
         onChange={props.onChangeEntry}
-        onDelete={() => props.onDeleteEntry(entry)}
-        onDropImage={(files, callback) => props.onDropImage(entry, files, callback) }
+        onDelete={() => props.onDeleteEntry(entry._id)}
+        onDropImage={(files, callback) => props.onDropImage(entry._id, files, callback) }
       />
     ))}
   </div>
