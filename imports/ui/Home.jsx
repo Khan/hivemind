@@ -7,10 +7,15 @@ import uploadEntryImage from '../api/client/uploadEntryImage';
 
 // Represents the standard UI
 class Home extends Component {
-  addEntry() {
-    Entries.insert({
-      createdAt: new Date()
-    });
+  constructor(props) {
+    super(props);
+    this.addEntry = () => {
+      const tags = this.props.filterTag ? [this.props.filterTag] : []
+      Entries.insert({
+        createdAt: new Date(),
+        tags
+      });
+    }
   }
 
   updateEntry(newEntry) {
@@ -40,6 +45,7 @@ export default createContainer((props) => {
   const { filterTag } = props.location.query;
   const query = filterTag ? {tags: filterTag} : {}
   return {
-    entries: Entries.find(query, {sort: [["createdAt", "desc"]]}).fetch(), // TODO: remove eagerness?
+    entries: Entries.find(query, {sort: [["createdAt", "desc"]]}).fetch(), // TODO: remove eagerness?,
+    filterTag
   };
 }, Home);
