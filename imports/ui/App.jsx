@@ -68,7 +68,7 @@ class App extends Component {
       <div className="container">
         <header>
           <h1>Entries</h1>
-          <p>{this.props.tags.map((tag) => <span>#{tag}&nbsp;</span>)}</p>
+          <p>{this.props.tags.map((tag) => <span>#{tag}&nbsp;</span>)}</p> {/* TODO EXTRACT */}
         </header>
         <button onClick={this.addEntry}>Add Entry</button>
         {this.renderEntries()}

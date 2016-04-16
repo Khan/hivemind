@@ -11,7 +11,8 @@
     "react": "15",
     "react-addons-pure-render-mixin": "15",
     "react-dom": "15",
-    "react-dropzone": "^3.4.0"
+    "react-dropzone": "^3.4.0",
+    "react-router": "^2.2.4"
   },
   "devDependencies": {
     "eslint": "^2.7.0"
