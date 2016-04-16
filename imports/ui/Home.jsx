@@ -36,8 +36,10 @@ class Home extends Component {
   }
 }
 
-export default createContainer(() => {
+export default createContainer((props) => {
+  const { filterTag } = props.location.query;
+  const query = filterTag ? {tags: filterTag} : {}
   return {
-    entries: Entries.find({}, {sort: [["createdAt", "desc"]]}).fetch(), // TODO: remove eagerness?
+    entries: Entries.find(query, {sort: [["createdAt", "desc"]]}).fetch(), // TODO: remove eagerness?
   };
 }, Home);
