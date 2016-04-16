@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import Draft, {Editor, EditorState, ContentState} from 'draft-js';
 import Dropzone from 'react-dropzone';
+import { Link } from 'react-router';
 import Immutable from 'immutable';
 
 class DescriptionEditor extends React.Component {
@@ -365,7 +366,7 @@ export default class Entry extends React.Component {
         />
         <p>
           <button onClick={this.props.onDelete}>Delete Entry</button>
-          <a href="#">Permalink</a>
+          <Link to={`/entry/${this.props.entry._id}`}>Permalink</Link>
         </p>
         <EntryImage
           onDropImage={this.props.onDropImage}

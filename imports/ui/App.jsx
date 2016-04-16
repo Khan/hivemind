@@ -1,88 +1,28 @@
 import Immutable from 'immutable'
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import {EJSON} from 'meteor/ejson'
+import { IndexLink } from 'react-router';
 
 import { Entries } from '../api/entries.js';
 import EntryList from './EntryList.jsx';
 
 // App component - represents the whole app
 class App extends Component {
-  constructor(props) {
-    super(props)
-
-    this.onDropImage = (entry, files, callback) => {
-      S3.upload({
-        files: files,
-        path: "entryImages"
-      }, (error, result) => {
-        if (error) {
-          console.error(error);
-        } else {
-          this.onChangeEntry({...entry, imageURL: result.secure_url})
-          console.log(`Uploaded to ${result.secure_url}`);
-        }
-        callback();
-      });
-    }
-
-    this.onChangeEntry = (newEntry) => {
-      const serializedEntry = {
-        title: newEntry.title,
-        author: newEntry.author,
-        URL: newEntry.URL,
-        tags: newEntry.tags,
-        imageURL: newEntry.imageURL,
-        // The description is fancy--can't store it directly.
-        description: EJSON.stringify(newEntry.description),
-      };
-
-      Entries.update(newEntry._id, {$set: serializedEntry});
-    };
-
-    this.onDeleteEntry = (entry) => {
-      Entries.remove(entry._id)
-    }
-  }
-
-  addEntry() {
-    Entries.insert({
-      createdAt: new Date()
-    });
-  }
-
   render() {
     return (
       <div className="container">
         <header>
-          <h1>Entries</h1>
+          <h1><IndexLink to="/">Hivemind</IndexLink></h1>
           <p>{this.props.tags.map((tag) => <span>#{tag}&nbsp;</span>)}</p> {/* TODO EXTRACT */}
+          {this.props.children}
         </header>
-        <button onClick={this.addEntry}>Add Entry</button>
-        <EntryList
-          entries={this.props.entries}
-          onChangeEntry={this.onChangeEntry}
-          onDeleteEntry={this.onDeleteEntry}
-          onDropImage={this.onDropImage}
-        />
       </div>
     );
   }
 }
 
-App.propTypes = {
-  entries: PropTypes.array.isRequired,
-};
-
 export default createContainer(() => {
   return {
-    entries: Entries.find({}, {sort: [["createdAt", "desc"]]})
-      .fetch() // A shame this can't stay lazy...
-      // Deserialize the fancy description.
-      .map((entry) => {
-        const description = entry.description ? EJSON.parse(entry.description) : undefined
-        return {...entry, description: description}
-      }),
     tags: fetchAllTags(),
   };
 }, App);
