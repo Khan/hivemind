@@ -349,7 +349,9 @@ export default class Entry extends React.Component {
   render() {
     return (
       <div className="entry">
-      	<h2><input value={this.props.entry.title} onChange={this.onChangeTitle} placeholder="Title" /></h2>
+      	<h2>
+          <input value={this.props.entry.title} onChange={this.onChangeTitle} placeholder="Title" />
+        </h2>
         <p>by <input value={this.props.entry.author} onChange={this.onChangeAuthor} placeholder="Creator or author" /></p>
         <p><a href={this.props.entry.URL}>URL</a>: <input value={this.props.entry.URL} onChange={this.onChangeURL} placeholder="Primary URL" /></p>
         <p>Created on {this.props.entry.createdAt.toISOString()}</p>
@@ -363,6 +365,7 @@ export default class Entry extends React.Component {
         />
         <p>
           <button onClick={this.props.onDelete}>Delete Entry</button>
+          <a href="#">Permalink</a>
         </p>
         <EntryImage
           onDropImage={this.props.onDropImage}

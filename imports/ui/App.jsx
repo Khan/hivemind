@@ -4,7 +4,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import {EJSON} from 'meteor/ejson'
 
 import { Entries } from '../api/entries.js';
-import Entry from './Entry.jsx';
+import EntryList from './EntryList.jsx';
 
 // App component - represents the whole app
 class App extends Component {
@@ -19,48 +19,36 @@ class App extends Component {
         if (error) {
           console.error(error);
         } else {
-          this.handleEntryChange({...entry, imageURL: result.secure_url})
+          this.onChangeEntry({...entry, imageURL: result.secure_url})
           console.log(`Uploaded to ${result.secure_url}`);
         }
         callback();
       });
     }
-  }
 
-  handleEntryChange(newEntry) {
-    const serializedEntry = {
-      title: newEntry.title,
-      author: newEntry.author,
-      URL: newEntry.URL,
-      tags: newEntry.tags,
-      imageURL: newEntry.imageURL,
-      // The description is fancy--can't store it directly.
-      description: EJSON.stringify(newEntry.description),
+    this.onChangeEntry = (newEntry) => {
+      const serializedEntry = {
+        title: newEntry.title,
+        author: newEntry.author,
+        URL: newEntry.URL,
+        tags: newEntry.tags,
+        imageURL: newEntry.imageURL,
+        // The description is fancy--can't store it directly.
+        description: EJSON.stringify(newEntry.description),
+      };
+
+      Entries.update(newEntry._id, {$set: serializedEntry});
     };
 
-    Entries.update(newEntry._id, {$set: serializedEntry});
+    this.onDeleteEntry = (entry) => {
+      Entries.remove(entry._id)
+    }
   }
 
   addEntry() {
     Entries.insert({
       createdAt: new Date()
     });
-  }
-
-  deleteEntry(entry) {
-    Entries.remove(entry._id)
-  }
-
-  renderEntries() {
-    return this.props.entries.map((entry) => (
-      <Entry
-        key={entry._id}
-        entry={entry}
-        onChange={this.handleEntryChange}
-        onDelete={() => this.deleteEntry(entry)}
-        onDropImage={(files, callback) => this.onDropImage(entry, files, callback) }
-      />
-    ));
   }
 
   render() {
@@ -71,7 +59,12 @@ class App extends Component {
           <p>{this.props.tags.map((tag) => <span>#{tag}&nbsp;</span>)}</p> {/* TODO EXTRACT */}
         </header>
         <button onClick={this.addEntry}>Add Entry</button>
-        {this.renderEntries()}
+        <EntryList
+          entries={this.props.entries}
+          onChangeEntry={this.onChangeEntry}
+          onDeleteEntry={this.onDeleteEntry}
+          onDropImage={this.onDropImage}
+        />
       </div>
     );
   }
