@@ -42,6 +42,7 @@ class Home extends Component {
 }
 
 export default createContainer((props) => {
+  console.log(props);
   const { filterTag } = props.location.query;
   const query = filterTag ? {tags: filterTag} : {}
   return {

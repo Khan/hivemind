@@ -8,8 +8,8 @@ import Home from '../../ui/Home.jsx';
 export const renderRoutes = () => (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-      <Route path="?filterTag=:tag" component={Home} />
-      <IndexRoute component={Home} />
+      <Route path="?filterTag=:tag" components={{home: Home}} />
+      <IndexRoute components={{home: Home}} />
 
       <Route path="entry/:entryID" component={EntryPage}/>
     </Route>
