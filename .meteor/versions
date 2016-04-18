@@ -22,6 +22,9 @@ ddp-rate-limiter@1.0.3
 ddp-server@1.2.5
 deps@1.0.11
 diff-sequence@1.0.4
+easy:search@2.0.9
+easysearch:components@2.0.9
+easysearch:core@2.0.9
 ecmascript@0.4.2
 ecmascript-runtime@0.2.9
 ejson@1.0.10
@@ -54,10 +57,17 @@ mongo-id@1.0.3
 npm-mongo@1.4.42
 observe-sequence@1.0.10
 ordered-dict@1.0.6
+peerlibrary:assert@0.2.5
+peerlibrary:base-component@0.14.0
+peerlibrary:blaze-components@0.16.2
+peerlibrary:computed-field@0.3.1
+peerlibrary:data-lookup@0.1.0
+peerlibrary:reactive-field@0.1.0
 promise@0.6.6
 random@1.0.8
 rate-limit@1.0.3
 react-meteor-data@0.2.8
+reactive-dict@1.1.6
 reactive-var@1.0.8
 reload@1.1.7
 retry@1.0.6

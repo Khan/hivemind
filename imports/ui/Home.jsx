@@ -2,7 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import EntryList from './EntryList.jsx';
-import { Entries } from '../api/entries.js';
+import { Entries, EntriesIndex } from '../api/entries.js';
 import uploadEntryImage from '../api/client/uploadEntryImage';
 
 // Represents the standard UI
@@ -10,6 +10,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.addEntry = () => {
+      // TODO: Reimplement this feature for unified search
       const tags = this.props.filterTag ? [this.props.filterTag] : []
       Entries.insert({
         createdAt: new Date(),
@@ -42,11 +43,14 @@ class Home extends Component {
 }
 
 export default createContainer((props) => {
-  console.log(props);
-  const { filterTag } = props.location.query;
-  const query = filterTag ? {tags: filterTag} : {}
+  const { query } = props.location.query;
+  let entries;
+  if (query) {
+    entries = EntriesIndex.search(props.location.query.query).fetch();
+  } else {
+    entries = Entries.find({}, {sort: [["createdAt", "desc"]]}).fetch()
+  }
   return {
-    entries: Entries.find(query, {sort: [["createdAt", "desc"]]}).fetch(), // TODO: remove eagerness?,
-    filterTag
+    entries: entries, // TODO: remove eagerness?,
   };
 }, Home);

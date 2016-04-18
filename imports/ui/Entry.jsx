@@ -81,10 +81,12 @@ function findTags(contentBlock, callback) {
 
 const Tag = (props) => {
   const tagName = props.blockProps.name;
+  let newURL = new URL(document.location.origin);
+  newURL.searchParams.set("query", `#"${tagName}"`);
   return <span style={{
       color: "#999",
       padding: "0px 0px"
-  }}><Link to={`/?filterTag=${tagName}`}>#{tagName}</Link></span>
+  }}><Link to={newURL.toString()}>#{tagName}</Link></span>
 };
 
 class TagEditor extends React.Component {

@@ -8,9 +8,6 @@ import EntryList from './EntryList.jsx';
 
 // App component - represents the whole app
 class App extends Component {
-  constructor(props) {
-    super(props);
-  }
   render() {
     return (
       <div className="container">
@@ -20,20 +17,27 @@ class App extends Component {
             <input
               type="search"
               placeholder="Search"
-              value={this.props.query}
+              value={this.props.query || ""}
               onChange={(event) => {
                 const wasEmpty = (this.props.query || "") === "";
                 const nowEmpty = event.target.value == "";
-                const newURL = nowEmpty ? "" : `/?query=${event.target.value}`;
-                browserHistory.replace(newURL);
+                let newURL = new URL(document.location);
+                if (nowEmpty) {
+                  newURL.searchParams.delete("query");
+                } else {
+                  newURL.searchParams.set("query", nowEmpty ? "" : event.target.value);
+                }
+                browserHistory.replace(newURL.toString());
               }}
             />
           </p>
           <p>
             {/* TODO EXTRACT */}
-            {this.props.tags.map((tag) =>
-              <Link to={`/?filterTag=${tag}`} activeStyle={{color: "red"}}>#{tag}</Link>)
-            }
+            {this.props.tags.map((tag) => {
+              let newURL = new URL(document.location.origin);
+              newURL.searchParams.set("query", `#"${tag}"`);
+              return <Link to={newURL.toString()} activeStyle={{color: "red"}}>#{tag}</Link>
+            })}
           </p>
           {this.props.home}
         </header>
@@ -44,7 +48,7 @@ class App extends Component {
 
 export default createContainer((props) => {
   return {
-    query: props.params.query,
+    query: props.location.query.query,
     tags: fetchAllTags(),
   };
 }, App);
