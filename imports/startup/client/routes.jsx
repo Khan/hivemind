@@ -8,9 +8,7 @@ import Home from '../../ui/Home.jsx';
 export const renderRoutes = () => (
   <Router history={browserHistory}>
     <Route path="/" component={App}>
-      <Route path="?filterTag=:tag" components={{home: Home}} />
-      <IndexRoute components={{home: Home}} />
-
+      <IndexRoute component={Home} />
       <Route path="entry/:entryID" component={EntryPage}/>
     </Route>
   </Router>

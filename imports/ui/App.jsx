@@ -39,7 +39,7 @@ class App extends Component {
               return <Link to={newURL.toString()} activeStyle={{color: "red"}}>#{tag}</Link>
             })}
           </p>
-          {this.props.home}
+          {this.props.children}
         </header>
       </div>
     );
