@@ -27,25 +27,45 @@ Meteor.methods({
   },
 });
 
+const simpleSearchFields = ['title', 'author', 'description'];
 export const EntriesIndex = new EasySearch.Index({
   collection: Entries,
-  fields: ['title', 'author', 'description', 'tags'],
+  fields: simpleSearchFields,
   engine: new EasySearch.Minimongo({
-    selectorPerField: (field, string) => {
-      if (field === "tags") {
-        let regexp = /(?:#"(.+?)"|#(.+?)(?:\s|$))/g;
+    selector: (searchObject, options, aggregation) => {
+      let selector = {};
+      let searchString = null;
+      selector[aggregation] = [];
+      for (let entry in searchObject) {
+        const field = entry;
+        searchString = searchObject[field];
+
+        // Remove any tags from the search string.
+        const searchStringWithoutTags = searchString.replace(/\s?(?:#"(.+?)"|#(.+?)(?:\s|$))\s?/g, "");
+        let fieldSelector = {};
+        fieldSelector[field] = { '$regex' : `.*${searchStringWithoutTags}.*`, '$options' : 'i'};
+        selector[aggregation].push(fieldSelector)
+      }
+
+      // Now: are there tags in the search string? If so, let's parse 'em out and put them together.
+      let tagsSelector = null;
+      if (searchString) {
+        const tagRegexp = /(?:#"(.+?)"|#(.+?)(?:\s|$))/g;
         let result;
-        let tags = []
-        while ((result = regexp.exec(string)) !== null) {
+        let tags = [];
+        while ((result = tagRegexp.exec(searchString)) !== null) {
           tags.push(result[1] || result[2]);
         }
-        return {tags: {$all: tags}};
-      } else {
-        let selector = {};
-        // TODO: split words
-        selector[field] = { '$regex' : `.*${string}.*`, '$options' : 'i'};
-        return selector
+        if (tags.length > 0) {
+          tagsSelector = {tags: {$all: tags}};
+        }
       }
+
+      // If we're searching for a tag, $and that in. Otherwise, don't bother.
+      if (tagsSelector) {
+        selector = {"$and": [selector, tagsSelector]};
+      }
+      return selector;
     },
   }),
 });
