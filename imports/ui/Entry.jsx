@@ -15,7 +15,7 @@ class DescriptionEditor extends React.Component {
 
       const rawContentState = Draft.convertToRaw(editorState.getCurrentContent());
       this.props.onChange(rawContentState)
-    }
+    };
 
     this.handleKeyCommand = (command) => {
       const newEditorState = Draft.RichUtils.handleKeyCommand(this.state.editorState, command);
@@ -331,23 +331,29 @@ export default class Entry extends React.Component {
 
     this.onChangeDescription = (rawContentState) => {
       this.props.onChange({...this.props.entry, description: rawContentState});
-    }
+    };
 
     this.onChangeTitle = (event) => {
       this.props.onChange({...this.props.entry, title: event.target.value});
-    }
+    };
 
     this.onChangeAuthor = (event) => {
       this.props.onChange({...this.props.entry, author: event.target.value});
-    }
+    };
 
     this.onChangeURL = (event) => {
       this.props.onChange({...this.props.entry, URL: event.target.value});
-    }
+    };
 
     this.onChangeTags = (newTags) => {
       this.props.onChange({...this.props.entry, tags: newTags});
-    }
+    };
+
+    this.onDelete = () => {
+      if (window.confirm("Are you sure you want to delete this entry? There is no undo.")) {
+        this.props.onDelete();
+      }
+    };
   }
 
   render() {
@@ -368,7 +374,7 @@ export default class Entry extends React.Component {
           tags={this.props.entry.tags}
         />
         <p>
-          <button onClick={this.props.onDelete}>Delete Entry</button>
+          <button onClick={this.onDelete}>Delete Entry</button>
           <Link to={`/entry/${this.props.entry._id}`}>Permalink</Link>
         </p>
         <EntryImage

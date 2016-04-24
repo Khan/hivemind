@@ -13,8 +13,10 @@ class EntryPage extends Component {
   }
 
   deleteEntry(entryID) {
-    Meteor.call("entry.remove", {entryID});
-    browserHistory.push("/");
+    if (window.confirm("Are you sure you want to delete this entry? There is no undo.")) {
+      Meteor.call("entry.remove", {entryID});
+      browserHistory.push("/");
+    }
   }
 
   render() {
