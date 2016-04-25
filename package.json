@@ -12,6 +12,7 @@
     "react-addons-pure-render-mixin": "15",
     "react-dom": "15",
     "react-dropzone": "^3.4.0",
+    "react-input-autosize": "^0.6.13",
     "react-router": "^2.2.4"
   },
   "devDependencies": {

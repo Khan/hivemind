@@ -1,5 +1,36 @@
+#pageContainer {
+  max-width: 60em;
+  margin: 0px auto;
+}
+
+header h1 {
+  display: inline;
+}
+
 .entry {
   border: 1px solid black;
+}
+
+.entry header .title, .entry header .author {
+  display: inline;
+}
+
+.entry .contents {
+  display: flex;
+  flex-flow: row;
+}
+
+.entry .entryImage {
+  flex: 0 0 15em;
+}
+
+.entry .entryImage img {
+  width: 100%;
+}
+
+.entry .notes {
+  margin-left: 1em;
+  flex: 1 1 auto;
 }
 
 .tagBlock {

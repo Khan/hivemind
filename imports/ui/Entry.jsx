@@ -1,6 +1,7 @@
 import React, {PropTypes} from 'react';
 import Draft, {Editor, EditorState, ContentState} from 'draft-js';
 import Dropzone from 'react-dropzone';
+import AutosizeInput from 'react-input-autosize';
 import { Link } from 'react-router';
 import Immutable from 'immutable';
 
@@ -359,28 +360,47 @@ export default class Entry extends React.Component {
   render() {
     return (
       <div className="entry">
-      	<h2>
-          <input value={this.props.entry.title} onChange={this.onChangeTitle} placeholder="Title" />
-        </h2>
-        <p>by <input value={this.props.entry.author} onChange={this.onChangeAuthor} placeholder="Creator or author" /></p>
-        <p><a href={this.props.entry.URL}>URL</a>: <input value={this.props.entry.URL} onChange={this.onChangeURL} placeholder="Primary URL" /></p>
+        <header>
+          <AutosizeInput
+            className="title"
+            value={this.props.entry.title}
+            onChange={this.onChangeTitle}
+            placeholder="Title"
+          />
+          <p className="author">
+            by <AutosizeInput
+              value={this.props.entry.author}
+              onChange={this.onChangeAuthor}
+              placeholder="Creator or author"
+            />
+          </p>
+          <p>
+            <a href={this.props.entry.URL}>URL</a>: <input value={this.props.entry.URL} onChange={this.onChangeURL} placeholder="Primary URL" />
+          </p>
+        </header>
+        <div className="contents">
+          <div className="entryImage">
+            <EntryImage
+              onDropImage={this.props.onDropImage}
+              imageURL={this.props.entry.imageURL}
+            />
+          </div>
+          <div className="notes">
+            <DescriptionEditor
+              value={this.props.entry.description}
+              onChange={this.onChangeDescription}
+            />
+            <TagEditor
+              onChange={this.onChangeTags}
+              tags={this.props.entry.tags}
+            />
+          </div>
+        </div>
         <p>Created on {this.props.entry.createdAt.toISOString()}</p>
-        <DescriptionEditor
-          value={this.props.entry.description}
-          onChange={this.onChangeDescription}
-        />
-        <TagEditor
-          onChange={this.onChangeTags}
-          tags={this.props.entry.tags}
-        />
         <p>
           <button onClick={this.onDelete}>Delete Entry</button>
           <Link to={`/entry/${this.props.entry._id}`}>Permalink</Link>
         </p>
-        <EntryImage
-          onDropImage={this.props.onDropImage}
-          imageURL={this.props.entry.imageURL}
-        />
       </div>
     );
   }

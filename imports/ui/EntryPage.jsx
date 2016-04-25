@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import { browserHistory } from 'react-router'
 import { createContainer } from 'meteor/react-meteor-data';
+import { IndexLink, Link, browserHistory } from 'react-router';
 
 import Entry from './Entry.jsx';
 import { Entries } from '../api/entries.js';
@@ -21,12 +21,18 @@ class EntryPage extends Component {
     if (this.props.entry) {
       const { entry } = this.props;
       return (
-        <Entry
-          entry={entry}
-          onChange={this.updateEntry}
-          onDelete={() => this.deleteEntry(entry._id)}
-          onDropImage={(files, callback) => {uploadEntryImage(entry._id, files, callback)}}
-        />
+        <div id="pageContainer">
+          <header>
+            <h1><IndexLink to="/">Hivemind</IndexLink></h1>
+            <IndexLink to="/">View all entries</IndexLink>
+          </header>
+          <Entry
+            entry={entry}
+            onChange={this.updateEntry}
+            onDelete={() => this.deleteEntry(entry._id)}
+            onDropImage={(files, callback) => {uploadEntryImage(entry._id, files, callback)}}
+          />
+        </div>
       );
     } else {
       return <span>Can't find entry!</span>;
