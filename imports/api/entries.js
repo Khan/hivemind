@@ -13,6 +13,7 @@ Meteor.methods({
       tags: newEntry.tags,
       imageURL: newEntry.imageURL,
       description: newEntry.description,
+      updatedAt: new Date(),
     };
 
     Entries.update(entryID, {$set: filteredEntry});

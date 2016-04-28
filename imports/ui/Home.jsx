@@ -15,6 +15,7 @@ class Home extends Component {
       const tags = this.props.filterTag ? [this.props.filterTag] : []
       Entries.insert({
         createdAt: new Date(),
+        updatedAt: new Date(),
         tags
       });
     }
@@ -31,24 +32,26 @@ class Home extends Component {
   render() {
     return (
       <div id="pageContainer">
-        <header>
+        <header id="siteHeader">
           <h1><IndexLink to="/">Hivemind</IndexLink></h1>
-            <input
-              type="search"
-              placeholder="Search"
-              value={this.props.query || ""}
-              onChange={(event) => {
-                const wasEmpty = (this.props.query || "") === "";
-                const nowEmpty = event.target.value == "";
-                let newURL = new URL(document.location);
-                if (nowEmpty) {
-                  newURL.searchParams.delete("query");
-                } else {
-                  newURL.searchParams.set("query", nowEmpty ? "" : event.target.value);
-                }
-                browserHistory.replace(newURL.toString());
-              }}
-            />
+          <input
+            type="search"
+            placeholder="Search"
+            className="search"
+            value={this.props.query || ""}
+            onChange={(event) => {
+              const wasEmpty = (this.props.query || "") === "";
+              const nowEmpty = event.target.value == "";
+              let newURL = new URL(document.location);
+              if (nowEmpty) {
+                newURL.searchParams.delete("query");
+              } else {
+                newURL.searchParams.set("query", nowEmpty ? "" : event.target.value);
+              }
+              browserHistory.replace(newURL.toString());
+            }}
+          />
+          <a href="#" className="add" onClick={this.addEntry}>+</a>
           {/*
           <p>
             {this.props.tags.map((tag) => {
@@ -60,7 +63,7 @@ class Home extends Component {
           TODO RE-ADD */}
         </header>
         <div className="home">
-          <button onClick={this.addEntry}>Add Entry</button>
+          {/* TODO READD <button onClick={this.addEntry}>Add Entry</button> */}
           <EntryList
             entries={this.props.entries}
             onChangeEntry={this.updateEntry}
@@ -83,5 +86,6 @@ export default createContainer((props) => {
   }
   return {
     entries: entries, // TODO: remove eagerness?,
+    query: query
   };
 }, Home);

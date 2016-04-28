@@ -393,10 +393,11 @@ export default class Entry extends React.Component {
       this.props.onChange({...this.props.entry, tags: newTags});
     };
 
-    this.onDelete = () => {
+    this.onDelete = (event) => {
       if (window.confirm("Are you sure you want to delete this entry? There is no undo.")) {
         this.props.onDelete();
       }
+      event.preventDefault();
     };
   }
 
@@ -425,11 +426,19 @@ export default class Entry extends React.Component {
           />
         </header>
         <div className="contents">
-          <div className="entryImage">
-            <EntryImage
-              onDropImage={this.props.onDropImage}
-              imageURL={this.props.entry.imageURL}
-            />
+          <div className="leftColumn">
+            <div className="entryImage">
+              <EntryImage
+                onDropImage={this.props.onDropImage}
+                imageURL={this.props.entry.imageURL}
+              />
+            </div>
+            <p className="dates">
+              Added on {this.props.entry.createdAt.toLocaleDateString("en-us", {year: "2-digit", month: "2-digit", day: "2-digit"})}.<br />Updated on {this.props.entry.updatedAt.toLocaleDateString("en-us", {year: "2-digit", month: "2-digit", day: "2-digit"})}.</p>
+            <p>
+              <a href="#" onClick={this.onDelete} className="delete">Delete</a>
+              <Link to={`/entry/${this.props.entry._id}`} className="permalink">Permalink</Link>
+            </p>
           </div>
           <div className="notes">
             <DescriptionEditor
@@ -442,11 +451,6 @@ export default class Entry extends React.Component {
             />
           </div>
         </div>
-        <p>Created on {this.props.entry.createdAt.toISOString()}</p>
-        <p>
-          <button onClick={this.onDelete}>Delete Entry</button>
-          <Link to={`/entry/${this.props.entry._id}`}>Permalink</Link>
-        </p>
       </div>
     );
   }
