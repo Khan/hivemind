@@ -93,14 +93,19 @@ const Tag = (props) => {
 class TagEditor extends React.Component {
   constructor(props) {
     super(props);
-    const editorState = editorStateDisplayingTags(props.tags || []/*, new Draft.CompositeDecorator([{
-      strategy: findTags,
-      component: Tag,
-    }])*/);
+    const editorState = editorStateDisplayingTags(props.tags || []);
     this.state = {editorState};
 
     this.onFocus = () => this.refs.editor.focus();
     this.onChange = (editorState) => {
+      // If you clear focus before confirming a tag, it's cleared.
+      if (!editorState.getSelection().hasFocus) {
+        this.setState({
+          editorState: editorStateDisplayingTags(tagsForContentState(this.state.editorState.getCurrentContent()))
+        });
+        return;
+      }
+
       let contentState = editorState.getCurrentContent();
       const lastBlock = contentState.getBlockMap().last();
       if (lastBlock.getType() == "tag") {
@@ -186,14 +191,14 @@ class TagEditor extends React.Component {
       );
       this.onChange(EditorState.push(editorState, newContentState));
       return true;
-    }
+    };
   }
 
   componentWillReceiveProps(newProps) {
     const currentTags = tagsForContentState(this.state.editorState.getCurrentContent());
     if (!Immutable.Iterable(currentTags).equals(Immutable.Iterable(newProps.tags))) {
       this.setState({
-        editorState: editorStateDisplayingTags(newProps.tags, this.state.editorState.getDecorator())
+        editorState: editorStateDisplayingTags(newProps.tags)
       });
     }
   }
@@ -206,11 +211,11 @@ class TagEditor extends React.Component {
           handleReturn={this.handleReturn}
           handlePastedText={this.handlePastedInput}
           onChange={this.onChange}
-          onBlur={() => {console.log("BLUR");}} // TODO
           stripPastedStyles={true}
           blockRendererFn={tagBlockRenderer}
           blockStyleFn={tagBlockStyle}
           placeholder="Tags"
+          ref="editor"
         />
       </div>
     );
