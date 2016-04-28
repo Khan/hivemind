@@ -20,6 +20,7 @@ a:hover {
   font-size: 35px;
   display: flex;
   flex-direction: row;
+  align-items: baseline;
 }
 
 #siteHeader h1 {
@@ -33,15 +34,16 @@ a:hover {
   border: none;
   font-size: 27px;
   font-family: inherit;
-  margin-top: 2px;
   margin-left: 20px;
   flex: 1 0 auto;
+  align-self: auto;
 }
 
 #siteHeader .search:hover {
   border: 0.5px solid #ECEDEE;
   border-radius: 4px;
   margin-left: 19px;
+  margin-top: -1px;
 }
 
 #siteHeader a {
@@ -55,6 +57,13 @@ a:hover {
 
 #siteHeader .add:hover {
   text-decoration: none;
+}
+
+#siteHeader .allEntries {
+  color: #888D93;
+  margin-left: 30px;
+  font-size: 27px;
+  flex: 1 0 auto;
 }
 
 .entry {

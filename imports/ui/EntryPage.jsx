@@ -22,9 +22,9 @@ class EntryPage extends Component {
       const { entry } = this.props;
       return (
         <div id="pageContainer">
-          <header>
+          <header id="siteHeader">
             <h1><IndexLink to="/">Hivemind</IndexLink></h1>
-            <IndexLink to="/">View all entries</IndexLink>
+            <IndexLink to="/" className="allEntries">View all entries</IndexLink>
           </header>
           <Entry
             entry={entry}
