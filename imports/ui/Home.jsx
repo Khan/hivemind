@@ -51,7 +51,7 @@ class Home extends Component {
               browserHistory.replace(newURL.toString());
             }}
           />
-          <a href="#" className="add" onClick={this.addEntry}>+</a>
+          <a href="#" className="add" onClick={this.addEntry} title="Add Entry">+</a>
           {/*
           <p>
             {this.props.tags.map((tag) => {
@@ -63,7 +63,6 @@ class Home extends Component {
           TODO RE-ADD */}
         </header>
         <div className="home">
-          {/* TODO READD <button onClick={this.addEntry}>Add Entry</button> */}
           <EntryList
             entries={this.props.entries}
             onChangeEntry={this.updateEntry}
