@@ -1,5 +1,9 @@
+body {
+  font-family: "Proxima Nova", Helvetica, sans-serif;
+}
+
 #pageContainer {
-  max-width: 60em;
+  max-width: 960px;
   margin: 0px auto;
 }
 
@@ -8,11 +12,67 @@ header h1 {
 }
 
 .entry {
-  border: 1px solid black;
+  margin: 3em 0;
+}
+
+.entry header {
+  position: relative;
+  margin-bottom: 1em;
 }
 
 .entry header .title, .entry header .author {
   display: inline;
+}
+
+.entry header .title {
+  font-size: 23px;
+  font-weight: 600;
+}
+
+.entry header .author {
+  font-size: 20px;
+  color: #626469;
+}
+
+.entry header .externalLink {
+  position: absolute;
+  right: 0px;
+  bottom: 0px;
+  text-align: right;
+  font-size: 17px;
+}
+
+.entry header .externalLink a {
+  color: #888D93;
+  text-decoration: none;
+}
+
+.entry header .externalLink .edit {
+  display: none;
+}
+
+.entry:hover header .externalLink .edit {
+  color: #D6D8DA;
+  position: absolute;
+  right: 0.5em;
+  bottom: 0;
+  margin-right: 100%;
+  display: inline;
+  width: 5em;
+}
+
+.entry header input {
+  border: none;
+  margin-top: -2px;
+  font: inherit;
+  color: inherit;
+}
+
+.entry:hover header input {
+  border: 0.5px solid #ECEDEE;
+  border-radius: 4px;
+  margin: -4px -3px -3px -3px;
+  padding: 3px;
 }
 
 .entry .contents {
@@ -33,9 +93,24 @@ header h1 {
   flex: 1 1 auto;
 }
 
+.entry .descriptionEditor {
+  font-size: 20px;
+  line-height: 30px;
+}
+
+.entry .tagEditor {
+  margin-top: 1.5em;
+  font-size: 17px;
+}
+
+.entry .tagEditor a {
+  color: #888D93;
+  text-decoration: none;
+}
+
 .tagBlock {
   display: inline;
-  padding: 0px 5px;
+  padding-right: 1.0em;
 }
 
 .unconfirmedTagBlock {

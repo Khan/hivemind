@@ -99,6 +99,7 @@ class TagEditor extends React.Component {
     }])*/);
     this.state = {editorState};
 
+    this.onFocus = () => this.refs.editor.focus();
     this.onChange = (editorState) => {
       let contentState = editorState.getCurrentContent();
       const lastBlock = contentState.getBlockMap().last();
@@ -198,17 +199,21 @@ class TagEditor extends React.Component {
   }
 
   render() {
-    return <Editor
-      editorState={this.state.editorState}
-      handleReturn={this.handleReturn}
-      handlePastedText={this.handlePastedInput}
-      onChange={this.onChange}
-      onBlur={() => {console.log("BLUR");}} // TODO
-      stripPastedStyles={true}
-      blockRendererFn={tagBlockRenderer}
-      blockStyleFn={tagBlockStyle}
-      placeholder="Tags"
-    />
+    return (
+      <div onClick={this.onFocus} className="tagEditor">
+        <Editor
+          editorState={this.state.editorState}
+          handleReturn={this.handleReturn}
+          handlePastedText={this.handlePastedInput}
+          onChange={this.onChange}
+          onBlur={() => {console.log("BLUR");}} // TODO
+          stripPastedStyles={true}
+          blockRendererFn={tagBlockRenderer}
+          blockStyleFn={tagBlockStyle}
+          placeholder="Tags"
+        />
+      </div>
+    );
   }
 }
 
@@ -325,6 +330,39 @@ class EntryImage extends React.Component {
   }
 }
 
+const SourceLink = (props) => {
+  const currentURL = props.URL;
+
+  let URLLabelNode = null;
+  if (currentURL || "" !== "") {
+    const URLObject = new URL(currentURL);
+    URLLabelNode = (
+      <a href={currentURL}>
+        {URLObject.hostname}
+      </a>
+    );
+  }
+
+  const onClick = (event) => {
+    const newURL = window.prompt("Provide a source URL for this entry", currentURL || "");
+    if (newURL) {
+      props.onChange(newURL);
+    }
+    event.preventDefault();
+  };
+
+  return (
+    <span className="externalLink">
+        {URLLabelNode}
+        <a
+          className="edit"
+          href="#"
+          onClick={onClick}
+        >edit URL</a>
+    </span>
+  );
+}
+
 // Represents a single hivemind database entry
 export default class Entry extends React.Component {
   constructor(props) {
@@ -342,8 +380,8 @@ export default class Entry extends React.Component {
       this.props.onChange({...this.props.entry, author: event.target.value});
     };
 
-    this.onChangeURL = (event) => {
-      this.props.onChange({...this.props.entry, URL: event.target.value});
+    this.onChangeURL = (newURL) => {
+      this.props.onChange({...this.props.entry, URL: newURL});
     };
 
     this.onChangeTags = (newTags) => {
@@ -361,22 +399,25 @@ export default class Entry extends React.Component {
     return (
       <div className="entry">
         <header>
-          <AutosizeInput
-            className="title"
-            value={this.props.entry.title}
-            onChange={this.onChangeTitle}
-            placeholder="Title"
-          />
-          <p className="author">
-            by <AutosizeInput
+          <span className="title">
+            <AutosizeInput
+              className="title"
+              value={this.props.entry.title}
+              onChange={this.onChangeTitle}
+              placeholder="Title"
+            />
+          </span>
+          <span className="author">
+            &nbsp;by&nbsp;<AutosizeInput
               value={this.props.entry.author}
               onChange={this.onChangeAuthor}
-              placeholder="Creator or author"
+              placeholder="Author"
             />
-          </p>
-          <p>
-            <a href={this.props.entry.URL}>URL</a>: <input value={this.props.entry.URL} onChange={this.onChangeURL} placeholder="Primary URL" />
-          </p>
+          </span>
+          <SourceLink
+            onChange={this.onChangeURL}
+            URL={this.props.entry.URL}
+          />
         </header>
         <div className="contents">
           <div className="entryImage">
