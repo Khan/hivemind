@@ -89,6 +89,14 @@ a:hover {
   color: #626469;
 }
 
+.entry header .author.hidden-until-hover {
+  opacity: 0;
+}
+
+.entry:hover header .author.hidden-until-hover {
+  opacity: inherit;
+}
+
 .entry header .externalLink {
   position: absolute;
   right: 0px;
@@ -105,7 +113,7 @@ a:hover {
   display: none;
 }
 
-.entry header:hover .externalLink .edit {
+.entry:hover header .externalLink .edit {
   color: #D6D8DA;
   position: absolute;
   right: 0.5em;

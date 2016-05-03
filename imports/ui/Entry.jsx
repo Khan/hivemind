@@ -413,7 +413,7 @@ export default class Entry extends React.Component {
               placeholder="Title"
             />
           </span>
-          <span className="author">
+          <span className={"author " + (((this.props.entry.author || "") === "") ? "hidden-until-hover" : "")}>
             &nbsp;by&nbsp;<AutosizeInput
               value={this.props.entry.author}
               onChange={this.onChangeAuthor}
