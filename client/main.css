@@ -51,8 +51,11 @@ a:hover {
 }
 
 #siteHeader .add {
-  font-weight: bold;
+  font-weight: 600;
   margin-left: 20px;
+  align-self: stretch;
+  font-size: 40px;
+  margin-top: -1px;
 }
 
 #siteHeader .add:hover {
@@ -64,6 +67,13 @@ a:hover {
   margin-left: 30px;
   font-size: 27px;
   flex: 1 0 auto;
+}
+
+#siteHeader .userButton {
+  font-size: 27px;
+  color: #888D93;
+  align-self: auto;
+  margin-right: 8px;
 }
 
 .entry {

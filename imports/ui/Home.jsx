@@ -51,7 +51,7 @@ class Home extends Component {
               browserHistory.replace(newURL.toString());
             }}
           />
-        <a href="#" className="login" onClick={() => {
+        <a href="#" className="userButton" onClick={() => {
           if (this.props.user) {
             Meteor.logout();
           } else {
