@@ -68,6 +68,7 @@ a:hover {
 
 .entry {
   margin: 3em 0;
+  padding-bottom: 1em;
 }
 
 .entry header {
@@ -145,6 +146,7 @@ a:hover {
 .entry .leftColumn {
   flex: 0 0 240px;
   font-size: 15px;
+  position: relative;
 }
 
 .entry .leftColumn .entryImage img {
@@ -156,11 +158,12 @@ a:hover {
 }
 
 .entry .leftColumn .permalink {
-  margin-top: 0;
+  right: 0;
 }
 
 .entry .leftColumn .permalink, .entry .leftColumn .delete {
   display: none;
+  position: absolute;
 }
 
 .entry:hover .leftColumn .permalink, .entry:hover .leftColumn .delete {
