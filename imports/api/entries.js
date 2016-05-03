@@ -5,7 +5,19 @@ import { EasySearch } from 'meteor/easy:search';
 export const Entries = new Mongo.Collection('entries');
 
 Meteor.methods({
+  "entry.create"({tags}) {
+    if (!this.userId) { throw new Meteor.Error('not-authorized'); }
+
+    Entries.insert({
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      tags: tags
+    });
+  },
+
   "entry.update"({entryID, newEntry}) {
+    if (!this.userId) { throw new Meteor.Error('not-authorized'); }
+
     const filteredEntry = {
       title: newEntry.title,
       author: newEntry.author,
@@ -20,10 +32,14 @@ Meteor.methods({
   },
 
   "entry.setImage"({entryID, imageURL}) {
+    if (!this.userId) { throw new Meteor.Error('not-authorized'); }
+
     Entries.update(entryID, {$set: {imageURL}});
   },
 
   "entry.remove"({entryID}) {
+    if (!this.userId) { throw new Meteor.Error('not-authorized'); }
+
     Entries.remove(entryID);
   },
 });

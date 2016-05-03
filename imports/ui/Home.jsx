@@ -13,12 +13,7 @@ class Home extends Component {
     super(props);
     this.addEntry = () => {
       // TODO: Reimplement this feature for unified search
-      const tags = this.props.filterTag ? [this.props.filterTag] : []
-      Entries.insert({
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        tags
-      });
+      Meteor.call("entry.create", {tags: []});
     }
   }
 
