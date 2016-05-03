@@ -68,15 +68,6 @@ class Home extends Component {
         }}>{this.props.user ? "Logout" : "Login"}</a>
 
           <a href="#" className="add" onClick={this.addEntry} title="Add Entry">+</a>
-          {/*
-          <p>
-            {this.props.tags.map((tag) => {
-              let newURL = new URL(document.location.origin);
-              newURL.searchParams.set("query", `#"${tag}"`);
-              return <Link to={newURL.toString()} activeStyle={{color: "red"}}>#{tag}</Link>
-            })}
-          </p>
-          TODO RE-ADD */}
         </header>
         <div className="home">
           <EntryList
