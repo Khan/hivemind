@@ -51,6 +51,22 @@ class Home extends Component {
               browserHistory.replace(newURL.toString());
             }}
           />
+        <a href="#" className="login" onClick={() => {
+          if (this.props.user) {
+            Meteor.logout();
+          } else {
+            Meteor.loginWithGoogle({
+              requestPermissions: ['https://www.googleapis.com/auth/userinfo.profile']
+            }, (err) => {
+              if (err) {
+                console.error(err);
+              } else {
+                console.log(Meteor.user());
+              }
+            });
+          }
+        }}>{this.props.user ? "Logout" : "Login"}</a>
+
           <a href="#" className="add" onClick={this.addEntry} title="Add Entry">+</a>
           {/*
           <p>
@@ -85,6 +101,7 @@ export default createContainer((props) => {
   }
   return {
     entries: entries, // TODO: remove eagerness?,
-    query: query
+    query: query,
+    user: Meteor.user(),
   };
 }, Home);

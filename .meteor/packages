@@ -22,3 +22,6 @@ insecure                # Allow all DB writes from clients (for prototyping)
 react-meteor-data
 lepozepo:s3
 easy:search
+accounts-base
+accounts-google
+service-configuration
