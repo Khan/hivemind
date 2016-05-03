@@ -56,7 +56,7 @@ class Home extends Component {
             Meteor.logout();
           } else {
             Meteor.loginWithGoogle({
-              requestPermissions: ['https://www.googleapis.com/auth/userinfo.profile']
+              requestPermissions: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
             }, (err) => {
               if (err) {
                 console.error(err);
