@@ -2,6 +2,7 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { IndexLink, Link, browserHistory } from 'react-router';
 
+import UserButton from './components/UserButton.jsx';
 import EntryList from './EntryList.jsx';
 import { Entries, EntriesIndex } from '../api/entries.js';
 import uploadEntryImage from '../api/client/uploadEntryImage';
@@ -51,22 +52,7 @@ class Home extends Component {
               browserHistory.replace(newURL.toString());
             }}
           />
-        <a href="#" className="userButton" onClick={() => {
-          if (this.props.user) {
-            Meteor.logout();
-          } else {
-            Meteor.loginWithGoogle({
-              requestPermissions: ['https://www.googleapis.com/auth/userinfo.profile', 'https://www.googleapis.com/auth/userinfo.email']
-            }, (err) => {
-              if (err) {
-                console.error(err);
-              } else {
-                console.log(Meteor.user());
-              }
-            });
-          }
-        }}>{this.props.user ? "Logout" : "Login"}</a>
-
+        <UserButton user={this.props.user} />
           <a href="#" className="add" onClick={this.addEntry} title="Add Entry">+</a>
         </header>
         <div className="home">
