@@ -3,7 +3,6 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
 import { Entries } from '../api/entries.js';
-import EntryList from './EntryList.jsx';
 
 // App component - represents the whole app
 class App extends Component {

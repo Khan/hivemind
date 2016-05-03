@@ -2,8 +2,8 @@ import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { IndexLink, Link, browserHistory } from 'react-router';
 
+import EntryList from './components/EntryList.jsx';
 import UserButton from './components/UserButton.jsx';
-import EntryList from './EntryList.jsx';
 import { Entries, EntriesIndex } from '../api/entries.js';
 import uploadEntryImage from '../api/client/uploadEntryImage';
 

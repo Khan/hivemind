@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { IndexLink, Link, browserHistory } from 'react-router';
 
-import Entry from './Entry.jsx';
+import Entry from './components/Entry.jsx';
 import { Entries } from '../api/entries.js';
 import uploadEntryImage from '../api/client/uploadEntryImage';
 
