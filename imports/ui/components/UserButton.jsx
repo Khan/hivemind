@@ -1,5 +1,9 @@
 import React from 'react';
 
+function extractFirstName(user) {
+  return user.profile.name.split(" ")[0];
+}
+
 export default (props) => (
   <a href="#" className="userButton" onClick={() => {
     if (props.user) {
@@ -13,5 +17,7 @@ export default (props) => (
         }
       });
     }
-  }}>{props.user ? "Logout" : "Login"}</a>
+  }}>
+    {props.user ? `Logout ${extractFirstName(props.user)}` : "Login"}
+  </a>
 );
