@@ -458,16 +458,23 @@ export default class Entry extends React.Component {
       );
     } else {
       contents = (
-        <div className="contents oneColumn">
-          <div className="notes">
-            {descriptionEditor}
-            <div className="tagEditorAndControls">
-              {tagEditor}
-              {dates}
+        <Dropzone
+          onDrop={this.props.onDropImage}
+          multiple={false}
+          accept="image/*"
+          style={{}}
+        >
+          <div className="contents oneColumn">
+            <div className="notes">
+              {descriptionEditor}
+              <div className="tagEditorAndControls">
+                {tagEditor}
+                {dates}
+              </div>
+              {bottomControls}
             </div>
-            {bottomControls}
           </div>
-        </div>
+        </Dropzone>
       );
     }
 

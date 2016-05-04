@@ -265,3 +265,7 @@ a:hover {
 .unconfirmedTagBlock .public-DraftStyleDefault-block {
   display: inline;
 }
+
+.entry .activeImageDrop {
+  border: 3px black solid;
+}
