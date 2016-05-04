@@ -3,6 +3,7 @@ import { createContainer } from 'meteor/react-meteor-data';
 import { IndexLink, Link, browserHistory } from 'react-router';
 
 import Entry from './components/Entry.jsx';
+import UserButton from './components/UserButton';
 import { Entries } from '../api/entries.js';
 import uploadEntryImage from '../api/client/uploadEntryImage';
 
@@ -19,12 +20,13 @@ class EntryPage extends Component {
 
   render() {
     if (this.props.entry) {
-      const { entry } = this.props;
+      const { entry, user } = this.props;
       return (
         <div id="pageContainer">
           <header id="siteHeader">
             <h1><IndexLink to="/">Hivemind</IndexLink></h1>
             <IndexLink to="/" className="allEntries">View all entries</IndexLink>
+            <UserButton user={user} />
           </header>
           <Entry
             entry={entry}
@@ -47,5 +49,6 @@ export default createContainer((props) => {
 
   return {
     entry: Entries.findOne(entryID),
+    user: Meteor.user(),
   };
 }, EntryPage);
