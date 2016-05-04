@@ -47,8 +47,8 @@ class Home extends Component {
               browserHistory.replace(newURL.toString());
             }}
           />
-        <UserButton user={this.props.user} />
-          <a href="#" className="add" onClick={this.addEntry} title="Add Entry">+</a>
+          <UserButton user={this.props.user} />
+          {this.props.user !== null ? (<a href="#" className="add" onClick={this.addEntry} title="Add Entry">+</a>) : ""}
         </header>
         <div className="home">
           <EntryList
