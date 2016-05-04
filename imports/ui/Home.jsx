@@ -64,6 +64,8 @@ class Home extends Component {
 }
 
 export default createContainer((props) => {
+  Meteor.subscribe("entries");
+
   const { query } = props.location.query;
   let entries;
   if (query) {
@@ -71,6 +73,7 @@ export default createContainer((props) => {
   } else {
     entries = Entries.find({}, {sort: [["createdAt", "desc"]]}).fetch()
   }
+
   return {
     entries: entries, // TODO: remove eagerness?,
     query: query,

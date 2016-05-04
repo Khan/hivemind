@@ -41,7 +41,11 @@ class EntryPage extends Component {
 }
 
 export default createContainer((props) => {
+  const entryID = props.params.entryID;
+
+  Meteor.subscribe("entry", entryID);
+
   return {
-    entry: Entries.findOne(props.params.entryID),
+    entry: Entries.findOne(entryID),
   };
 }, EntryPage);

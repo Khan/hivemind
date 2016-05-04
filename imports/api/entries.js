@@ -2,7 +2,12 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { EasySearch } from 'meteor/easy:search';
 
-export const Entries = new Mongo.Collection('entries');
+export const Entries = new Mongo.Collection("entries");
+
+if (Meteor.isServer) {
+  Meteor.publish("entries", () => Entries.find({}));
+  Meteor.publish("entry", (id) => Entries.find(id));
+}
 
 Meteor.methods({
   "entry.create"({tags}) {
