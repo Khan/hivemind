@@ -1,6 +1,7 @@
-import React from 'react';
-import Immutable from 'immutable';
 import Draft, {Editor, EditorState, ContentState} from 'draft-js';
+import Immutable from 'immutable';
+import Lodash from 'lodash';
+import React from 'react';
 
 export default class DescriptionEditor extends React.Component {
   constructor(props) {
@@ -8,11 +9,15 @@ export default class DescriptionEditor extends React.Component {
     const editorState = EditorState.createWithContent(this.rawContentStateToContentState(props.value));
     this.state = {editorState};
     this.onFocus = () => this.refs.editor.focus();
+
+    this.propagateChange = Lodash.debounce(() => {
+      const rawContentState = Draft.convertToRaw(this.state.editorState.getCurrentContent());
+      this.props.onChange(rawContentState)
+    }, 300);
+
     this.onChange = (editorState) => {
       this.setState({editorState});
-
-      const rawContentState = Draft.convertToRaw(editorState.getCurrentContent());
-      this.props.onChange(rawContentState)
+      this.propagateChange();
     };
 
     this.handleKeyCommand = (command) => {
@@ -38,7 +43,10 @@ export default class DescriptionEditor extends React.Component {
   componentWillReceiveProps(nextProps) {
     const newContentState = this.rawContentStateToContentState(nextProps.value);
     const {editorState} = this.state;
-    if (!Immutable.is(newContentState.getBlockMap(), editorState.getCurrentContent().getBlockMap())) {
+    if (
+      !editorState.getSelection().hasFocus &&
+      !Immutable.is(newContentState.getBlockMap(), editorState.getCurrentContent().getBlockMap()))
+    {
       this.setState({editorState: EditorState.push(editorState, newContentState)});
     }
   }

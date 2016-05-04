@@ -1,11 +1,11 @@
 import React from 'react';
 import Draft, {Editor, EditorState, ContentState} from 'draft-js';
 import Dropzone from 'react-dropzone';
-import AutosizeInput from 'react-input-autosize';
 import { Link } from 'react-router';
 import Immutable from 'immutable';
 
 import DescriptionEditor from './DescriptionEditor.jsx';
+import EntryTextField from './EntryTextField.jsx';
 
 function findTags(contentBlock, callback) {
   let currentEntityStartingLocation = 0;
@@ -329,12 +329,12 @@ export default class Entry extends React.Component {
       this.props.onChange({...this.props.entry, description: rawContentState});
     };
 
-    this.onChangeTitle = (event) => {
-      this.props.onChange({...this.props.entry, title: event.target.value});
+    this.onChangeTitle = (newTitle) => {
+      this.props.onChange({...this.props.entry, title: newTitle});
     };
 
-    this.onChangeAuthor = (event) => {
-      this.props.onChange({...this.props.entry, author: event.target.value});
+    this.onChangeAuthor = (newAuthor) => {
+      this.props.onChange({...this.props.entry, author: newAuthor});
     };
 
     this.onChangeURL = (newURL) => {
@@ -408,7 +408,7 @@ export default class Entry extends React.Component {
           multiple={false}
           accept="image/*"
           style={{}}
-          disableClick="true"
+          disableClick={true}
         >
           <div className="contents oneColumn">
             <div className="notes">
@@ -428,7 +428,7 @@ export default class Entry extends React.Component {
       <div className={"entry" + (this.props.disabled ? "" : " editable")}>
         <header>
           <span className="title">
-            <AutosizeInput
+            <EntryTextField
               className="title"
               value={this.props.entry.title}
               onChange={this.onChangeTitle}
@@ -437,7 +437,7 @@ export default class Entry extends React.Component {
             />
           </span>
           <span className={"author " + (((this.props.entry.author || "") === "") ? "hidden-until-hover" : "")}>
-            &nbsp;by&nbsp;<AutosizeInput
+            &nbsp;by&nbsp;<EntryTextField
               value={this.props.entry.author}
               onChange={this.onChangeAuthor}
               placeholder="Author"

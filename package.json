@@ -7,6 +7,7 @@
   "dependencies": {
     "draft-js": "^0.4.0",
     "immutable": "^3.7.6",
+    "lodash": "^4.11.2",
     "meteor-node-stubs": "~0.2.0",
     "react": "15",
     "react-addons-pure-render-mixin": "15",
