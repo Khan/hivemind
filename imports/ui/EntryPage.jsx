@@ -33,6 +33,7 @@ class EntryPage extends Component {
             onChange={this.updateEntry}
             onDelete={() => this.deleteEntry(entry._id)}
             onDropImage={(files, callback) => {uploadEntryImage(entry._id, files, callback)}}
+            disabled={this.props.user === null}
           />
         </div>
       );

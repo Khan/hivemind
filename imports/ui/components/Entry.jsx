@@ -55,6 +55,7 @@ class DescriptionEditor extends React.Component {
           handleKeyCommand={this.handleKeyCommand}
           placeholder="Notes, quotes, takeaways…"
           ref="editor"
+          readOnly={this.props.disabled}
         />
       </div>
     );
@@ -216,6 +217,7 @@ class TagEditor extends React.Component {
           blockStyleFn={tagBlockStyle}
           placeholder="Tags"
           ref="editor"
+          readOnly={this.props.disabled}
         />
       </div>
     );
@@ -359,11 +361,16 @@ const SourceLink = (props) => {
   return (
     <span className="externalLink">
         {URLLabelNode}
-        <a
-          className="edit"
-          href="#"
-          onClick={onClick}
-        >edit URL</a>
+        {
+          props.disabled ? null :
+          <a
+            className="edit"
+            href="#"
+            onClick={onClick}
+          >
+            edit URL
+          </a>
+        }
     </span>
   );
 }
@@ -403,7 +410,7 @@ export default class Entry extends React.Component {
 
   render() {
     return (
-      <div className="entry">
+      <div className={"entry" + (this.props.disabled ? "" : " editable")}>
         <header>
           <span className="title">
             <AutosizeInput
@@ -411,6 +418,7 @@ export default class Entry extends React.Component {
               value={this.props.entry.title}
               onChange={this.onChangeTitle}
               placeholder="Title"
+              disabled={this.props.disabled}
             />
           </span>
           <span className={"author " + (((this.props.entry.author || "") === "") ? "hidden-until-hover" : "")}>
@@ -418,11 +426,13 @@ export default class Entry extends React.Component {
               value={this.props.entry.author}
               onChange={this.onChangeAuthor}
               placeholder="Author"
+              disabled={this.props.disabled}
             />
           </span>
           <SourceLink
             onChange={this.onChangeURL}
             URL={this.props.entry.URL}
+            disabled={this.props.disabled}
           />
         </header>
         <div className="contents">
@@ -436,7 +446,7 @@ export default class Entry extends React.Component {
             <p className="dates">
               Added on {this.props.entry.createdAt.toLocaleDateString("en-us", {year: "2-digit", month: "2-digit", day: "2-digit"})}.<br />Updated on {this.props.entry.updatedAt.toLocaleDateString("en-us", {year: "2-digit", month: "2-digit", day: "2-digit"})}.</p>
             <p>
-              <a href="#" onClick={this.onDelete} className="delete">Delete</a>
+              {this.props.disabled ? null : <a href="#" onClick={this.onDelete} className="delete">Delete</a>}
               <Link to={`/entry/${this.props.entry._id}`} className="permalink">Permalink</Link>
             </p>
           </div>
@@ -444,10 +454,12 @@ export default class Entry extends React.Component {
             <DescriptionEditor
               value={this.props.entry.description}
               onChange={this.onChangeDescription}
+              disabled={this.props.disabled}
             />
             <TagEditor
               onChange={this.onChangeTags}
               tags={this.props.entry.tags}
+              disabled={this.props.disabled}
             />
           </div>
         </div>

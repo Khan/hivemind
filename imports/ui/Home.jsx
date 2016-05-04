@@ -48,7 +48,7 @@ class Home extends Component {
             }}
           />
           <UserButton user={this.props.user} />
-          {this.props.user !== null ? (<a href="#" className="add" onClick={this.addEntry} title="Add Entry">+</a>) : ""}
+          {this.props.user !== null ? (<a href="#" className="add" onClick={this.addEntry} title="Add Entry">+</a>) : null}
         </header>
         <div className="home">
           <EntryList
@@ -56,6 +56,7 @@ class Home extends Component {
             onChangeEntry={this.updateEntry}
             onDeleteEntry={this.deleteEntry}
             onDropImage={uploadEntryImage}
+            disabled={this.props.user === null}
           />
         </div>
       </div>

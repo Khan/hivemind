@@ -11,6 +11,7 @@ export default (props) => (
         onChange={props.onChangeEntry}
         onDelete={() => props.onDeleteEntry(entry._id)}
         onDropImage={(files, callback) => props.onDropImage(entry._id, files, callback) }
+        disabled={props.disabled}
       />
     ))}
   </div>

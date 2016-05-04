@@ -11,7 +11,7 @@ a:hover {
   text-decoration: underline;
 }
 
-::-webkit-input-placeholder {
+::-webkit-input-placeholder, .public-DraftEditorPlaceholder-root {
   color: #888D93;
 }
 
@@ -112,7 +112,7 @@ a:hover {
   opacity: 0;
 }
 
-.entry:hover header .author.hidden-until-hover {
+.entry.editable:hover header .author.hidden-until-hover {
   opacity: inherit;
 }
 
@@ -149,7 +149,7 @@ a:hover {
   color: inherit;
 }
 
-.entry header:hover input {
+.entry.editable header:hover input {
   border: 0.5px solid #ECEDEE;
   border-radius: 4px;
   margin: -4px -3px -3px -3px;
@@ -175,7 +175,7 @@ a:hover {
   color: #ABB0B4;
 }
 
-.entry .leftColumn .permalink {
+.entry .leftColumn .delete {
   right: 0;
 }
 
