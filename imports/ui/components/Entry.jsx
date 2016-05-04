@@ -463,6 +463,7 @@ export default class Entry extends React.Component {
           multiple={false}
           accept="image/*"
           style={{}}
+          disableClick="true"
         >
           <div className="contents oneColumn">
             <div className="notes">
