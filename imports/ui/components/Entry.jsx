@@ -409,6 +409,68 @@ export default class Entry extends React.Component {
   }
 
   render() {
+    const bottomControls =
+      <div className="bottomControls">
+        {this.props.disabled ? null : <a href="#" onClick={this.onDelete} className="delete">Delete</a>}
+        <Link to={`/entry/${this.props.entry._id}`} className="permalink">Permalink</Link>
+      </div>;
+
+    const dates =
+      <div className="dates">
+        <span>Added on {this.props.entry.createdAt.toLocaleDateString("en-us", {year: "2-digit", month: "2-digit", day: "2-digit"})}.</span>
+        <span>Updated on {this.props.entry.updatedAt.toLocaleDateString("en-us", {year: "2-digit", month: "2-digit", day: "2-digit"})}.</span>
+      </div>;
+
+    const descriptionEditor =
+      <DescriptionEditor
+        value={this.props.entry.description}
+        onChange={this.onChangeDescription}
+        disabled={this.props.disabled}
+      />;
+
+    const tagEditor =
+      <TagEditor
+        onChange={this.onChangeTags}
+        tags={this.props.entry.tags}
+        disabled={this.props.disabled}
+      />;
+
+    const hasValidImage = (this.props.entry.imageURL || "") !== "";
+    let contents;
+    if (hasValidImage) {
+      contents = (
+        <div className="contents">
+          <div className="leftColumn">
+            <div className="entryImage">
+              <EntryImage
+                onDropImage={this.props.onDropImage}
+                imageURL={this.props.entry.imageURL}
+              />
+              {dates}
+              {bottomControls}
+            </div>
+          </div>
+          <div className="notes">
+            {descriptionEditor}
+            {tagEditor}
+          </div>
+        </div>
+      );
+    } else {
+      contents = (
+        <div className="contents oneColumn">
+          <div className="notes">
+            {descriptionEditor}
+            <div className="tagEditorAndControls">
+              {tagEditor}
+              {dates}
+            </div>
+            {bottomControls}
+          </div>
+        </div>
+      );
+    }
+
     return (
       <div className={"entry" + (this.props.disabled ? "" : " editable")}>
         <header>
@@ -435,34 +497,7 @@ export default class Entry extends React.Component {
             disabled={this.props.disabled}
           />
         </header>
-        <div className="contents">
-          <div className="leftColumn">
-            <div className="entryImage">
-              <EntryImage
-                onDropImage={this.props.onDropImage}
-                imageURL={this.props.entry.imageURL}
-              />
-            </div>
-            <p className="dates">
-              Added on {this.props.entry.createdAt.toLocaleDateString("en-us", {year: "2-digit", month: "2-digit", day: "2-digit"})}.<br />Updated on {this.props.entry.updatedAt.toLocaleDateString("en-us", {year: "2-digit", month: "2-digit", day: "2-digit"})}.</p>
-            <p>
-              {this.props.disabled ? null : <a href="#" onClick={this.onDelete} className="delete">Delete</a>}
-              <Link to={`/entry/${this.props.entry._id}`} className="permalink">Permalink</Link>
-            </p>
-          </div>
-          <div className="notes">
-            <DescriptionEditor
-              value={this.props.entry.description}
-              onChange={this.onChangeDescription}
-              disabled={this.props.disabled}
-            />
-            <TagEditor
-              onChange={this.onChangeTags}
-              tags={this.props.entry.tags}
-              disabled={this.props.disabled}
-            />
-          </div>
-        </div>
+        {contents}
       </div>
     );
   }

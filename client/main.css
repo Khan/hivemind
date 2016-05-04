@@ -163,30 +163,59 @@ a:hover {
 
 .entry .leftColumn {
   flex: 0 0 240px;
-  font-size: 15px;
-  position: relative;
 }
 
 .entry .leftColumn .entryImage img {
   width: 100%;
 }
 
-.entry .leftColumn .dates {
-  color: #ABB0B4;
+.entry .bottomControls {
+  font-size: 15px;
+  position: relative;
+  margin-top: 1em;
+  width: 100%;
 }
 
-.entry .leftColumn .delete {
+.entry .dates {
+  margin-top: 1em;
+}
+
+.entry .dates span {
+  font-size: 15px;
+  color: #D6D8DA;
+  display: inline-block;
+}
+
+.entry .dates span:first-child {
+  margin-right: 0.5em;
+}
+
+.entry .delete {
   right: 0;
 }
 
-.entry .leftColumn .permalink, .entry .leftColumn .delete {
+.entry .permalink, .entry .delete {
   display: none;
   position: absolute;
 }
 
-.entry:hover .leftColumn .permalink, .entry:hover .leftColumn .delete {
+.entry:hover .permalink, .entry:hover .delete {
   display: block;
   color: #D6D8DA;
+}
+
+.entry .tagEditorAndControls {
+  display: flex;
+  flex-direction: row;
+}
+
+.entry .tagEditorAndControls .tagEditor {
+  flex: 1 1 auto;
+}
+
+.entry .tagEditorAndControls .dates {
+  margin-top: 0;
+  flex: 0 0 auto;
 }
 
 .entry .notes {
@@ -197,10 +226,14 @@ a:hover {
 .entry .descriptionEditor {
   font-size: 20px;
   line-height: 30px;
+  margin-bottom: 1.5em;
+}
+
+.entry .oneColumn .descriptionEditor {
+  max-width: 700px;
 }
 
 .entry .tagEditor {
-  margin-top: 1.5em;
   font-size: 17px;
 }
 
