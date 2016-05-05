@@ -17,3 +17,13 @@ This app connects to Amazon S3 and Google OAuth and requires credentials for bot
 If you're at Khan Academy, copy the [secrets from Phabricator](https://phabricator.khanacademy.org/K145) into `settings.json` in the root of the project directory. If you're not, modify `settings.template.json` to use your secrets.
 
 Run a local server with `meteor --settings settings.json`.
+
+## Deploying to Khan Academy's Hivemind instance
+
+(Intentionally not yet linking to the instance publicly—still evolving…)
+
+The Long-term Research Hivemind currently runs on Heroku. Ask [Andy](mailto:andy@khanacademy.org) for push access, then:
+
+1. [Install the Heroku toolbelt](https://toolbelt.heroku.com/).
+2. Add Heroku's remote in your git checkout: `heroku git:remote -a ka-hivemind`
+3. Push your branch to Heroku: `git push origin heroku`
