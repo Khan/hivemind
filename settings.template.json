@@ -1,0 +1,13 @@
+{
+  "restrictAccountsToEmailDomain": "yourdomain.com or remove me if you don't want to restrict accounts",
+  "google": {
+    "clientId": null,
+    "secret": null
+  },
+  "S3": {
+    "key": null,
+    "secret": null,
+    "bucket": null,
+    "region": null
+  }
+}
