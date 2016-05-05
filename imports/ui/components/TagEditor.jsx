@@ -12,10 +12,15 @@ export default class TagEditor extends React.Component {
     this.onFocus = () => this.refs.editor.focus();
     this.onChange = (editorState) => {
       // If you clear focus before confirming a tag, it's cleared.
-      if (!editorState.getSelection().hasFocus) {
-        this.setState({
-          editorState: editorStateDisplayingTags(tagsForContentState(this.state.editorState.getCurrentContent()))
-        });
+      if (this.state.editorState.getSelection().getHasFocus() && !editorState.getSelection().getHasFocus()) {
+        const clearedState = editorStateDisplayingTags(tagsForContentState(this.state.editorState.getCurrentContent()));
+        if (editorState.getCurrentContent().getPlainText() === clearedState.getCurrentContent().getPlainText()) {
+          console.log("Same")
+          this.setState({editorState});
+        } else {
+          console.log("Different")
+          this.setState({editorState: clearedState});
+        }
         return;
       }
 
