@@ -149,7 +149,7 @@ a:hover {
   color: inherit;
 }
 
-.entry.editable header:hover input {
+.entry.editable header:hover input, .entry.editable header input:focus {
   border: 0.5px solid #ECEDEE;
   border-radius: 4px;
   margin: -4px -3px -3px -3px;
@@ -226,7 +226,19 @@ a:hover {
 .entry .descriptionEditor {
   font-size: 20px;
   line-height: 30px;
-  margin-bottom: 1.5em;
+  margin-bottom: 30px;
+}
+
+.entry.editable .descriptionEditor .public-DraftEditor-content:hover,
+.entry.editable .tagEditor .public-DraftEditor-content:hover,
+.entry.editable .descriptionEditor .public-DraftEditor-content:focus,
+.entry.editable .tagEditor .public-DraftEditor-content:focus
+{
+
+  border: 0.5px solid #ECEDEE;
+  border-radius: 4px;
+  padding: 4px;
+  margin: -5px -5px -5px -5px;
 }
 
 .entry .oneColumn .descriptionEditor {
@@ -239,6 +251,10 @@ a:hover {
 
 .entry .tagEditor a {
   color: #888D93;
+}
+
+.entry .oneColumn .tagEditor {
+  margin-right: 1.5em;
 }
 
 .tagBlock {
