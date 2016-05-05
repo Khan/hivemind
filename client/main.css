@@ -229,11 +229,7 @@ a:hover {
   margin-bottom: 30px;
 }
 
-.entry.editable .descriptionEditor .public-DraftEditor-content:hover,
-.entry.editable .tagEditor .public-DraftEditor-content:hover,
-.entry.editable .descriptionEditor .public-DraftEditor-content:focus,
-.entry.editable .tagEditor .public-DraftEditor-content:focus
-{
+.entry.editable .DraftEditor-root:hover {
 
   border: 0.5px solid #ECEDEE;
   border-radius: 4px;
