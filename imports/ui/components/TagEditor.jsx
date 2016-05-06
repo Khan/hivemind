@@ -15,10 +15,8 @@ export default class TagEditor extends React.Component {
       if (this.state.editorState.getSelection().getHasFocus() && !editorState.getSelection().getHasFocus()) {
         const clearedState = editorStateDisplayingTags(tagsForContentState(this.state.editorState.getCurrentContent()));
         if (editorState.getCurrentContent().getPlainText() === clearedState.getCurrentContent().getPlainText()) {
-          console.log("Same")
           this.setState({editorState});
         } else {
-          console.log("Different")
           this.setState({editorState: clearedState});
         }
         return;
