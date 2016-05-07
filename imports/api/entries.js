@@ -47,6 +47,16 @@ Meteor.methods({
 
     Entries.remove(entryID);
   },
+
+  "entry.updateRecommender"({entryID, newValue}) {
+    if (!this.userId) { throw new Meteor.Error('not-authorized'); }
+
+    if (newValue) {
+      Entries.update(entryID, {$addToSet: {recommenders: this.userId}});
+    } else {
+      Entries.update(entryID, {$pull: {recommenders: this.userId}});
+    }
+  }
 });
 
 const simpleSearchFields = ['title', 'author', 'description'];

@@ -6,6 +6,7 @@ import Entry from './components/Entry.jsx';
 import UserButton from './components/UserButton';
 import { Entries } from '../api/entries.js';
 import uploadEntryImage from '../api/client/uploadEntryImage';
+import materializeEntryUsers from '../materializeEntryUsers';
 
 class EntryPage extends Component {
   // TODO: Fix duplication with Home.jsx.
@@ -47,9 +48,10 @@ export default createContainer((props) => {
   const entryID = props.params.entryID;
 
   Meteor.subscribe("entry", entryID);
+  Meteor.subscribe("users");
 
   return {
-    entry: Entries.findOne(entryID),
+    entry: Entries.findOne(entryID, {transform: materializeEntryUsers}),
     user: Meteor.user(),
   };
 }, EntryPage);

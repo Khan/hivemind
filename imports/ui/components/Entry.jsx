@@ -7,6 +7,7 @@ import EntryImage from './EntryImage.jsx';
 import EntryTextField from './EntryTextField.jsx';
 import SourceLink from './SourceLink.jsx';
 import TagEditor from './TagEditor.jsx';
+import {getUserFirstName} from '../../user.js';
 
 // Represents a single hivemind database entry
 export default class Entry extends React.Component {
@@ -79,6 +80,11 @@ export default class Entry extends React.Component {
                 onDropImage={this.props.onDropImage}
                 imageURL={this.props.entry.imageURL}
               />
+              <ToggleList
+                currentUser={Meteor.user()}
+                users={this.props.entry.recommenders}
+                onChange={(value) => {Meteor.call("entry.updateRecommender", {entryID: this.props.entry._id, newValue: value})}}
+              />
               {dates}
               {bottomControls}
             </div>
@@ -141,5 +147,26 @@ export default class Entry extends React.Component {
         {contents}
       </div>
     );
+  }
+}
+
+class ToggleList extends React.Component {
+  render() {
+    const {users, currentUser} = this.props;
+    const isRecommending = users ? users.find((user) => user._id === currentUser._id) : false;
+
+    let names = null;
+    if (users && users.length > 0) {
+      names = users.map((user) => {
+        return <span key={user}>{getUserFirstName(user)}</span>;
+      });
+    }
+    return (<div>
+      <a href="#" onClick={(event) => {
+        this.props.onChange(!isRecommending);
+        event.preventDefault();
+      }}>Toggle</a>
+      {names}
+    </div>);
   }
 }

@@ -1,8 +1,6 @@
 import React from 'react';
 
-function extractFirstName(user) {
-  return user.profile.name.split(" ")[0];
-}
+import {getUserFirstName} from '../../user.js';
 
 export default (props) => (
   <a href="#" className="userButton" onClick={() => {
@@ -18,6 +16,6 @@ export default (props) => (
       });
     }
   }}>
-    {props.user ? `Logout ${extractFirstName(props.user)}` : "Login"}
+    {props.user ? `Logout ${getUserFirstName(props.user)}` : "Login"}
   </a>
 );

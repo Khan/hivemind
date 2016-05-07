@@ -6,6 +6,7 @@ import EntryList from './components/EntryList.jsx';
 import UserButton from './components/UserButton.jsx';
 import { Entries, EntriesIndex } from '../api/entries.js';
 import uploadEntryImage from '../api/client/uploadEntryImage';
+import materializeEntryUsers from '../materializeEntryUsers';
 
 // Represents the standard UI
 class Home extends Component {
@@ -66,6 +67,7 @@ class Home extends Component {
 
 export default createContainer((props) => {
   Meteor.subscribe("entries");
+  Meteor.subscribe("users");
 
   const { query } = props.location.query;
   let entries;
@@ -76,7 +78,7 @@ export default createContainer((props) => {
   }
 
   return {
-    entries: entries, // TODO: remove eagerness?,
+    entries: entries.map(materializeEntryUsers), // TODO: remove eagerness?,
     query: query,
     user: Meteor.user(),
   };
