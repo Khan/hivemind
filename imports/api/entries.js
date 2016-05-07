@@ -48,10 +48,10 @@ Meteor.methods({
     Entries.remove(entryID);
   },
 
-  "entry.updateRecommender"({entryID, newValue}) {
+  "entry.updateRecommender"({entryID, isNewlyRecommending}) {
     if (!this.userId) { throw new Meteor.Error('not-authorized'); }
 
-    if (newValue) {
+    if (isNewlyRecommending) {
       Entries.update(entryID, {$addToSet: {recommenders: this.userId}});
     } else {
       Entries.update(entryID, {$pull: {recommenders: this.userId}});

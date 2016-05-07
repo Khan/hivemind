@@ -11,6 +11,7 @@ export default (props) => (
         onChange={props.onChangeEntry}
         onDelete={() => props.onDeleteEntry(entry._id)}
         onDropImage={(files, callback) => props.onDropImage(entry._id, files, callback) }
+        onChangeRecommending={(isNewlyRecommending) => props.onChangeRecommending(entry._id, isNewlyRecommending)}
         disabled={props.disabled}
       />
     ))}

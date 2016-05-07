@@ -83,7 +83,7 @@ export default class Entry extends React.Component {
               <ToggleList
                 currentUser={Meteor.user()}
                 users={this.props.entry.recommenders}
-                onChange={(value) => {Meteor.call("entry.updateRecommender", {entryID: this.props.entry._id, newValue: value})}}
+                onChange={this.props.onChangeRecommending}
               />
               {dates}
               {bottomControls}

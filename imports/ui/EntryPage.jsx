@@ -19,6 +19,10 @@ class EntryPage extends Component {
     browserHistory.push("/");
   }
 
+  changeRecommending(entryID, isNewlyRecommending) {
+    Meteor.call("entry.updateRecommender", {entryID: entryID, isNewlyRecommending: isNewlyRecommending});
+  }
+
   render() {
     if (this.props.entry) {
       const { entry, user } = this.props;
@@ -32,6 +36,7 @@ class EntryPage extends Component {
           <Entry
             entry={entry}
             onChange={this.updateEntry}
+            onChangeRecommending={(isNewlyRecommending) => this.changeRecommending(entry._id, isNewlyRecommending)}
             onDelete={() => this.deleteEntry(entry._id)}
             onDropImage={(files, callback) => {uploadEntryImage(entry._id, files, callback)}}
             disabled={this.props.user === null}
