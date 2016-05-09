@@ -80,14 +80,21 @@ export default class Entry extends React.Component {
                 onDropImage={this.props.onDropImage}
                 imageURL={this.props.entry.imageURL}
               />
-              <ToggleList
-                currentUser={Meteor.user()}
-                users={this.props.entry.recommenders}
-                onChange={this.props.onChangeRecommending}
-              />
-              {dates}
-              {bottomControls}
             </div>
+            <ToggleList
+              currentUser={Meteor.user()}
+              users={this.props.entry.recommenders}
+              onChange={this.props.onChangeRecommending}
+              iconName="heart"
+            />
+            <ToggleList
+              currentUser={Meteor.user()}
+              users={this.props.entry.viewers}
+              onChange={this.props.onChangeViewing}
+              iconName="check"
+            />
+            {dates}
+            {bottomControls}
           </div>
           <div className="notes">
             {descriptionEditor}
@@ -153,19 +160,19 @@ export default class Entry extends React.Component {
 class ToggleList extends React.Component {
   render() {
     const {users, currentUser} = this.props;
-    const isRecommending = users ? users.find((user) => user._id === currentUser._id) : false;
+    const isActive = users ? users.find((user) => user._id === currentUser._id) : false;
 
-    let names = null;
+    let names = <span className="noActiveUsers">No one</span>;
     if (users && users.length > 0) {
       names = users.map((user) => {
         return <span key={user}>{getUserFirstName(user)}</span>;
       });
     }
-    return (<div>
+    return (<div className="userToggleList">
       <a href="#" onClick={(event) => {
-        this.props.onChange(!isRecommending);
+        this.props.onChange(!isActive);
         event.preventDefault();
-      }}>Toggle</a>
+      }}><img src={`/images/${this.props.iconName}_${isActive ? "active" : "inactive"}.png`} /></a>
       {names}
     </div>);
   }

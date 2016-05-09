@@ -30,6 +30,10 @@ class Home extends Component {
     Meteor.call("entry.updateRecommender", {entryID: entryID, isNewlyRecommending: isNewlyRecommending});
   }
 
+  changeViewing(entryID, isNewlyViewing) {
+    Meteor.call("entry.updateViewer", {entryID: entryID, isNewlyViewing: isNewlyViewing});
+  }
+
   render() {
     return (
       <div id="pageContainer">
@@ -61,6 +65,7 @@ class Home extends Component {
             onChangeEntry={this.updateEntry}
             onDeleteEntry={this.deleteEntry}
             onChangeRecommending={this.changeRecommending}
+            onChangeViewing={this.changeViewing}
             onDropImage={uploadEntryImage}
             disabled={this.props.user === null}
           />

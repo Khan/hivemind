@@ -56,7 +56,17 @@ Meteor.methods({
     } else {
       Entries.update(entryID, {$pull: {recommenders: this.userId}});
     }
-  }
+  },
+
+  "entry.updateViewer"({entryID, isNewlyViewing}) {
+    if (!this.userId) { throw new Meteor.Error('not-authorized'); }
+
+    if (isNewlyViewing) {
+      Entries.update(entryID, {$addToSet: {viewers: this.userId}});
+    } else {
+      Entries.update(entryID, {$pull: {viewers: this.userId}});
+    }
+  },
 });
 
 const simpleSearchFields = ['title', 'author', 'description'];

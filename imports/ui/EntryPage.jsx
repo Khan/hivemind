@@ -23,6 +23,10 @@ class EntryPage extends Component {
     Meteor.call("entry.updateRecommender", {entryID: entryID, isNewlyRecommending: isNewlyRecommending});
   }
 
+  changeViewing(entryID, isNewlyViewing) {
+    Meteor.call("entry.updateViewer", {entryID: entryID, isNewlyViewing: isNewlyViewing});
+  }
+
   render() {
     if (this.props.entry) {
       const { entry, user } = this.props;
@@ -37,6 +41,7 @@ class EntryPage extends Component {
             entry={entry}
             onChange={this.updateEntry}
             onChangeRecommending={(isNewlyRecommending) => this.changeRecommending(entry._id, isNewlyRecommending)}
+            onChangeViewing={(isNewlyViewing) => this.changeViewing(entry._id, isNewlyViewing)}
             onDelete={() => this.deleteEntry(entry._id)}
             onDropImage={(files, callback) => {uploadEntryImage(entry._id, files, callback)}}
             disabled={this.props.user === null}

@@ -204,6 +204,31 @@ a:hover {
   color: #D6D8DA;
 }
 
+.entry .userToggleList {
+  height: 24px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.entry .userToggleList img {
+  height: 24px;
+  margin-right: 7px;
+}
+
+.entry .userToggleList a {
+  line-height: 0;
+}
+
+.entry .userToggleList span {
+  display: inline-block;
+  margin-right: 7px;
+}
+
+.entry .userToggleList .noActiveUsers {
+  color: #ECEDEE;
+}
+
 .entry .tagEditorAndControls {
   display: flex;
   flex-direction: row;
