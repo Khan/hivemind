@@ -62,6 +62,20 @@ export default class Entry extends React.Component {
         disabled={this.props.disabled}
       />;
 
+    const recommenderList = <ToggleList
+        currentUser={Meteor.user()}
+        users={this.props.entry.recommenders}
+        onChange={this.props.onChangeRecommending}
+        iconName="heart"
+      />;
+
+    const viewerList = <ToggleList
+        currentUser={Meteor.user()}
+        users={this.props.entry.viewers}
+        onChange={this.props.onChangeViewing}
+        iconName="check"
+      />;
+
     const tagEditor =
       <TagEditor
         onChange={this.onChangeTags}
@@ -81,18 +95,8 @@ export default class Entry extends React.Component {
                 imageURL={this.props.entry.imageURL}
               />
             </div>
-            <ToggleList
-              currentUser={Meteor.user()}
-              users={this.props.entry.recommenders}
-              onChange={this.props.onChangeRecommending}
-              iconName="heart"
-            />
-            <ToggleList
-              currentUser={Meteor.user()}
-              users={this.props.entry.viewers}
-              onChange={this.props.onChangeViewing}
-              iconName="check"
-            />
+            {recommenderList}
+            {viewerList}
             {dates}
             {bottomControls}
           </div>
@@ -114,11 +118,15 @@ export default class Entry extends React.Component {
           <div className="contents oneColumn">
             <div className="notes">
               {descriptionEditor}
-              <div className="tagEditorAndControls">
+              <div className="tagEditorAndDates">
                 {tagEditor}
                 {dates}
               </div>
-              {bottomControls}
+              <div className="toggleListsAndControls">
+                {recommenderList}
+                {viewerList}
+                {bottomControls}
+              </div>
             </div>
           </div>
         </Dropzone>

@@ -167,6 +167,7 @@ a:hover {
 
 .entry .leftColumn .entryImage img {
   width: 100%;
+  margin-bottom: 0.5em;
 }
 
 .entry .bottomControls {
@@ -229,18 +230,41 @@ a:hover {
   color: #ECEDEE;
 }
 
-.entry .tagEditorAndControls {
+.entry .tagEditorAndDates {
   display: flex;
   flex-direction: row;
 }
 
-.entry .tagEditorAndControls .tagEditor {
+.entry .tagEditorAndDates .tagEditor {
   flex: 1 1 auto;
 }
 
-.entry .tagEditorAndControls .dates {
+.entry .tagEditorAndDates .dates {
   margin-top: 0;
   flex: 0 0 auto;
+}
+
+.entry .toggleListsAndControls {
+  display: flex;
+  flex-direction: row;
+  margin-top: 0.5em;
+}
+
+.entry .toggleListsAndControls .userToggleList, .entry .toggleListsAndControls {
+  flex: 0 0 auto;
+  margin-right: 0.5em;
+}
+
+.entry .toggleListsAndControls .bottomControls {
+  margin-top: 0;
+  flex: 0 1 auto;
+  text-align: right;
+}
+
+.entry:hover .toggleListsAndControls .bottomControls .permalink, .entry:hover .toggleListsAndControls .bottomControls .delete {
+  position: static;
+  display: inline-block;
+  margin-left: 1em;
 }
 
 .entry .notes {
