@@ -43,9 +43,12 @@ export default class Entry extends React.Component {
   }
 
   render() {
+    const hasValidImage = (this.props.entry.imageURL || "") !== "";
+
     const bottomControls =
       <div className="bottomControls">
         {this.props.disabled ? null : <a href="#" onClick={this.onDelete} className="delete">Delete</a>}
+        {hasValidImage ? null : <a href="#" onClick={(e) => {this.refs.dropzone.open(); e.preventDefault()}}>Add Main Image</a>}
         <Link to={`/entry/${this.props.entry._id}`} className="permalink">Permalink</Link>
       </div>;
 
@@ -83,7 +86,6 @@ export default class Entry extends React.Component {
         disabled={this.props.disabled}
       />;
 
-    const hasValidImage = (this.props.entry.imageURL || "") !== "";
     let contents;
     if (hasValidImage) {
       contents = (
@@ -114,6 +116,7 @@ export default class Entry extends React.Component {
           accept="image/*"
           style={{}}
           disableClick={true}
+          ref="dropzone"
         >
           <div className="contents oneColumn">
             <div className="notes">

@@ -191,16 +191,16 @@ a:hover {
   margin-right: 0.5em;
 }
 
-.entry .delete {
+.entry .permalink {
   right: 0;
 }
 
-.entry .permalink, .entry .delete {
+.entry .bottomControls a {
   display: none;
   position: absolute;
 }
 
-.entry:hover .permalink, .entry:hover .delete {
+.entry:hover .bottomControls a {
   display: block;
   color: #D6D8DA;
 }
@@ -250,7 +250,7 @@ a:hover {
   margin-top: 0.5em;
 }
 
-.entry .toggleListsAndControls .userToggleList, .entry .toggleListsAndControls {
+.entry .toggleListsAndControls .userToggleList {
   flex: 0 0 auto;
   margin-right: 0.5em;
 }
@@ -261,7 +261,7 @@ a:hover {
   text-align: right;
 }
 
-.entry:hover .toggleListsAndControls .bottomControls .permalink, .entry:hover .toggleListsAndControls .bottomControls .delete {
+.entry:hover .toggleListsAndControls .bottomControls a {
   position: static;
   display: inline-block;
   margin-left: 1em;
