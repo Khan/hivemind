@@ -85,8 +85,13 @@ a:hover {
 }
 
 .entry {
-  margin: 3em 0;
-  padding-bottom: 1em;
+  margin: 2.5em 0;
+  padding-bottom: 2.5em;
+  border-bottom: 0.5px solid #ECEDEE;
+}
+
+.entry:last-child {
+  border-bottom: initial;
 }
 
 .entry header {
