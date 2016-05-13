@@ -168,6 +168,29 @@ a:hover {
 
 .entry .leftColumn {
   flex: 0 0 240px;
+  display: flex;
+  flex-flow: column;
+}
+
+.entry .leftColumn .bottomControls {
+  flex: 1 0 auto;
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-start;
+}
+
+.entry .bottomControls a {
+  margin-right: 1em;
+  opacity: 0;
+  color: #D6D8DA;
+}
+
+.entry:hover .bottomControls a {
+  opacity: 1
+}
+
+.entry .bottomControls a:last-child {
+  margin-right: 0;
 }
 
 .entry .leftColumn .entryImage img {
@@ -177,9 +200,7 @@ a:hover {
 
 .entry .bottomControls {
   font-size: 15px;
-  position: relative;
   margin-top: 1em;
-  width: 100%;
 }
 
 .entry .dates {
@@ -194,20 +215,6 @@ a:hover {
 
 .entry .dates span:first-child {
   margin-right: 0.5em;
-}
-
-.entry .permalink {
-  right: 0;
-}
-
-.entry .bottomControls a {
-  display: none;
-  position: absolute;
-}
-
-.entry:hover .bottomControls a {
-  display: block;
-  color: #D6D8DA;
 }
 
 .entry .userToggleList {
@@ -262,14 +269,8 @@ a:hover {
 
 .entry .toggleListsAndControls .bottomControls {
   margin-top: 0;
-  flex: 0 1 auto;
+  flex: 1 0 auto;
   text-align: right;
-}
-
-.entry:hover .toggleListsAndControls .bottomControls a {
-  position: static;
-  display: inline-block;
-  margin-left: 1em;
 }
 
 .entry .notes {
@@ -297,14 +298,11 @@ a:hover {
 
 .entry .tagEditor {
   font-size: 17px;
+  margin-right: 1.5em;
 }
 
 .entry .tagEditor a {
   color: #888D93;
-}
-
-.entry .oneColumn .tagEditor {
-  margin-right: 1.5em;
 }
 
 .tagBlock {

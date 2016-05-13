@@ -70,6 +70,7 @@ export default class Entry extends React.Component {
         users={this.props.entry.recommenders}
         onChange={this.props.onChangeRecommending}
         iconName="heart"
+        className="recommenderList"
       />;
 
     const viewerList = <ToggleList
@@ -77,6 +78,7 @@ export default class Entry extends React.Component {
         users={this.props.entry.viewers}
         onChange={this.props.onChangeViewing}
         iconName="check"
+        className="viewerList"
       />;
 
     const tagEditor =
@@ -99,12 +101,14 @@ export default class Entry extends React.Component {
             </div>
             {recommenderList}
             {viewerList}
-            {dates}
             {bottomControls}
           </div>
           <div className="notes">
             {descriptionEditor}
-            {tagEditor}
+            <div className="tagEditorAndDates">
+              {tagEditor}
+              {dates}
+            </div>
           </div>
         </div>
       );
@@ -179,7 +183,7 @@ class ToggleList extends React.Component {
         return <span key={user}>{getUserFirstName(user)}</span>;
       });
     }
-    return (<div className="userToggleList">
+    return (<div className={"userToggleList " + this.props.className}>
       <a href="#" onClick={(event) => {
         this.props.onChange(!isActive);
         event.preventDefault();
