@@ -5,7 +5,8 @@
     "start": "meteor run"
   },
   "dependencies": {
-    "draft-js": "^0.4.0",
+    "draft-js": "^0.7.0",
+    "draft-js-plugins-editor": "^1.0.1",
     "immutable": "^3.7.6",
     "lodash": "^4.11.2",
     "meteor-node-stubs": "~0.2.0",

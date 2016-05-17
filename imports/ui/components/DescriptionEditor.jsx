@@ -33,8 +33,7 @@ export default class DescriptionEditor extends React.Component {
 
   rawContentStateToContentState(rawContentState) {
     if (rawContentState) {
-      const contentBlocks = Draft.convertFromRaw(rawContentState);
-      return ContentState.createFromBlockArray(contentBlocks);
+      return Draft.convertFromRaw(rawContentState);
     } else {
       return ContentState.createFromText("");
     }

@@ -130,6 +130,14 @@ export default class TagEditor extends React.Component {
           stripPastedStyles={true}
           blockRendererFn={tagBlockRenderer}
           blockStyleFn={tagBlockStyle}
+          blockRenderMap={Immutable.Map({
+            'tag': {
+              element: 'span',
+            },
+            'unstyled': {
+              element: 'span',
+            },
+          })}
           placeholder="Tags"
           ref="editor"
           readOnly={this.props.disabled}
