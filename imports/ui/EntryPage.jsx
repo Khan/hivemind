@@ -28,6 +28,11 @@ class EntryPage extends Component {
   }
 
   render() {
+    if (!this.props.ready) {
+      return <span>Loading...</span>;
+    }
+
+    console.log(this.props.entry)
     if (this.props.entry) {
       const { entry, user } = this.props;
       return (
@@ -57,11 +62,12 @@ class EntryPage extends Component {
 export default createContainer((props) => {
   const entryID = props.params.entryID;
 
-  Meteor.subscribe("entry", entryID);
-  Meteor.subscribe("users");
+  const entrySubscription = Meteor.subscribe("entry", entryID);
+  const usersSubscription = Meteor.subscribe("users");
 
   return {
     entry: Entries.findOne(entryID, {transform: materializeEntryUsers}),
     user: Meteor.user(),
+    ready: entrySubscription.ready() && usersSubscription.ready(),
   };
 }, EntryPage);

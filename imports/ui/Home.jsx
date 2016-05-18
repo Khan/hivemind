@@ -35,6 +35,10 @@ class Home extends Component {
   }
 
   render() {
+    if (!this.props.ready) {
+      return <span>Loading...</span>;
+    }
+
     return (
       <div id="pageContainer">
         <header id="siteHeader">
@@ -76,8 +80,8 @@ class Home extends Component {
 }
 
 export default createContainer((props) => {
-  Meteor.subscribe("entries");
-  Meteor.subscribe("users");
+  const entriesSubscription = Meteor.subscribe("entries");
+  const usersSubscription = Meteor.subscribe("users");
 
   const { query } = props.location.query;
   let entries;
@@ -91,5 +95,6 @@ export default createContainer((props) => {
     entries: entries.map(materializeEntryUsers), // TODO: remove eagerness?,
     query: query,
     user: Meteor.user(),
+    ready: entriesSubscription.ready() && usersSubscription.ready(),
   };
 }, Home);
