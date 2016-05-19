@@ -12,7 +12,7 @@ Disclaimers: The project is still very young, and it's probably not useful outsi
 
 First, [install Meteor](https://www.meteor.com/install): `curl https://install.meteor.com/ | sh`
 
-This app connects to Amazon S3 and Google OAuth and requires credentials for both.
+This app requires valid credentials for Amazon S3, Google OAuth, and SMTP.
 
 If you're at Khan Academy, copy the [secrets from Phabricator](https://phabricator.khanacademy.org/K145) into `settings.json` in the root of the project directory. If you're not, modify `settings.template.json` to use your secrets.
 

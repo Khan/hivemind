@@ -9,5 +9,6 @@
     "secret": null,
     "bucket": null,
     "region": null
-  }
+  },
+  "mailURL": "smtp://username:password@host:port"
 }
