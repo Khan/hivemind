@@ -7,7 +7,9 @@ import DescriptionEditor from '../../ui/components/DescriptionEditor.jsx';
 import { getUserFirstName } from '../../user.js';
 
 export function scheduleNewEntryEmail(entryID, userID) {
-  setTimeout(Meteor.bindEnvironment(() => sendNewEntryEmail(entryID, userID)), 6000);
+  // TODO(andy): At some point we'll need to make a real job queue. For now, we'll just do this dumb thing. If the server goes down or whatever, we'll lose the job. That's OK.
+  const halfAnHour = 30 * 60 * 1000;
+  setTimeout(Meteor.bindEnvironment(() => sendNewEntryEmail(entryID, userID)), halfAnHour);
 }
 
 function sendNewEntryEmail(entryID, userID) {
