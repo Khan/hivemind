@@ -10,5 +10,9 @@
     "bucket": null,
     "region": null
   },
-  "mailURL": "smtp://username:password@host:port"
+  "notificationEmails": {
+    "mailURL": "smtp://username:password@host:port",
+    "from": "from@yourdomain.org",
+    "to": "to@yourdomain.org"
+  }
 }
