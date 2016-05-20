@@ -7,7 +7,8 @@ import EntryImage from './EntryImage.jsx';
 import EntryTextField from './EntryTextField.jsx';
 import SourceLink from './SourceLink.jsx';
 import TagEditor from './TagEditor.jsx';
-import {getUserFirstName} from '../../user.js';
+import { getUserFirstName } from '../../user.js';
+import { relativeURLForEntryID } from '../../api/entries/entries.js';
 
 // Represents a single hivemind database entry
 export default class Entry extends React.Component {
@@ -49,7 +50,7 @@ export default class Entry extends React.Component {
       <div className="bottomControls">
         {this.props.disabled ? null : <a href="#" onClick={this.onDelete} className="delete">Delete</a>}
         {hasValidImage ? null : <a href="#" onClick={(e) => {this.refs.dropzone.open(); e.preventDefault()}}>Add Main Image</a>}
-        <Link to={`/entry/${this.props.entry._id}`} className="permalink">Permalink</Link>
+        <Link to={relativeURLForEntryID(this.props.entry._id)} className="permalink">Permalink</Link>
       </div>;
 
     const dates =

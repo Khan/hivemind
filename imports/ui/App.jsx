@@ -2,7 +2,8 @@ import Immutable from 'immutable'
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 
-import { Entries } from '../api/entries.js';
+import { Entries } from '../api/entries/entries.js';
+import '../api/entries/methods.js';
 
 // App component - represents the whole app
 class App extends Component {

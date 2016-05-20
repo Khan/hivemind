@@ -4,7 +4,7 @@ import { IndexLink, Link, browserHistory } from 'react-router';
 
 import EntryList from './components/EntryList.jsx';
 import UserButton from './components/UserButton.jsx';
-import { Entries, EntriesIndex } from '../api/entries.js';
+import { Entries, EntriesIndex } from '../api/entries/entries.js';
 import uploadEntryImage from '../api/client/uploadEntryImage';
 import materializeEntryUsers from '../materializeEntryUsers';
 

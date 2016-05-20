@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 
-import '../imports/api/entries.js';
+import { publishCollections } from '../imports/api/entries/entries.js';
+import configureEntriesMethods from '../imports/api/entries/methods.js';
 import '../imports/api/users.js';
 
 import configureAccounts from '../imports/startup/accounts.js';
@@ -13,5 +14,7 @@ configureS3();
 configureSMTP();
 
 Meteor.startup(() => {
+  publishCollections();
+  configureEntriesMethods();
   configureAccounts();
 });
