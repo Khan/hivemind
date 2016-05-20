@@ -1,10 +1,13 @@
 import { Email } from 'meteor/email';
+import React from 'react';
+import ReactDOM from 'react-dom/server';
 
 import { Entries, relativeURLForEntryID } from '../entries/entries.js';
+import DescriptionEditor from '../../ui/components/DescriptionEditor.jsx';
 import { getUserFirstName } from '../../user.js';
 
 export function scheduleNewEntryEmail(entryID, userID) {
-  setTimeout(() => Meteor.bindEnvironment(() => sendNewEntryEmail(entryID, userID)), 6000);
+  setTimeout(Meteor.bindEnvironment(() => sendNewEntryEmail(entryID, userID)), 6000);
 }
 
 function sendNewEntryEmail(entryID, userID) {
@@ -17,18 +20,29 @@ function sendNewEntryEmail(entryID, userID) {
       subject += ` by ${entry.author}`;
     }
 
-    let titleWithLink = entry.title;
-    if (entry.URL) {
-      titleWithLink = `<a href="${entry.URL}">${entry.title}</a>`;
-    }
+    let sourceLink = entry.URL ? `<p><a href="${entry.URL}">${entry.URL}</a></p>` : '';
+    let tags = (entry.tags && entry.tags.length > 0) ? `<p>${entry.tags.map((tag) => `#${tag}`).join(" ")}</p>` : '';
 
     const entryAbsoluteURL = Meteor.absoluteUrl(relativeURLForEntryID(entry._id));
+
+    let notes = '';
+    if (entry.description) {
+      notes = ReactDOM.renderToString(React.createElement(DescriptionEditor, {
+        value: entry.description,
+        disabled: true
+      }));
+    }
+
+    const html = `<p>${getUserFirstName(user)} <a href="${entryAbsoluteURL}">added ${title} to Hivemind</a>:</p>` +
+      `${sourceLink}${tags}` +
+      `<blockquote>${notes}</blockquote>`;
+    console.log(html);
 
     Email.send({
       from: Meteor.settings.notificationEmails.from,
       to: Meteor.settings.notificationEmails.to,
       subject: subject,
-      html: `<p>${getUserFirstName(user)} <a href="${entryAbsoluteURL}">added notes</a> on ${titleWithLink}:</p><blockquote>${entry.description}</blockquote>`
+      html: html,
     });
   }
 }

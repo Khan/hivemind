@@ -5,12 +5,17 @@ export default (props) => {
 
   let URLLabelNode = null;
   if (currentURL || "" !== "") {
-    const URLObject = new URL(currentURL);
-    URLLabelNode = (
-      <a href={currentURL}>
-        {URLObject.hostname}
-      </a>
-    );
+    try {
+      const URLObject = new URL(currentURL);
+      URLLabelNode = (
+        <a href={currentURL}>
+          {URLObject.hostname}
+        </a>
+      );
+    }
+    catch (ex) {
+      console.error(ex);
+    }
   }
 
   const onClick = (event) => {
