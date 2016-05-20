@@ -16,14 +16,14 @@ function sendNewEntryEmail(entryID, userID) {
   const entry = Entries.findOne(entryID);
   const user = Meteor.users.findOne(userID);
   if (entry && user) {
-    const title = entry.title || "(untitled)";
-    let subject = `[hivemind] New entry: "${title}"`;
+    let titleAndAuthor = `"${entry.title || "(untitled)"}"`;
     if (entry.author) {
-      subject += ` by ${entry.author}`;
+      titleAndAuthor += ` by ${entry.author}`;
     }
+    let subject = `[hivemind] New entry: ${titleAndAuthor}`;
 
-    let sourceLink = entry.URL ? `<p><a href="${entry.URL}">${entry.URL}</a></p>` : '';
-    let tags = (entry.tags && entry.tags.length > 0) ? `<p>${entry.tags.map((tag) => `#${tag}`).join(" ")}</p>` : '';
+    let sourceLink = entry.URL ? `<p>Original URL: <a href="${entry.URL}">${entry.URL}</a></p>` : '';
+    let tags = (entry.tags && entry.tags.length > 0) ? `<p>Tags: ${entry.tags.map((tag) => `#${tag}`).join(" ")}</p>` : '';
 
     const entryAbsoluteURL = Meteor.absoluteUrl(relativeURLForEntryID(entry._id));
 
@@ -35,7 +35,7 @@ function sendNewEntryEmail(entryID, userID) {
       }));
     }
 
-    const html = `<p>${getUserFirstName(user)} <a href="${entryAbsoluteURL}">added ${title} to Hivemind</a>:</p>` +
+    const html = `<p>${getUserFirstName(user)} <a href="${entryAbsoluteURL}">added ${titleAndAuthor} to Hivemind</a>:</p>` +
       `${sourceLink}${tags}` +
       `<blockquote>${notes}</blockquote>`;
 
