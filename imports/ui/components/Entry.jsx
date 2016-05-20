@@ -176,7 +176,7 @@ export default class Entry extends React.Component {
 class ToggleList extends React.Component {
   render() {
     const {users, currentUser} = this.props;
-    const isActive = users ? users.find((user) => user._id === currentUser._id) : false;
+    const isActive = (users && currentUser) ? users.find((user) => user._id === currentUser._id) : false;
 
     let names = <span className="noActiveUsers">No one</span>;
     if (users && users.length > 0) {
@@ -184,11 +184,17 @@ class ToggleList extends React.Component {
         return <span key={user}>{getUserFirstName(user)}</span>;
       });
     }
-    return (<div className={"userToggleList " + this.props.className}>
+
+    const iconImage = <img src={`/images/${this.props.iconName}_${isActive ? "active" : "inactive"}.png`} />;
+    const icon = currentUser ? (
       <a href="#" onClick={(event) => {
         this.props.onChange(!isActive);
         event.preventDefault();
-      }}><img src={`/images/${this.props.iconName}_${isActive ? "active" : "inactive"}.png`} /></a>
+      }}>{iconImage}</a>
+    ) : iconImage;
+
+    return (<div className={"userToggleList " + this.props.className}>
+      {icon}
       {names}
     </div>);
   }
