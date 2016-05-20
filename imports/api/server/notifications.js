@@ -38,7 +38,6 @@ function sendNewEntryEmail(entryID, userID) {
     const html = `<p>${getUserFirstName(user)} <a href="${entryAbsoluteURL}">added ${title} to Hivemind</a>:</p>` +
       `${sourceLink}${tags}` +
       `<blockquote>${notes}</blockquote>`;
-    console.log(html);
 
     Email.send({
       from: Meteor.settings.notificationEmails.from,
