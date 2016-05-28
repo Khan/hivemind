@@ -1,0 +1,43 @@
+.draftJsEmojiPlugin__imageWrapper__o63QA {
+  height: auto;
+  position: relative;
+  display: block;
+  z-index: 1;
+}
+
+.draftJsEmojiPlugin__imageButton__IvvDa {
+  background: #D9D9D9;
+  color: #FFF;
+  margin: 0;
+  padding: 0.5em;
+  border: none;
+  border-radius: 50%;
+  line-height: 80%;
+  position: absolute;
+  font-size: 0.62em;
+  margin-left: -0.825em;
+  cursor: pointer;
+  z-index: 1000;
+}
+
+.draftJsEmojiPlugin__imageButton__IvvDa:hover {
+  background: #E4E4E4;
+}
+
+.draftJsEmojiPlugin__imageButton__IvvDa:active {
+  background: #CECECE;
+  color: #EFEFEF;
+}
+
+.draftJsEmojiPlugin__image__1gkdB {
+}
+
+.draftJsEmojiPlugin__imageLoader__1rOmo{
+  position: absolute;
+  right: 0;
+  top: 0;
+  height: 100%;
+  background-color: white;
+  -webkit-transition: width 0.5s ease 0s;
+  transition: width 0.5s ease 0s;
+}

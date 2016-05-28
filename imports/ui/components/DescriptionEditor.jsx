@@ -1,7 +1,62 @@
-import Draft, {Editor, EditorState, ContentState} from 'draft-js';
+import Draft, {EditorState, ContentState} from 'draft-js';
+import createAlignmentPlugin, { AlignmentDecorator } from 'draft-js-alignment-plugin';
+import createCleanupEmptyPlugin from 'draft-js-cleanup-empty-plugin';
+import createDndPlugin, { DraggableDecorator } from 'draft-js-dnd-plugin';
+import addBlock from 'draft-js-dnd-plugin/lib/modifiers/addBlock.js';
+import createEntityPropsPlugin from 'draft-js-entity-props-plugin';
+import createFocusPlugin, { FocusDecorator } from 'draft-js-focus-plugin';
+import createImagePlugin, { imageCreator, imageStyles } from 'draft-js-image-plugin';
+import Editor from 'draft-js-plugins-editor-wysiwyg';
+import createResizeablePlugin, { ResizeableDecorator } from 'draft-js-resizeable-plugin';
+import createToolbarPlugin, { ToolbarDecorator } from 'draft-js-toolbar-plugin';
 import Immutable from 'immutable';
 import Lodash from 'lodash';
 import React from 'react';
+
+const imageComponent = ResizeableDecorator({
+  resizeSteps: 10,
+  handles: true,
+  vertical: 'auto'
+})(
+  DraggableDecorator(
+    FocusDecorator(
+      AlignmentDecorator(
+        ToolbarDecorator()(
+          imageCreator({ theme: imageStyles })
+        )
+      )
+    )
+  )
+);
+
+// Init Plugins
+const plugins = [
+  createCleanupEmptyPlugin({
+    types: ['block-image']
+  }),
+  createEntityPropsPlugin({ }),
+  createToolbarPlugin({}),
+  createFocusPlugin({}),
+  createAlignmentPlugin({}),
+  createDndPlugin({
+    allowDrop: true,
+    handleUpload: (data, success, failed, progress) =>
+      console.log("UPLOAD"),
+    handlePlaceholder: (state, selection, data) => {
+      const { type } = data;
+      if (type.indexOf('image/') === 0) {
+        return 'block-image';
+      } return undefined;
+    }, handleBlock: (state, selection, data) => {
+      const { type } = data;
+      if (type.indexOf('image/') === 0) {
+        return 'block-image';
+      } return undefined;
+    },
+  }),
+  createResizeablePlugin({}),
+  createImagePlugin({ component: imageComponent }),
+];
 
 export default class DescriptionEditor extends React.Component {
   constructor(props) {
@@ -59,6 +114,7 @@ export default class DescriptionEditor extends React.Component {
           handleKeyCommand={this.handleKeyCommand}
           placeholder="Notes, quotes, takeaways…"
           ref="editor"
+          plugins={plugins}
           readOnly={this.props.disabled}
         />
       </div>
