@@ -1,0 +1,3 @@
+[submodule "packages/draft-js-plugins"]
+	path = packages/draft-js-plugins
+	url = https://github.com/Khan/draft-js-plugins.git
