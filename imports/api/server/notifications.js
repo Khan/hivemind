@@ -20,7 +20,7 @@ function sendNewEntryEmail(entryID, userID) {
     if (entry.author) {
       titleAndAuthor += ` by ${entry.author}`;
     }
-    let subject = `[hivemind] New entry: ${titleAndAuthor}`;
+    let subject = `[hivemind] New entry discussion thread: ${titleAndAuthor}`;
 
     let sourceLink = entry.URL ? `<p>Original URL: <a href="${entry.URL}">${entry.URL}</a></p>` : '';
     let tags = (entry.tags && entry.tags.length > 0) ? `<p>Tags: ${entry.tags.map((tag) => `#${tag}`).join(" ")}</p>` : '';
@@ -35,7 +35,7 @@ function sendNewEntryEmail(entryID, userID) {
       }));
     }
 
-    const html = `<p>${getUserFirstName(user)} <a href="${entryAbsoluteURL}">added ${titleAndAuthor} to Hivemind</a>:</p>` +
+    const html = `<p>${getUserFirstName(user)} <a href="${entryAbsoluteURL}">added ${titleAndAuthor} to Hivemind</a>. Please reply to this thread with comments, thoughts, and discussion; or add to the entry if you have notes on the thing itself!</p>` +
       `${sourceLink}${tags}` +
       `<blockquote>${notes}</blockquote>`;
 
