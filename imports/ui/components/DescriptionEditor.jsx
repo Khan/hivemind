@@ -1,9 +1,8 @@
-import Draft, {EditorState, ContentState, DefaultDraftBlockRenderMap} from 'draft-js';
+import Draft, {EditorState, ContentState} from 'draft-js';
 import createAlignmentPlugin, { AlignmentDecorator } from 'draft-js-alignment-plugin';
 import createCleanupEmptyPlugin from 'draft-js-cleanup-empty-plugin';
 import createDndPlugin, { DraggableDecorator } from 'draft-js-dnd-plugin';
 import addBlock from 'draft-js-dnd-plugin/lib/modifiers/addBlock.js';
-import { readFile } from 'draft-js-dnd-plugin/lib/utils/file.js';
 import createEntityPropsPlugin from 'draft-js-entity-props-plugin';
 import createFocusPlugin, { FocusDecorator } from 'draft-js-focus-plugin';
 import createImagePlugin, { imageCreator, imageStyles } from 'draft-js-image-plugin';
@@ -41,49 +40,9 @@ const plugins = [
   createAlignmentPlugin({}),
   createDndPlugin({
     allowDrop: true,
-    handleUpload: (data, success, failed, progress) => {
-      // TODO(andy): Extract all this!
-      
-      const uploadID = new Date();
-      const uploadOperations = data.files.map(file => {
-        return new Promise((resolve, reject) => {
-          S3.upload({
-            files: [file],
-            path: "noteImages",
-            uploader: uploadID,
-          }, (error, result) => {
-            if (error) {
-              reject(error);
-            } else {
-              // It shouldn't be necessary to read the file here, but draft-js-dnd-plugin's API surface requires the src argument here, which we can't get any other way...
-              readFile(file).then(Meteor.bindEnvironment(localFileData => {
-                resolve({
-                  name: result.file.name,
-                  size: result.file.size,
-                  type: result.file.type,
-                  url: result.secure_url,
-                  src: localFileData.src,
-                });
-              }));
-            }
-          });
-        });
-      });
-
-      const progressObserver = Tracker.autorun(() => {
-        totalProgress = S3.collection.find({uploader: uploadID}).fetch().reduce((accumulator, file) => {
-          return accumulator + file.percent_uploaded;
-        }, 0);
-        progress(totalProgress / data.files.length);
-      });
-
-      Promise.all(uploadOperations).then((uploadedFiles) => {
-        success(uploadedFiles);
-        progressObserver.stop();
-      }, () => {
-        progressObserver.stop();
-      });
-    }, handlePlaceholder: (state, selection, data) => {
+    handleUpload: (data, success, failed, progress) =>
+      console.log("UPLOAD"),
+    handlePlaceholder: (state, selection, data) => {
       const { type } = data;
       if (type.indexOf('image/') === 0) {
         return 'block-image';
@@ -96,7 +55,7 @@ const plugins = [
     },
   }),
   createResizeablePlugin({}),
-  createImagePlugin({ component: imageComponent, type: "block-image" }),
+  createImagePlugin({ component: imageComponent }),
 ];
 
 export default class DescriptionEditor extends React.Component {
@@ -125,18 +84,6 @@ export default class DescriptionEditor extends React.Component {
         return false;
       }
     }
-
-    this.blockRenderMap = DefaultDraftBlockRenderMap.merge(Immutable.Map({
-      'paragraph': {
-        element: 'div',
-      },
-      'unstyled': {
-        element: 'div',
-      },
-      'block-image': {
-        element: 'div',
-      },
-    }));
   }
 
   rawContentStateToContentState(rawContentState) {
@@ -163,7 +110,6 @@ export default class DescriptionEditor extends React.Component {
       <div onClick={this.onFocus} className="descriptionEditor">
         <Editor
           editorState={this.state.editorState}
-          blockRenderMap={this.blockRenderMap}
           onChange={this.onChange}
           handleKeyCommand={this.handleKeyCommand}
           placeholder="Notes, quotes, takeaways…"
