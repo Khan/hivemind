@@ -8,7 +8,6 @@
     "draft-js": "^0.7.0",
     "draft-js-alignment-plugin": "^1.0.3",
     "draft-js-cleanup-empty-plugin": "^1.0.2",
-    "draft-js-plugins-editor": "file:./packages/draft-js-plugins",
     "draft-js-dnd-plugin": "file:./packages/draft-js-plugins/draft-js-dnd-plugin",
     "draft-js-entity-props-plugin": "^1.0.2",
     "draft-js-focus-plugin": "^1.0.11",
