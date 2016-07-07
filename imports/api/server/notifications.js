@@ -20,7 +20,7 @@ function sendNewEntryEmail(entryID, userID) {
     if (entry.author) {
       titleAndAuthor += ` by ${entry.author}`;
     }
-    let subject = `[hivemind] New entry discussion thread: ${titleAndAuthor}`;
+    let subject = `[hivemind] ${titleAndAuthor} - Discussion Thread`;
 
     let sourceLink = entry.URL ? `<p>Original URL: <a href="${entry.URL}">${entry.URL}</a></p>` : '';
     let tags = (entry.tags && entry.tags.length > 0) ? `<p>Tags: ${entry.tags.map((tag) => `#${tag}`).join(" ")}</p>` : '';
