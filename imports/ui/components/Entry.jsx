@@ -181,7 +181,7 @@ class ToggleList extends React.Component {
     let names = <span className="noActiveUsers">No one</span>;
     if (users && users.length > 0) {
       names = users.map((user) => {
-        return <span key={user}>{getUserFirstName(user)}</span>;
+        return <span key={user._id}>{getUserFirstName(user)}</span>;
       });
     }
 
