@@ -125,6 +125,7 @@ export default class TagEditor extends React.Component {
         <Editor
           editorState={this.state.editorState}
           handleReturn={this.handleReturn}
+          onTab={this.handleReturn}
           handlePastedText={this.handlePastedInput}
           onChange={this.onChange}
           stripPastedStyles={true}
