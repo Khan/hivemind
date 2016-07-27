@@ -24,3 +24,4 @@ accounts-base
 accounts-google
 service-configuration
 email
+force-ssl
