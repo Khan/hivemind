@@ -178,7 +178,7 @@ class ToggleList extends React.Component {
     const {users, currentUser} = this.props;
     const isActive = (users && currentUser) ? users.find((user) => user._id === currentUser._id) : false;
 
-    let names = <span className="noActiveUsers">No one</span>;
+    let names = <span className="noActiveUsers">No one yet</span>;
     if (users && users.length > 0) {
       names = users.map((user) => {
         return <span key={user._id}>{getUserFirstName(user)}</span>;
