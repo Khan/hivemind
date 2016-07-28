@@ -2,6 +2,7 @@ import Draft, {Editor, EditorState, ContentState} from 'draft-js';
 import { Link } from 'react-router';
 import React from 'react';
 import Immutable from 'immutable';
+import URLSearchParams from 'url-search-params';
 
 export default class TagEditor extends React.Component {
   constructor(props) {
@@ -150,8 +151,12 @@ export default class TagEditor extends React.Component {
 
 const Tag = (props) => {
   const tagName = props.blockProps.name;
-  let newURL = new URL(document.location.origin);
-  newURL.searchParams.set("query", `#"${tagName}"`);
+
+  const params = new URLSearchParams();
+  params.set("query", `#"${tagName}"`);
+
+  const newURL = new URL(document.location.origin);
+  newURL.search = params.toString();
   return <span style={{
       color: "#999",
       padding: "0px 0px"

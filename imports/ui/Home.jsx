@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { IndexLink, Link, browserHistory } from 'react-router';
+import URLSearchParams from 'url-search-params';
 
 import EntryList from './components/EntryList.jsx';
 import UserButton from './components/UserButton.jsx';
@@ -51,12 +52,17 @@ class Home extends Component {
             onChange={(event) => {
               const wasEmpty = (this.props.query || "") === "";
               const nowEmpty = event.target.value == "";
+
               let newURL = new URL(document.location);
+              const params = new URLSearchParams(newURL.search.slice(1));
+              console.log(params);
               if (nowEmpty) {
-                newURL.searchParams.delete("query");
+                params.delete("query");
               } else {
-                newURL.searchParams.set("query", nowEmpty ? "" : event.target.value);
+                params.set("query", nowEmpty ? "" : event.target.value);
               }
+
+              newURL.search = params.toString();
               browserHistory.replace(newURL.toString());
             }}
           />
