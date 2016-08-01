@@ -72,7 +72,7 @@ export default function () {
         throw new Meteor.Error("Entries.methods.startDiscussionThread.alreadyStarted", "Discussion thread has already been started.");
       } else {
         if (Meteor.isServer) {
-          Notifications.sendNewEntryEmail(entryID, this.userId);
+          Notifications.sendNewEntryEmail(entryID);
         }
         Entries.update(entryID, {$set: {mailingListID: entryID}});
       }

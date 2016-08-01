@@ -4,17 +4,11 @@ import ReactDOM from 'react-dom/server';
 
 import { Entries, relativeURLForEntryID } from '../entries/entries.js';
 import DescriptionEditor from '../../ui/components/DescriptionEditor.jsx';
-import { getUserFirstName } from '../../user.js';
 
-export function sendNewEntryEmail(entryID, userID) {
+export function sendNewEntryEmail(entryID) {
   const entry = Entries.findOne(entryID);
   if (!entry) {
     throw new Meteor.Error("Notifications.sendNewEntryEmail.unknownEntry", `Unknown entry ${entryID}`);
-  }
-
-  const user = Meteor.users.findOne(userID);
-  if (!user) {
-    throw new Meteor.Error("Notifications.sendNewEntryEmail.unknownUser", `Unknown user ${userID}`);
   }
 
   let titleAndAuthor = `"${entry.title || "(untitled)"}"`;
@@ -37,7 +31,7 @@ export function sendNewEntryEmail(entryID, userID) {
     }));
   }
 
-  const html = `<p>${getUserFirstName(user)} <a href="${entryAbsoluteURL}">added ${titleAndAuthor} to Hivemind</a>. Please reply to this thread with comments, thoughts, and discussion; or add to the entry if you have notes on the thing itself!</p>` +
+  const html = `<p><a href="${entryAbsoluteURL}">${titleAndAuthor} was added to Hivemind</a>. Please reply to this thread with comments, thoughts, and discussion; or add to the entry if you have notes on the thing itself!</p>` +
     `${sourceLink}${tags}` +
     `<blockquote>${notes}</blockquote><p>Search ID: ${entryID}</p>`;
 
