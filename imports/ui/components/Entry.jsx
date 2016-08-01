@@ -49,7 +49,7 @@ export default class Entry extends React.Component {
     let mailingListLink;
     if (this.props.entry.mailingListID) {
       const nameForMailingListLink = this.props.entry.mailingListID.replace(" ", "$20");
-      const mailingListURL = `https://groups.google.com/a/khanacademy.org/forum/#!searchin/long-term-research-team/%5Bhivemind%5D$20Discussion$20Thread$20${nameForMailingListLink}`;
+      const mailingListURL = `https://groups.google.com/a/khanacademy.org/forum/#!searchin/long-term-research-team/%5Bhivemind%5D$20${nameForMailingListLink}`;
       mailingListLink = <a href={mailingListURL}>Discussion Thread</a>;
     } else {
       mailingListLink = <a href="#" className="startDiscussionThread" onClick={(e) => {this.props.onStartDiscussionThread(); e.preventDefault()}}>Start Discussion Thread</a>;
