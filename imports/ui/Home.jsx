@@ -35,6 +35,10 @@ class Home extends Component {
     Meteor.call("entry.updateViewer", {entryID: entryID, isNewlyViewing: isNewlyViewing});
   }
 
+  startDiscussionThread(entryID) {
+    Meteor.call("entry.startDiscussionThread", {entryID: entryID});
+  }
+
   render() {
     if (!this.props.ready) {
       return <span>Loading...</span>;
@@ -77,6 +81,7 @@ class Home extends Component {
             onChangeRecommending={this.changeRecommending}
             onChangeViewing={this.changeViewing}
             onDropImage={uploadEntryImage}
+            onStartDiscussionThread={this.startDiscussionThread}
             disabled={this.props.user === null}
           />
         </div>

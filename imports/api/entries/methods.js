@@ -14,10 +14,6 @@ export default function () {
         updatedAt: new Date(),
         tags: tags
       });
-
-      if (Meteor.isServer) {
-        Notifications.scheduleNewEntryEmail(entryID, this.userId);
-      }
     },
 
     "entry.update"({entryID, newEntry}) {
@@ -65,6 +61,20 @@ export default function () {
         Entries.update(entryID, {$addToSet: {viewers: this.userId}});
       } else {
         Entries.update(entryID, {$pull: {viewers: this.userId}});
+      }
+    },
+
+    "entry.startDiscussionThread"({entryID}) {
+      if (!this.userId) { throw new Meteor.Error('not-authorized'); }
+
+      const entry = Entries.findOne(entryID);
+      if (entry.mailingListID) {
+        throw new Meteor.Error("Entries.methods.startDiscussionThread.alreadyStarted", "Discussion thread has already been started.");
+      } else {
+        if (Meteor.isServer) {
+          Notifications.sendNewEntryEmail(entryID, this.userId);
+        }
+        Entries.update(entryID, {$set: {mailingListID: entryID}});
       }
     },
   });

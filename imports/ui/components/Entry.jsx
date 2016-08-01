@@ -46,11 +46,21 @@ export default class Entry extends React.Component {
   render() {
     const hasValidImage = (this.props.entry.imageURL || "") !== "";
 
+    let mailingListLink;
+    if (this.props.entry.mailingListID) {
+      const nameForMailingListLink = this.props.entry.mailingListID.replace(" ", "$20");
+      const mailingListURL = `https://groups.google.com/a/khanacademy.org/forum/#!searchin/long-term-research-team/%5Bhivemind%5D$20Discussion$20Thread$20${nameForMailingListLink}`;
+      mailingListLink = <a href={mailingListURL}>Discussion Thread</a>;
+    } else {
+      mailingListLink = <a href="#" className="startDiscussionThread" onClick={(e) => {this.props.onStartDiscussionThread(); e.preventDefault()}}>Start Discussion Thread</a>;
+    }
+
     const bottomControls =
       <div className="bottomControls">
         {this.props.disabled ? null : <a href="#" onClick={this.onDelete} className="delete">Delete</a>}
         {hasValidImage ? null : <a href="#" onClick={(e) => {this.refs.dropzone.open(); e.preventDefault()}}>Add Main Image</a>}
         <Link to={relativeURLForEntryID(this.props.entry._id)} className="permalink">Permalink</Link>
+        {mailingListLink}
       </div>;
 
     const dates =

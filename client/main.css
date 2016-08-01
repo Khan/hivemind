@@ -177,6 +177,12 @@ a:hover {
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.entry .leftColumn .bottomControls a {
+  flex: 0 0 auto;
 }
 
 .entry .bottomControls a {
@@ -201,6 +207,10 @@ a:hover {
 .entry .bottomControls {
   font-size: 15px;
   margin-top: 1em;
+}
+
+.entry .bottomControls .startDiscussionThread {
+  color: #199CC1;
 }
 
 .entry .dates {

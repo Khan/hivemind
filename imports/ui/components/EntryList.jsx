@@ -13,6 +13,7 @@ export default (props) => (
         onDropImage={(files, callback) => props.onDropImage(entry._id, files, callback) }
         onChangeRecommending={(isNewlyRecommending) => props.onChangeRecommending(entry._id, isNewlyRecommending)}
         onChangeViewing={(isNewlyViewing) => props.onChangeViewing(entry._id, isNewlyViewing)}
+        onStartDiscussionThread={() => {props.onStartDiscussionThread(entry._id)}}
         disabled={props.disabled}
       />
     ))}
