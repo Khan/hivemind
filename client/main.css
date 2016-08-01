@@ -173,10 +173,11 @@ a:hover {
 }
 
 .entry .leftColumn .bottomControls {
-  flex: 1 0 auto;
+  flex: 0 0 auto;
   display: flex;
   align-items: flex-end;
   justify-content: flex-start;
+  margin-top: auto;
   flex-direction: row;
   flex-wrap: wrap;
 }
