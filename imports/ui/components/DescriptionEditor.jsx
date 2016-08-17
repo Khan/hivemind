@@ -68,7 +68,7 @@ export default class DescriptionEditor extends React.Component {
     this.propagateChange = Lodash.debounce(() => {
       const rawContentState = Draft.convertToRaw(this.state.editorState.getCurrentContent());
       this.props.onChange(rawContentState)
-    }, 300);
+    }, 3000);
 
     this.onChange = (editorState) => {
       this.setState({editorState});

@@ -43,6 +43,16 @@ export default class Entry extends React.Component {
     };
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState !== this.state) {
+      console.log(`Updating entry ${nextProps.entry.title} due to changed state`);
+      return true;
+    } else {
+      return nextProps.entry.updatedAt.getTime() !== this.props.entry.updatedAt.getTime() ||
+        nextProps.disabled !== this.props.disabled;
+    }
+  }
+
   render() {
     const hasValidImage = (this.props.entry.imageURL || "") !== "";
 
