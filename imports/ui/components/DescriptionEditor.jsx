@@ -94,13 +94,15 @@ export default class DescriptionEditor extends React.Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    return nextState !== this.state || nextProps.disabled !== this.props.disabled;
+  }
+
   componentWillReceiveProps(nextProps) {
-    const newContentState = this.rawContentStateToContentState(nextProps.value);
     const {editorState} = this.state;
-    if (
-      !editorState.getSelection().hasFocus &&
-      !Immutable.is(newContentState.getBlockMap(), editorState.getCurrentContent().getBlockMap()))
-    {
+    const newContentState = this.rawContentStateToContentState(nextProps.value);
+    if (!editorState.getSelection().hasFocus &&
+      !newContentState.getBlockMap().equals(editorState.getCurrentContent().getBlockMap())) {
       this.setState({editorState: EditorState.push(editorState, newContentState)});
     }
   }
