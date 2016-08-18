@@ -12,7 +12,8 @@
   },
   "notificationEmails": {
     "mailURL": "smtp://username:password@host:port",
-    "from": "from@yourdomain.org",
-    "to": "to@yourdomain.org"
+    "from": "a-robot@yourdomain.org",
+    "to": "some-mailing-list@yourdomain.org",
+    "replyTo": "perhaps-some-other-mailing-list@yourdomain.org"
   }
 }

@@ -38,6 +38,7 @@ export function sendNewEntryEmail(entryID) {
   Email.send({
     from: Meteor.settings.notificationEmails.from,
     to: Meteor.settings.notificationEmails.to,
+    replyTo: Meteor.settings.notificationEmails.replyTo,
     subject: subject,
     html: html,
   });
