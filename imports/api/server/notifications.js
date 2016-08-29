@@ -19,6 +19,7 @@ export function sendNewEntryEmail(entryID) {
 
   let sourceLink = entry.URL ? `<p>Original URL: <a href="${entry.URL}">${entry.URL}</a></p>` : '';
   let tags = (entry.tags && entry.tags.length > 0) ? `<p>Tags: ${entry.tags.map((tag) => `#${tag}`).join(" ")}</p>` : '';
+  let image = (entry.imageURL) ? `<p><img src="${entry.imageURL}" /></p>` : '';
 
   const entryAbsoluteURL = Meteor.absoluteUrl(relativeURLForEntryID(entry._id));
 
@@ -32,7 +33,7 @@ export function sendNewEntryEmail(entryID) {
   }
 
   const html = `<p><a href="${entryAbsoluteURL}">${titleAndAuthor} was added to Hivemind</a>. Please reply to this thread with comments, thoughts, and discussion; or add to the entry if you have notes on the thing itself!</p>` +
-    `${sourceLink}${tags}` +
+    `${sourceLink}${tags}${image}` +
     `<blockquote>${notes}</blockquote><p>Search ID: ${entryID}</p>`;
 
   Email.send({
