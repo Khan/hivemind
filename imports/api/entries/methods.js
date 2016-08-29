@@ -35,7 +35,10 @@ export default function () {
     "entry.setImage"({entryID, imageURL}) {
       if (!this.userId) { throw new Meteor.Error('not-authorized'); }
 
-      Entries.update(entryID, {$set: {imageURL}});
+      Entries.update(entryID, {$set: {
+        imageURL,
+        updatedAt: new Date(),
+      }});
     },
 
     "entry.remove"({entryID}) {
@@ -52,6 +55,7 @@ export default function () {
       } else {
         Entries.update(entryID, {$pull: {recommenders: this.userId}});
       }
+      Entries.update(entryID, {$set: {updatedAt: new Date()}});
     },
 
     "entry.updateViewer"({entryID, isNewlyViewing}) {
@@ -62,6 +66,7 @@ export default function () {
       } else {
         Entries.update(entryID, {$pull: {viewers: this.userId}});
       }
+      Entries.update(entryID, {$set: {updatedAt: new Date()}});
     },
 
     "entry.startDiscussionThread"({entryID}) {
@@ -74,7 +79,10 @@ export default function () {
         if (Meteor.isServer) {
           Notifications.sendNewEntryEmail(entryID);
         }
-        Entries.update(entryID, {$set: {mailingListID: entryID}});
+        Entries.update(entryID, {$set: {
+          mailingListID: entryID,
+          updatedAt: new Date(),
+        }});
       }
     },
   });
