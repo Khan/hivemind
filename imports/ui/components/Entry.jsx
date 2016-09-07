@@ -62,7 +62,11 @@ export default class Entry extends React.Component {
       const mailingListURL = `https://groups.google.com/a/khanacademy.org/forum/#!searchin/long-term-research-team/%5Bhivemind%5D$20${nameForMailingListLink}`;
       mailingListLink = <a href={mailingListURL}>Discussion Thread</a>;
     } else {
-      mailingListLink = <a href="#" className="startDiscussionThread" onClick={(e) => {this.props.onStartDiscussionThread(); e.preventDefault()}}>Start Discussion Thread</a>;
+      if (this.props.disabled) {
+        mailingListLink = null;
+      } else {
+        mailingListLink = <a href="#" className="startDiscussionThread" onClick={(e) => {this.props.onStartDiscussionThread(); e.preventDefault()}}>Start Discussion Thread</a>;
+      }
     }
 
     const bottomControls =
