@@ -1,3 +1,4 @@
+import Path from 'path';
 import React from 'react';
 
 export default (props) => {
@@ -7,9 +8,16 @@ export default (props) => {
   if (currentURL || "" !== "") {
     try {
       const URLObject = new URL(currentURL);
+      const extension = Path.extname(URLObject.pathname);
+      let annotation;
+      if (extension) {
+        annotation = extension.substring(1).toUpperCase();
+      } else {
+        annotation = URLObject.hostname;
+      }
       URLLabelNode = (
         <a href={currentURL}>
-          {URLObject.hostname}
+          View reference [{annotation}]
         </a>
       );
     }
