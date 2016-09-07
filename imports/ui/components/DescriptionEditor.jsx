@@ -66,10 +66,10 @@ export default class DescriptionEditor extends React.Component {
     this.onFocus = () => this.refs.editor.focus();
 
     this.propagateChange = Lodash.debounce(() => {
-      const rawContentState = Draft.convertToRaw(this.state.editorState.getCurrentContent());
-      const oldRawContentState = this.rawContentStateToContentState(this.props.value);
-      if (!rawContentState.equals(oldRawContentState)) {
-        this.props.onChange(rawContentState);
+      const currentContentState = this.state.editorState.getCurrentContent();
+      const oldContentState = this.rawContentStateToContentState(this.props.value);
+      if (!currentContentState.equals(oldContentState)) {
+        this.props.onChange(Draft.convertToRaw(currentContentState));
       }
     }, 3000);
 
