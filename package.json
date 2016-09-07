@@ -12,6 +12,7 @@
     "draft-js-entity-props-plugin": "^1.0.2",
     "draft-js-focus-plugin": "^1.0.11",
     "draft-js-image-plugin": "^1.0.3",
+    "draft-js-linkify-plugin": "^1.0.1",
     "draft-js-plugins-editor-wysiwyg": "^1.0.3",
     "draft-js-resizeable-plugin": "^1.0.8",
     "draft-js-toolbar-plugin": "^1.0.5",

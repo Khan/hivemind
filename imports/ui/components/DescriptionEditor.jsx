@@ -6,6 +6,7 @@ import addBlock from 'draft-js-dnd-plugin/lib/modifiers/addBlock.js';
 import createEntityPropsPlugin from 'draft-js-entity-props-plugin';
 import createFocusPlugin, { FocusDecorator } from 'draft-js-focus-plugin';
 import createImagePlugin, { imageCreator, imageStyles } from 'draft-js-image-plugin';
+import createLinkifyPlugin from 'draft-js-linkify-plugin';
 import Editor from 'draft-js-plugins-editor-wysiwyg';
 import createResizeablePlugin, { ResizeableDecorator } from 'draft-js-resizeable-plugin';
 import createToolbarPlugin, { ToolbarDecorator } from 'draft-js-toolbar-plugin';
@@ -54,6 +55,7 @@ const plugins = [
       } return undefined;
     },
   }),
+  createLinkifyPlugin(),
   createResizeablePlugin({}),
   createImagePlugin({ component: imageComponent }),
 ];
