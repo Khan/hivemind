@@ -5,7 +5,7 @@ export default (props) => {
   const currentURL = props.URL;
 
   let URLLabelNode = null;
-  if (currentURL || "" !== "") {
+  if (currentURL && currentURL !== "") {
     try {
       const URLObject = new URL(currentURL);
       const extension = Path.extname(URLObject.pathname);

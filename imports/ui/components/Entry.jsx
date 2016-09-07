@@ -28,7 +28,7 @@ export default class Entry extends React.Component {
     };
 
     this.onChangeURL = (newURL) => {
-      this.props.onChange({...this.props.entry, URL: newURL});
+      this.props.onChangeURL(newURL);
     };
 
     this.onChangeTags = (newTags) => {

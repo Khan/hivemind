@@ -14,7 +14,7 @@ class Home extends Component {
   constructor(props) {
     super(props);
     this.addEntry = () => {
-      // TODO: Reimplement this feature for unified search
+      // TODO: Reimplement the tag-dependent creation feature for unified search.
       Meteor.call("entry.create", {tags: []});
     }
   }
@@ -33,6 +33,10 @@ class Home extends Component {
 
   changeViewing(entryID, isNewlyViewing) {
     Meteor.call("entry.updateViewer", {entryID: entryID, isNewlyViewing: isNewlyViewing});
+  }
+
+  changeURL(entryID, newURL) {
+    Meteor.call("entry.setURL", {entryID: entryID, URL: newURL});
   }
 
   startDiscussionThread(entryID) {
@@ -80,6 +84,7 @@ class Home extends Component {
             onDeleteEntry={this.deleteEntry}
             onChangeRecommending={this.changeRecommending}
             onChangeViewing={this.changeViewing}
+            onChangeURL={this.changeURL}
             onDropImage={uploadEntryImage}
             onStartDiscussionThread={this.startDiscussionThread}
             disabled={this.props.user === null}

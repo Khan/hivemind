@@ -27,6 +27,14 @@ class EntryPage extends Component {
     Meteor.call("entry.updateViewer", {entryID: entryID, isNewlyViewing: isNewlyViewing});
   }
 
+  changeURL(entryID, newURL) {
+    Meteor.call("entry.setURL", {entryID: entryID, URL: newURL});
+  }
+
+  startDiscussionThread(entryID) {
+    Meteor.call("entry.startDiscussionThread", {entryID: entryID});
+  }
+
   render() {
     if (!this.props.ready) {
       return <span>Loading...</span>;
@@ -47,8 +55,10 @@ class EntryPage extends Component {
             onChange={this.updateEntry}
             onChangeRecommending={(isNewlyRecommending) => this.changeRecommending(entry._id, isNewlyRecommending)}
             onChangeViewing={(isNewlyViewing) => this.changeViewing(entry._id, isNewlyViewing)}
+            onChangeURL={this.changeURL}
             onDelete={() => this.deleteEntry(entry._id)}
             onDropImage={(files, callback) => {uploadEntryImage(entry._id, files, callback)}}
+            onStartDiscussionThread={this.startDiscussionThread}
             disabled={this.props.user === null}
           />
         </div>
