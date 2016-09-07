@@ -1,9 +1,9 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
-import { IndexLink, Link, browserHistory } from 'react-router';
-import URLSearchParams from 'url-search-params';
+import { IndexLink, browserHistory } from 'react-router';
 
 import EntryList from './components/EntryList.jsx';
+import SearchField from './components/SearchField.jsx';
 import UserButton from './components/UserButton.jsx';
 import { Entries, EntriesIndex } from '../api/entries/entries.js';
 import uploadEntryImage from '../api/client/uploadEntryImage';
@@ -52,28 +52,7 @@ class Home extends Component {
       <div id="pageContainer">
         <header id="siteHeader">
           <h1><IndexLink to="/">Hivemind</IndexLink></h1>
-          <input
-            type="search"
-            placeholder="Search"
-            className="search"
-            value={this.props.query || ""}
-            onChange={(event) => {
-              const wasEmpty = (this.props.query || "") === "";
-              const nowEmpty = event.target.value == "";
-
-              let newURL = new URL(document.location);
-              const params = new URLSearchParams(newURL.search.slice(1));
-              console.log(params);
-              if (nowEmpty) {
-                params.delete("query");
-              } else {
-                params.set("query", nowEmpty ? "" : event.target.value);
-              }
-
-              newURL.search = params.toString();
-              browserHistory.replace(newURL.toString());
-            }}
-          />
+          <SearchField value={this.props.query} />
           <UserButton user={this.props.user} />
           {this.props.user !== null ? (<a href="#" className="add" onClick={this.addEntry} title="Add Entry">+</a>) : null}
         </header>
