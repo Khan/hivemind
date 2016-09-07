@@ -1,4 +1,4 @@
-import { Entries } from './entries.js';
+import { Entries, entryUploadPath } from './entries.js';
 
 import { Meteor } from 'meteor/meteor';
 import { HTTP } from 'meteor/http';
@@ -83,8 +83,7 @@ export default function () {
                     file.end();
                     console.error(err);
                   } else {
-                    // TODO: Unify constants with uploadEntryImage.
-                    S3.knox.putFile(outputPath, `/${S3.config.bucket}/entryImages/${Meteor.uuid()}${extension}`, Meteor.bindEnvironment((err, res) => {
+                    S3.knox.putFile(outputPath, `/${S3.config.bucket}/${entryUploadPath}/${Meteor.uuid()}${extension}`, Meteor.bindEnvironment((err, res) => {
                       if (res) {
                         Meteor.call("entry.setImage", {entryID, imageURL: res.socket._httpMessage.url})
                       } else {

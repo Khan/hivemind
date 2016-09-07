@@ -1,9 +1,11 @@
 import { Meteor } from 'meteor/meteor';
 
+import { entryUploadPath } from '../entries/entries.js';
+
 export default function(entryID, fileList, callback) {
   S3.upload({
     files: fileList,
-    path: "entryImages"
+    path: entryUploadPath,
   }, (error, result) => {
     if (error) {
       console.error(error);

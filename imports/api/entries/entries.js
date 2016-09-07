@@ -2,6 +2,8 @@ import { Meteor } from 'meteor/meteor';
 import { Mongo } from 'meteor/mongo';
 import { EasySearch } from 'meteor/easy:search';
 
+export const entryUploadPath = "entryImages";
+
 export const Entries = new Mongo.Collection("entries");
 
 export function relativeURLForEntryID(entryID) {
