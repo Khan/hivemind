@@ -23,6 +23,8 @@ export default function () {
         updatedAt: new Date(),
         tags: tags
       });
+
+      return entryID;
     },
 
     "entry.update"({entryID, newEntry}) {

@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react';
 import { createContainer } from 'meteor/react-meteor-data';
 import { IndexLink, browserHistory } from 'react-router';
+import URLSearchParams from 'url-search-params';
 
 import EntryList from './components/EntryList.jsx';
 import SearchField from './components/SearchField.jsx';
@@ -15,7 +16,18 @@ class Home extends Component {
     super(props);
     this.addEntry = () => {
       // TODO: Reimplement the tag-dependent creation feature for unified search.
-      Meteor.call("entry.create", {tags: []});
+      Meteor.call("entry.create", {tags: []}, (error, newEntryID) => {
+        // TODO: remove duplication here.
+        if (newEntryID) {
+          const newURL = new URL(document.location);
+          const params = new URLSearchParams(newURL.search.slice(1));
+          params.set("entry", newEntryID);
+          newURL.search = params.toString();
+          browserHistory.replace(newURL.toString());
+        } else {
+          console.error(error);
+        }
+      })
     }
   }
 
