@@ -67,6 +67,7 @@ class Home extends Component {
             onDropImage={uploadEntryImage}
             onStartDiscussionThread={this.startDiscussionThread}
             disabled={this.props.user === null}
+            focusedEntry={this.props.focusedEntry}
           />
         </div>
       </div>
@@ -78,12 +79,20 @@ export default createContainer((props) => {
   const entriesSubscription = Meteor.subscribe("entries");
   const usersSubscription = Meteor.subscribe("users");
 
-  const { query } = props.location.query;
-  let entries;
-  if (query) {
-    entries = EntriesIndex.search(props.location.query.query).fetch();
+  const { query, entry } = props.location.query;
+  let entries = null;
+  let focusedEntry = null;
+  if (query && query.length > 0) {
+    entries = EntriesIndex.search(query).fetch();
   } else {
     entries = Entries.find({}, {sort: [["createdAt", "desc"]]}).fetch()
+  }
+
+  if (entry && entry.length > 0) {
+    focusedEntry = Entries.findOne(entry);
+    if (focusedEntry) {
+      focusedEntry = materializeEntryUsers(focusedEntry);
+    }
   }
 
   return {
@@ -91,5 +100,6 @@ export default createContainer((props) => {
     query: query,
     user: Meteor.user(),
     ready: entriesSubscription.ready() && usersSubscription.ready(),
+    focusedEntry: focusedEntry,
   };
 }, Home);

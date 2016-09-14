@@ -26,6 +26,7 @@
     "react-dom": "^15.3.0",
     "react-dropzone": "^3.4.0",
     "react-input-autosize": "^0.6.13",
+    "react-portal": "^2.2.1",
     "react-router": "^2.2.4",
     "request": "^2.74.0",
     "url-search-params": "^0.5.0"

@@ -1,9 +1,20 @@
 import Draft from 'draft-js';
 import React from 'react';
+import URLSearchParams from 'url-search-params';
+import { browserHistory } from 'react-router';
+
 import ToggleList from './ToggleList.jsx';
 
 // Represents a single hivemind database entry--the collapsed view as it appears in a list.
 export default class EntryCell extends React.Component {
+  navigate() {
+    const newURL = new URL(document.location);
+    const params = new URLSearchParams(newURL.search.slice(1));
+    params.set("entry", this.props.entry._id);
+    newURL.search = params.toString();
+    browserHistory.replace(newURL.toString());
+  }
+
   render() {
     let author = null;
 
@@ -45,7 +56,7 @@ export default class EntryCell extends React.Component {
       }
     }
 
-    return <a className="entryCell">
+    return <a className="entryCell" onClick={(e) => {this.navigate(); e.preventDefault();}}>
       <div className="imageContainer">
         <img src={this.props.entry.imageURL} />
       </div>
