@@ -7,6 +7,14 @@ import ToggleList from './ToggleList.jsx';
 
 // Represents a single hivemind database entry--the collapsed view as it appears in a list.
 export default class EntryCell extends React.Component {
+  shouldComponentUpdate(nextProps, nextState) {
+    if (nextState !== this.state) {
+      return true;
+    } else {
+      return nextProps.entry.updatedAt.getTime() !== this.props.entry.updatedAt.getTime();
+    }
+  }
+
   navigate() {
     const newURL = new URL(document.location);
     const params = new URLSearchParams(newURL.search.slice(1));
@@ -52,7 +60,7 @@ export default class EntryCell extends React.Component {
       const contentState = Draft.convertFromRaw(this.props.entry.description);
       const descriptionText = contentState.getPlainText();
       if (descriptionText.length > 0) {
-        description = descriptionText;
+        description = descriptionText.substr(0, 300);
       }
     }
 
