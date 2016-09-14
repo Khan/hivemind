@@ -47,7 +47,7 @@ export default class EntryCell extends React.Component {
       </span>
     }
 
-    let description = "(no description yet)";
+    let description = null;
     if (this.props.entry.description) {
       const contentState = Draft.convertFromRaw(this.props.entry.description);
       const descriptionText = contentState.getPlainText();
@@ -56,18 +56,27 @@ export default class EntryCell extends React.Component {
       }
     }
 
+    let titleAndAuthor;
+    if (description) {
+      titleAndAuthor = <div className="titleAndAuthor">
+        <span className="title">
+          {this.props.entry.title}
+        </span>
+        {author}
+      </div>;
+    } else {
+      titleAndAuthor = <div className="titleAndAuthor pending">
+        {this.props.entry.title}{author} [pending]
+      </div>;
+    }
+
     return <a className="entryCell" onClick={(e) => {this.navigate(); e.preventDefault();}}>
       <div className="imageContainer">
         <img src={this.props.entry.imageURL} />
       </div>
       <div className="content">
         <div className="heading">
-          <div className="titleAndAuthor">
-            <span className="title">
-              {this.props.entry.title}
-            </span>
-            {author}
-          </div>
+          {titleAndAuthor}
           <div className="toggleLists">
             {recommenderList}
             {viewerList}

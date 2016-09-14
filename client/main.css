@@ -139,6 +139,11 @@ a:hover {
   flex-grow: 1;
 }
 
+.entryCell .titleAndAuthor.pending {
+  font-style: italic;
+  color: #757575
+}
+
 .entryCell .description {
   display: block;
   font-size: 15px;
