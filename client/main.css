@@ -124,6 +124,10 @@ a:hover {
   flex: 1 0 auto;
 }
 
+.entryCell .toggleLists {
+  display: flex;
+}
+
 .entryCell .imageContainer {
   flex-shrink: 0;
   width: 100px;
@@ -351,6 +355,7 @@ a:hover {
 .userToggleList span {
   display: inline-block;
   margin-right: 7px;
+  white-space: nowrap;
 }
 
 .userToggleList .noActiveUsers {
