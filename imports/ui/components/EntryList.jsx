@@ -13,7 +13,10 @@ export default (props) => {
     params.delete("entry");
     newURL.search = params.toString();
     browserHistory.replace(newURL.toString());
-    event.preventDefault();
+    
+    if (event) {
+      event.preventDefault();
+    }
   };
 
   const propsForEntry = (entry) => {
@@ -21,7 +24,10 @@ export default (props) => {
       key: entry._id,
       entry,
       onChange: props.onChangeEntry,
-      onDelete: () => props.onDeleteEntry(entry._id),
+      onDelete: () => {
+        clearFocusedEntry();
+        props.onDeleteEntry(entry._id);
+      },
       onDropImage: (files, callback) => props.onDropImage(entry._id, files, callback),
       onChangeRecommending: (isNewlyRecommending) => props.onChangeRecommending(entry._id, isNewlyRecommending),
       onChangeViewing: (isNewlyViewing) => props.onChangeViewing(entry._id, isNewlyViewing),
