@@ -7,10 +7,10 @@ import EntryImage from './EntryImage.jsx';
 import EntryTextField from './EntryTextField.jsx';
 import SourceLink from './SourceLink.jsx';
 import TagEditor from './TagEditor.jsx';
-import { getUserFirstName } from '../../user.js';
+import ToggleList from './ToggleList.jsx';
 import { relativeURLForEntryID } from '../../api/entries/entries.js';
 
-// Represents a single hivemind database entry
+// Represents a single hivemind database entry--the full, editable view.
 export default class Entry extends React.Component {
   constructor(props) {
     super(props);
@@ -194,32 +194,5 @@ export default class Entry extends React.Component {
         {contents}
       </div>
     );
-  }
-}
-
-class ToggleList extends React.Component {
-  render() {
-    const {users, currentUser} = this.props;
-    const isActive = (users && currentUser) ? users.find((user) => user._id === currentUser._id) : false;
-
-    let names = <span className="noActiveUsers">No one yet</span>;
-    if (users && users.length > 0) {
-      names = users.map((user) => {
-        return <span key={user._id}>{getUserFirstName(user)}</span>;
-      });
-    }
-
-    const iconImage = <img src={`/images/${this.props.iconName}_${isActive ? "active" : "inactive"}.png`} />;
-    const icon = currentUser ? (
-      <a href="#" onClick={(event) => {
-        this.props.onChange(!isActive);
-        event.preventDefault();
-      }}>{iconImage}</a>
-    ) : iconImage;
-
-    return (<div className={"userToggleList " + this.props.className}>
-      {icon}
-      {names}
-    </div>);
   }
 }

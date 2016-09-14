@@ -1,11 +1,12 @@
 import React, { Component, PropTypes } from 'react';
 
 import Entry from './Entry.jsx';
+import EntryCell from './EntryCell.jsx';
 
 export default (props) => (
   <div className="entryList">
     {props.entries.map((entry) => (
-      <Entry
+      <EntryCell
         key={entry._id}
         entry={entry}
         onChange={props.onChangeEntry}

@@ -29,6 +29,7 @@ a:hover {
   display: flex;
   flex-direction: row;
   align-items: baseline;
+  margin-bottom: 0.75em;
 }
 
 #siteHeader h1 {
@@ -82,6 +83,79 @@ a:hover {
   color: #888D93;
   align-self: auto;
   margin-left: 20px;
+}
+
+.entryCell {
+  margin: 1.5em 0em;
+  display: flex;
+  flex-direction: row;
+}
+
+.entryCell:hover {
+  text-decoration: none;
+  background-color: #F8F8F8;
+  cursor: pointer;
+  margin: -0.5em;
+  padding: 0.5em;
+}
+
+.entryCell .content {
+  flex-grow: 1;
+  margin-left: 1em;
+}
+
+.entryCell .heading {
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 4px;
+  font-size: 15px;
+  line-height: 18px;
+}
+
+.entryCell .heading .title {
+  font-weight: 600;
+  color: #21242C;
+  flex: 0 0 400px;
+}
+
+.entryCell .heading .author {
+  color: #757575;
+  flex: 1 0 auto;
+}
+
+.entryCell .imageContainer {
+  flex-shrink: 0;
+  width: 100px;
+  text-align: center;
+}
+
+.entryCell .imageContainer img {
+  max-width: 100%;
+  max-height: 75px;
+}
+
+.entryCell .titleAndAuthor {
+  flex-grow: 1;
+}
+
+.entryCell .description {
+  display: block;
+  font-size: 15px;
+  line-height: 22px;
+  color: #757575;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.entryCell .userToggleList {
+  height: 18px;
+  display: inline-flex;
+  margin-left: 0.5em;
+}
+
+.entryCell .userToggleList img {
+  height: 18px;
 }
 
 .entry {
@@ -228,28 +302,28 @@ a:hover {
   margin-right: 0.5em;
 }
 
-.entry .userToggleList {
+.userToggleList {
   height: 24px;
   display: flex;
   flex-direction: row;
   align-items: center;
 }
 
-.entry .userToggleList img {
+.userToggleList img {
   height: 24px;
   margin-right: 7px;
 }
 
-.entry .userToggleList a {
+.userToggleList a {
   line-height: 0;
 }
 
-.entry .userToggleList span {
+.userToggleList span {
   display: inline-block;
   margin-right: 7px;
 }
 
-.entry .userToggleList .noActiveUsers {
+.userToggleList .noActiveUsers {
   color: #ECEDEE;
 }
 
