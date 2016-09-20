@@ -29,7 +29,7 @@ a:hover {
   display: flex;
   flex-direction: row;
   align-items: baseline;
-  margin-bottom: 0.75em;
+  margin-bottom: 1em;
 }
 
 #siteHeader h1 {
@@ -91,7 +91,7 @@ a:hover {
 }
 
 .entryCell {
-  margin: 1.5em 0em;
+  margin: 2em 0em;
   display: flex;
   flex-direction: row;
 }
