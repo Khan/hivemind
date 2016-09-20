@@ -130,7 +130,6 @@ a:hover {
 }
 
 .entryCell .toggleLists {
-  display: flex;
   flex-shrink: 0;
 }
 
@@ -179,9 +178,10 @@ a:hover {
 
 .entryCell .userToggleList {
   height: 18px;
-  display: inline-flex;
+  display: flex;
   flex-shrink: 0;
   margin-left: 0.5em;
+  margin-bottom: 2px;
 }
 
 .entryCell .userToggleList img {
