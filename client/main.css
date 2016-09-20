@@ -85,6 +85,11 @@ a:hover {
   margin-left: 20px;
 }
 
+.entryList {
+  width: 760px;
+  margin: 0 auto;
+}
+
 .entryCell {
   margin: 1.5em 0em;
   display: flex;
