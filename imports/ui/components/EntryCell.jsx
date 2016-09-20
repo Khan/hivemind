@@ -78,9 +78,17 @@ export default class EntryCell extends React.Component {
       </div>;
     }
 
+    let imageURL = this.props.entry.imageURL;
+    let imageNode;
+    if (imageURL) {
+      imageNode = <img src={imageURL} />;
+    } else {
+      imageNode = <div className="imagePlaceholder"></div>;
+    }
+
     return <a className="entryCell" onClick={(e) => {this.navigate(); e.preventDefault();}}>
       <div className="imageContainer">
-        <img src={this.props.entry.imageURL} />
+        {imageNode}
       </div>
       <div className="content">
         <div className="heading">
