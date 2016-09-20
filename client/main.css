@@ -167,8 +167,8 @@ a:hover {
 }
 
 .entryCell .description {
-  font-size: 15px;
-  line-height: 22px;
+  font-size: 14px;
+  line-height: 18px;
   color: #757575;
   overflow: hidden;
   -webkit-line-clamp: 2;
