@@ -37,18 +37,6 @@ export default class EntryCell extends React.Component {
       recommenderList = null;
     }
 
-    let viewerList = <ToggleList
-        currentUser={Meteor.user()}
-        users={this.props.entry.viewers}
-        onChange={this.props.onChangeViewing}
-        iconName="check"
-        className="viewerList"
-        disabled="true"
-      />;
-    if (!this.props.entry.viewers || this.props.entry.viewers.length == 0) {
-      viewerList = null;
-    }
-
     if (this.props.entry.author) {
       author = <span className="author">
         by {this.props.entry.author}
@@ -95,7 +83,6 @@ export default class EntryCell extends React.Component {
           {titleAndAuthor}
           <div className="toggleLists">
             {recommenderList}
-            {viewerList}
           </div>
         </div>
         <div className="description">
