@@ -51,7 +51,7 @@ export default class EntryCell extends React.Component {
 
     if (this.props.entry.author) {
       author = <span className="author">
-        &nbsp;by {this.props.entry.author}
+        by {this.props.entry.author}
       </span>
     }
 
@@ -74,7 +74,7 @@ export default class EntryCell extends React.Component {
       </div>;
     } else {
       titleAndAuthor = <div className="titleAndAuthor pending">
-        {this.props.entry.title}{author} [pending]
+        {this.props.entry.title} [pending]{author}
       </div>;
     }
 

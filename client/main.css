@@ -108,29 +108,30 @@ a:hover {
   flex-grow: 1;
   margin-left: 1em;
   min-width: 0; /* Allow truncation past intrinsic content width. */
+  font-size: 15px;
+  line-height: 18px;
 }
 
 .entryCell .heading {
   display: flex;
   flex-direction: row;
-  margin-bottom: 4px;
-  font-size: 15px;
-  line-height: 18px;
+  margin-bottom: 3px;
 }
 
 .entryCell .heading .title {
   font-weight: 600;
   color: #21242C;
-  flex: 0 0 400px;
+  display: block;
+  /*margin-bottom: 3px;*/ /* Not sure... */
 }
 
 .entryCell .heading .author {
-  color: #757575;
-  flex: 1 0 auto;
+  display: block;
 }
 
 .entryCell .toggleLists {
   display: flex;
+  flex-shrink: 0;
 }
 
 .entryCell .imageContainer {
@@ -168,6 +169,7 @@ a:hover {
 .entryCell .userToggleList {
   height: 18px;
   display: inline-flex;
+  flex-shrink: 0;
   margin-left: 0.5em;
 }
 
