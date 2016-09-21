@@ -20,7 +20,7 @@ a:hover {
 }
 
 #pageContainer {
-  max-width: 960px;
+  max-width: 850px;
   margin: 0px auto;
 }
 
@@ -106,7 +106,7 @@ a:hover {
 
 .entryCell .content {
   flex-grow: 1;
-  margin-left: 1em;
+  margin-left: 1.5em;
   min-width: 0; /* Allow truncation past intrinsic content width. */
   font-size: 15px;
   line-height: 18px;
