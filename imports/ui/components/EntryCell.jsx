@@ -27,7 +27,6 @@ export default class EntryCell extends React.Component {
     let author = null;
 
     let recommenderList = <ToggleList
-        currentUser={Meteor.user()}
         users={this.props.entry.recommenders}
         iconName="heart"
         className="recommenderList"
