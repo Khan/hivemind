@@ -136,7 +136,7 @@ a:hover {
 .entryCell .imageContainer {
   flex-shrink: 0;
   width: 100px;
-  text-align: center;
+  text-align: right;
   line-height: 0;
 }
 
