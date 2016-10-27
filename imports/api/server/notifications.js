@@ -19,7 +19,7 @@ export function sendNewEntryEmail(entryID) {
 
   let sourceLink = entry.URL ? `<p>Original URL: <a href="${entry.URL}">${entry.URL}</a></p>` : '';
   let tags = (entry.tags && entry.tags.length > 0) ? `<p>Tags: ${entry.tags.map((tag) => `#${tag}`).join(" ")}</p>` : '';
-  let image = (entry.imageURL) ? `<p><img src="${entry.imageURL}" /></p>` : '';
+  let image = (entry.imageURL) ? `<p><img src="${entry.imageURL}" width="320" /></p>` : '';
 
   const entryAbsoluteURL = Meteor.absoluteUrl(relativeURLForEntryID(entry._id));
 
