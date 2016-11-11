@@ -344,6 +344,8 @@ a:hover {
 
 .entry .dates {
   margin-top: 1em;
+  align-self: flex-end;
+  margin-bottom: 0.5em;
 }
 
 .entry .dates span {
@@ -447,6 +449,19 @@ a:hover {
 
 .entry .tagEditor a {
   color: #888D93;
+}
+
+.entry .tagEditor.root-node .react-selectize-control {
+  border: none;
+  cursor: text;
+}
+
+.entry .tagEditor.root-node .react-selectize-control .react-selectize-search-field-and-selected-values {
+  padding-left: 0px;
+}
+
+.entry .tagEditor .react-selectize.dropdown-menu.default {
+  border-radius: 4px;
 }
 
 .tagBlock {

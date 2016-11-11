@@ -24,6 +24,8 @@ export default class TagEditor extends React.Component {
     })
 
     return <MultiSelect
+      className="tagEditor"
+
       onFocus = {() => {
         this.setState({
           isFocused: true,
@@ -67,6 +69,13 @@ export default class TagEditor extends React.Component {
               <span>{option.label} ({option.count})</span>
           </div>;
         }
+      }}
+
+      renderToggleButton = {() => { return null; }}
+      hideResetButton = {true}
+
+      renderValue = {(item) => {
+        return <Tag tag={item.value} />;
       }}
     />;
   }
@@ -218,7 +227,7 @@ class TagEditor2 extends React.Component {
 }
 
 const Tag = (props) => {
-  const tagName = props.blockProps.name;
+  const tagName = props.tag;
 
   const params = new URLSearchParams();
   params.set("query", `#"${tagName}"`);
@@ -227,7 +236,7 @@ const Tag = (props) => {
   newURL.search = params.toString();
   return <span style={{
       color: "#999",
-      padding: "0px 0px"
+      marginRight: "7px"
   }}><Link to={newURL.toString()}>#{tagName}</Link></span>
 };
 
