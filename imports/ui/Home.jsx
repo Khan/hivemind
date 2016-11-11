@@ -71,6 +71,7 @@ class Home extends Component {
         <div className="home">
           <EntryList
             entries={this.props.entries}
+            tags={this.props.tags}
             onChangeEntry={this.updateEntry}
             onDeleteEntry={this.deleteEntry}
             onChangeRecommending={this.changeRecommending}
@@ -107,8 +108,24 @@ export default createContainer((props) => {
     }
   }
 
+  const tagsToCounts = new Map();
+  for (const entry of entries) {
+    for (const tag of (entry.tags || [])) {
+      const oldTagCount = tagsToCounts.get(tag);
+      if (oldTagCount) {
+        tagsToCounts.set(tag, oldTagCount + 1);
+      } else {
+        tagsToCounts.set(tag, 1);
+      }
+    }
+  }
+  const tagEntries = []
+  tagsToCounts.forEach((count, tag) => { tagEntries.push({tag, count}); });
+  tagEntries.sort((a, b) => { return b.count - a.count; });
+
   return {
     entries: entries.map(materializeEntryUsers), // TODO: remove eagerness?,
+    tags: tagEntries,
     query: query,
     user: Meteor.user(),
     ready: entriesSubscription.ready() && usersSubscription.ready(),

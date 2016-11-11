@@ -111,6 +111,7 @@ export default class Entry extends React.Component {
         onChange={this.onChangeTags}
         tags={this.props.entry.tags}
         disabled={this.props.disabled}
+        allTags={this.props.allTags}
       />;
 
     let contents;

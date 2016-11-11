@@ -54,7 +54,10 @@ export default class EntryList extends React.Component {
               event.stopPropagation();
             }
         }} ref="lightboxBackground">
-          {focusedEntry ? <Entry {...propsForEntry(focusedEntry)} /> : "" }
+          {focusedEntry ? (<Entry
+            {...propsForEntry(focusedEntry)}
+            allTags={this.props.tags}
+          />) : "" }
         </div>
       </Portal>
     </div>;
