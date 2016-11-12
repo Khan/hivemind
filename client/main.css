@@ -451,12 +451,12 @@ a:hover {
   color: #888D93;
 }
 
-.entry .tagEditor.root-node .react-selectize-control {
+.entry .react-selectize.default.tagEditor.root-node .react-selectize-control {
   border: none;
   cursor: text;
 }
 
-.entry .tagEditor.root-node .react-selectize-control .react-selectize-search-field-and-selected-values {
+.entry .react-selectize.default.tagEditor.root-node .react-selectize-control .react-selectize-search-field-and-selected-values {
   padding-left: 0px;
 }
 

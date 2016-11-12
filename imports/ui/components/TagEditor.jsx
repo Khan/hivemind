@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
 import { Link } from 'react-router';
 import { MultiSelect } from 'react-selectize';
 import URLSearchParams from 'url-search-params';
@@ -8,7 +9,40 @@ import 'react-selectize/themes/index.css';
 export default class TagEditor extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {isFocused: false};
+    this.state = {
+      isFocused: false,
+      dropdownDirection: 1,
+    };
+
+    this.onScroll = ((event) => {
+      const screenTop = ReactDOM.findDOMNode(this.refs.select).offsetTop - (event.target.scrollTop || document.documentElement.scrollTop);
+      console.log(ReactDOM.findDOMNode(this.refs.select).offsetTop, event.target.scrollTop, event.target.offsetHeight, screenTop);
+      dropdownDirection = (event.target.offsetHeight - screenTop) < 215 ? -1 : 1
+      if (this.state.dropdownDirection != dropdownDirection)
+        this.setState({dropdownDirection: dropdownDirection});
+    }).bind(this);
+  }
+
+  findScrollingParent() {
+    const node = ReactDOM.findDOMNode(this);
+    let currentNode = node;
+    while (currentNode) {
+      if (window.getComputedStyle(currentNode).getPropertyValue("overflow-y") == "scroll") {
+        return currentNode;
+      }
+      currentNode = currentNode.parentNode;
+    }
+    return window;
+  }
+
+  componentDidMount() {
+    const scrollingParent = this.findScrollingParent();
+    scrollingParent.addEventListener("scroll", this.onScroll);
+  }
+
+  componentWillUnmount() {
+    const scrollingParent = this.findScrollingParent();
+    scrollingParent.removeEventListener("scroll", this.onScroll);
   }
 
   render() {
@@ -23,6 +57,8 @@ export default class TagEditor extends React.Component {
 
     return <MultiSelect
       className="tagEditor"
+      ref="select"
+      dropdownDirection = {this.state.dropdownDirection}
 
       onFocus = {() => {
         this.setState({
@@ -75,6 +111,7 @@ export default class TagEditor extends React.Component {
       renderValue = {(item) => {
         return <Tag tag={item.value} />;
       }}
+
     />;
   }
 }
