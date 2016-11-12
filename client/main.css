@@ -445,6 +445,7 @@ a:hover {
   font-size: 17px;
   margin-right: 1.5em;
   font-family: inherit;
+  border-color: #ECEDEE;
 }
 
 .entry .tagEditor a {
@@ -455,6 +456,11 @@ a:hover {
   border: none;
   cursor: text;
   font-size: inherit;
+  border-bottom: 0.5px solid rgba(0,0,0,0);
+}
+
+.entry .react-selectize.default.tagEditor.root-node .react-selectize-control:hover {
+  border-color: #ECEDEE;
 }
 
 .entry .react-selectize.default.tagEditor.root-node .react-selectize-control .react-selectize-placeholder {
