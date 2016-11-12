@@ -276,17 +276,16 @@ a:hover {
 }
 
 .entry header input {
-  border: none;
-  margin-top: -2px;
+  border: 0.5px solid rgba(0,0,0,0);
+  border-radius: 4px;
+  margin: -2.5px;
+  padding: 3px;
   font: inherit;
   color: inherit;
 }
 
 .entry.editable header:hover input, .entry.editable header input:focus {
-  border: 0.5px solid #ECEDEE;
-  border-radius: 4px;
-  margin: -4px -3px -3px -3px;
-  padding: 3px;
+  border-color: #ECEDEE;
 }
 
 .entry .contents {
@@ -435,7 +434,7 @@ a:hover {
   border: 0.5px solid #ECEDEE;
   border-radius: 4px;
   padding: 4px;
-  margin: -5px -5px -5px -5px;
+  margin: -4.5px;
 }
 
 .entry .oneColumn .descriptionEditor {
