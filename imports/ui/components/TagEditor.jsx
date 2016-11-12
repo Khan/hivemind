@@ -16,7 +16,6 @@ export default class TagEditor extends React.Component {
 
     this.onScroll = ((event) => {
       const screenTop = ReactDOM.findDOMNode(this.refs.select).offsetTop - (event.target.scrollTop || document.documentElement.scrollTop);
-      console.log(ReactDOM.findDOMNode(this.refs.select).offsetTop, event.target.scrollTop, event.target.offsetHeight, screenTop);
       dropdownDirection = (event.target.offsetHeight - screenTop) < 215 ? -1 : 1
       if (this.state.dropdownDirection != dropdownDirection)
         this.setState({dropdownDirection: dropdownDirection});
@@ -96,7 +95,7 @@ export default class TagEditor extends React.Component {
       renderOption = {(option) => {
         if (option.newOption) {
           return <div className="simple-option">
-            <span style={{fontStyle: "italic"}}>Add {option.label}&hellip;</span>
+            <span style={{fontStyle: "italic"}}>Add &lsquo;{option.label}&rsquo;&hellip;</span>
           </div>;
         } else {
           return <div className="simple-option">
@@ -104,6 +103,8 @@ export default class TagEditor extends React.Component {
           </div>;
         }
       }}
+
+      placeholder = "Tags"
 
       renderToggleButton = {() => { return null; }}
       hideResetButton = {true}

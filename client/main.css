@@ -442,9 +442,10 @@ a:hover {
   max-width: 700px;
 }
 
-.entry .tagEditor {
+.entry .tagEditor.react-selectize.default {
   font-size: 17px;
   margin-right: 1.5em;
+  font-family: inherit;
 }
 
 .entry .tagEditor a {
@@ -454,6 +455,13 @@ a:hover {
 .entry .react-selectize.default.tagEditor.root-node .react-selectize-control {
   border: none;
   cursor: text;
+  font-size: inherit;
+}
+
+.entry .react-selectize.default.tagEditor.root-node .react-selectize-control .react-selectize-placeholder {
+  font-family: inherit;
+  font-size: inherit;
+  text-indent: 0px;
 }
 
 .entry .react-selectize.default.tagEditor.root-node .react-selectize-control .react-selectize-search-field-and-selected-values {
@@ -462,6 +470,12 @@ a:hover {
 
 .entry .tagEditor .react-selectize.dropdown-menu.default {
   border-radius: 4px;
+  max-height: 300px;
+}
+
+.entry .tagEditor .react-selectize.dropdown-menu.default .simple-option, .entry .tagEditor .react-selectize.dropdown-menu.default .no-results-found {
+  font-size: 15px;
+  padding: 4px 10px;
 }
 
 .tagBlock {
