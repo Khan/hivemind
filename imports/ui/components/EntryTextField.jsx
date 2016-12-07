@@ -20,8 +20,16 @@ export default class EntryTextField extends React.Component {
     return <AutosizeInput
       {...this.props}
       onChange={this.onChange}
-      onFocus={() => {this.setState({hasFocus: true})}}
-      onBlur={() => {this.setState({hasFocus: false})}}
+      onFocus={() => {
+        this.setState({
+          value: this.props.value,
+          hasFocus: true
+        })
+      }}
+      onBlur={(event) => {
+        this.onChange(event)
+        this.setState({hasFocus: false})
+      }}
       value={this.state.hasFocus ? this.state.value : this.props.value}
     />;
   }
