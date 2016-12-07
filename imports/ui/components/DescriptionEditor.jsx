@@ -80,6 +80,10 @@ export default class DescriptionEditor extends React.Component {
       this.propagateChange();
     };
 
+    this.onBlur = () => {
+      this.props.onChange(Draft.convertToRaw(this.state.editorState.getCurrentContent()));
+    }
+
     this.handleKeyCommand = (command) => {
       const newEditorState = Draft.RichUtils.handleKeyCommand(this.state.editorState, command);
       if (newEditorState) {
@@ -123,6 +127,7 @@ export default class DescriptionEditor extends React.Component {
           ref="editor"
           plugins={plugins}
           readOnly={this.props.disabled}
+          onBlur={this.onBlur}
         />
       </div>
     );
