@@ -47,8 +47,8 @@ export default class EntryList extends React.Component {
           {...propsForEntry(entry)}
         />
       ))}
-      <Portal closeOnEsc isOpened={!!focusedEntry} className="lightbox" onClose={clearFocusedEntry} ref="lightbox">
-        <div onClick={(event) => {
+      <Portal closeOnEsc isOpened={!!focusedEntry} onClose={clearFocusedEntry} ref="lightbox">
+        <div className="lightbox" onClick={(event) => {
             if (event.target === this.refs.lightboxBackground) {
               this.refs.lightbox.closePortal();
               event.stopPropagation();
