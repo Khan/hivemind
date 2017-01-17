@@ -95,13 +95,14 @@ export default createContainer((props) => {
   const usersSubscription = Meteor.subscribe("users");
 
   const { query, entry } = props.location.query;
-  let entries = null;
+  let entriesCursor = null;
   let focusedEntry = null;
   if (query && query.length > 0) {
-    entries = EntriesIndex.search(query).fetch();
+    entriesCursor = EntriesIndex.search(query);
   } else {
-    entries = Entries.find({}, {sort: [["createdAt", "desc"]]}).fetch()
+    entriesCursor = Entries.find({}, {sort: [["createdAt", "desc"]]});
   }
+  const entries = entriesCursor.fetch()
 
   if (entry && entry.length > 0) {
     focusedEntry = Entries.findOne(entry);
@@ -110,12 +111,21 @@ export default createContainer((props) => {
     }
   }
 
-  if (tagEntriesReactiveVar.get() == null) {
+  const updateTagEntries = () => {
     Meteor.call("entries.fetchAllTagEntriesSortedDescending", (error, response) => {
       tagEntriesReactiveVar.set(response);
     });
-    tagEntriesReactiveVar.set([]);
-  }
+  };
+  entriesCursor.observe({
+    added: () => {
+      if (tagEntriesReactiveVar.get() === null) {
+        updateTagEntries();
+        tagEntriesReactiveVar.set([]);
+      }
+    },
+    changed: updateTagEntries,
+    removed: updateTagEntries
+  });
 
   return {
     entries: entries.map(materializeEntryUsers), // TODO: remove eagerness?,
