@@ -95,7 +95,7 @@ export default createContainer((props) => {
   const usersSubscription = Meteor.subscribe("users");
 
   const { query, entry } = props.location.query;
-  let entriesCursor = null;
+  let entriesCursor = Entries.find({}, {sort: [["createdAt", "desc"]]});
   let focusedEntry = null;
   if (query && query.length > 0) {
     entriesCursor = EntriesIndex.search(query);
@@ -116,7 +116,7 @@ export default createContainer((props) => {
       tagEntriesReactiveVar.set(response);
     });
   };
-  entriesCursor.observe({
+  Entries.find({}).observe({
     added: () => {
       if (tagEntriesReactiveVar.get() === null) {
         updateTagEntries();
