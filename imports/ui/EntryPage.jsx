@@ -60,6 +60,7 @@ class EntryPage extends Component {
             onDropImage={(files, callback) => {uploadEntryImage(entry._id, files, callback)}}
             onStartDiscussionThread={this.startDiscussionThread}
             disabled={this.props.user === null}
+            allTags={this.props.tags}
           />
         </div>
       );
@@ -69,14 +70,24 @@ class EntryPage extends Component {
   }
 }
 
+const tagEntriesReactiveVar = new ReactiveVar(null);
+
 export default createContainer((props) => {
   const entryID = props.params.entryID;
 
   const entrySubscription = Meteor.subscribe("entry", entryID);
   const usersSubscription = Meteor.subscribe("users");
 
+  if (tagEntriesReactiveVar.get() == null) {
+    Meteor.call("entries.fetchAllTagEntriesSortedDescending", (error, response) => {
+      tagEntriesReactiveVar.set(response);
+    });
+    tagEntriesReactiveVar.set([]);
+  }
+
   return {
     entry: Entries.findOne(entryID, {transform: materializeEntryUsers}),
+    tags: tagEntriesReactiveVar.get(),
     user: Meteor.user(),
     ready: entrySubscription.ready() && usersSubscription.ready(),
   };

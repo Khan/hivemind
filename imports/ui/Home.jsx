@@ -88,6 +88,8 @@ class Home extends Component {
   }
 }
 
+const tagEntriesReactiveVar = new ReactiveVar(null);
+
 export default createContainer((props) => {
   const entriesSubscription = Meteor.subscribe("entries");
   const usersSubscription = Meteor.subscribe("users");
@@ -108,24 +110,16 @@ export default createContainer((props) => {
     }
   }
 
-  const tagsToCounts = new Map();
-  for (const entry of entries) {
-    for (const tag of (entry.tags || [])) {
-      const oldTagCount = tagsToCounts.get(tag);
-      if (oldTagCount) {
-        tagsToCounts.set(tag, oldTagCount + 1);
-      } else {
-        tagsToCounts.set(tag, 1);
-      }
-    }
+  if (tagEntriesReactiveVar.get() == null) {
+    Meteor.call("entries.fetchAllTagEntriesSortedDescending", (error, response) => {
+      tagEntriesReactiveVar.set(response);
+    });
+    tagEntriesReactiveVar.set([]);
   }
-  const tagEntries = []
-  tagsToCounts.forEach((count, tag) => { tagEntries.push({tag, count}); });
-  tagEntries.sort((a, b) => { return b.count - a.count; });
 
   return {
     entries: entries.map(materializeEntryUsers), // TODO: remove eagerness?,
-    tags: tagEntries,
+    tags: tagEntriesReactiveVar.get(),
     query: query,
     user: Meteor.user(),
     ready: entriesSubscription.ready() && usersSubscription.ready(),
