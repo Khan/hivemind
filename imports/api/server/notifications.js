@@ -1,6 +1,7 @@
+import { convertFromRaw } from 'draft-js';
+import { stateToHTML } from 'draft-js-export-html';
 import { Email } from 'meteor/email';
 import React from 'react';
-import ReactDOM from 'react-dom/server';
 
 import { Entries, relativeURLForEntryID } from '../entries/entries.js';
 import DescriptionEditor from '../../ui/components/DescriptionEditor.jsx';
@@ -25,11 +26,8 @@ export function sendNewEntryEmail(entryID) {
 
   let notes = '';
   if (entry.description) {
-    notes = ReactDOM.renderToString(React.createElement(DescriptionEditor, {
-      value: entry.description,
-      disabled: true,
-      onChange: (state) => {},
-    }));
+    const contentState = convertFromRaw(entry.description);
+    notes = stateToHTML(contentState);
   }
 
   const html = `<p><a href="${entryAbsoluteURL}">${titleAndAuthor} was added to Hivemind</a>. Please reply to this thread with comments, thoughts, and discussion; or add to the entry if you have notes on the thing itself!</p>` +
