@@ -169,7 +169,7 @@ export default class Entry extends React.Component {
     return (
       <div className={"entry" + (this.props.disabled ? "" : " editable")}>
         <header>
-          <span className="title">
+          <div className="titleAndAuthor">
             <EntryTextField
               className="title"
               value={this.props.entry.title}
@@ -177,15 +177,15 @@ export default class Entry extends React.Component {
               placeholder="Title"
               disabled={this.props.disabled}
             />
-          </span>
-          <span className={"author " + (((this.props.entry.author || "") === "") ? "hidden-until-hover" : "")}>
-            &nbsp;by&nbsp;<EntryTextField
-              value={this.props.entry.author}
-              onChange={this.onChangeAuthor}
-              placeholder="Author"
-              disabled={this.props.disabled}
-            />
-          </span>
+            <span className={"author " + (((this.props.entry.author || "") === "") ? "hidden-until-hover" : "")}>
+              &nbsp;by&nbsp;<EntryTextField
+                value={this.props.entry.author}
+                onChange={this.onChangeAuthor}
+                placeholder="Author"
+                disabled={this.props.disabled}
+              />
+            </span>
+          </div>
           <SourceLink
             onChange={this.onChangeURL}
             URL={this.props.entry.URL}

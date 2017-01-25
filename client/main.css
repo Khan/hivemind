@@ -227,13 +227,18 @@ a:hover {
   margin-bottom: 1.5em;
 }
 
+.entry .titleAndAuthor {
+  margin-right: 13em;
+}
+
 .entry header .title, .entry header .author {
-  display: inline;
+  display: inline-block;
 }
 
 .entry header .title {
   font-size: 23px;
   font-weight: 600;
+  max-width: 100%;
 }
 
 .entry header .author {
@@ -243,18 +248,21 @@ a:hover {
 
 .entry header .author.hidden-until-hover {
   opacity: 0;
+  position: absolute;
 }
 
 .entry.editable:hover header .author.hidden-until-hover {
   opacity: inherit;
+  position: static;
 }
 
 .entry header .externalLink {
   position: absolute;
   right: 0px;
-  bottom: 0px;
+  top: 5px;
   text-align: right;
   font-size: 17px;
+  width: 13em;
 }
 
 .entry header .externalLink a {
@@ -267,12 +275,8 @@ a:hover {
 
 .entry:hover header .externalLink .edit {
   color: #D6D8DA;
-  position: absolute;
-  right: 0.5em;
   bottom: 0;
-  margin-right: 100%;
-  display: inline;
-  width: 5em;
+  display: inline-block;
 }
 
 .entry header input {
@@ -282,6 +286,7 @@ a:hover {
   padding: 3px;
   font: inherit;
   color: inherit;
+  max-width: 100%;
 }
 
 .entry.editable header:hover input, .entry.editable header input:focus {
