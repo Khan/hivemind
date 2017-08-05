@@ -60,7 +60,7 @@ If you are looking for a free smtp service, mailgun has a *very generous* free t
 
 ## Google OAuth Configuration
 
-To get OAuth working we will need to sign in to the [Google Cloud Platform](console.cloud.google.com/) and create a new project. Which can be done by clicking the <kbd>Select a project</kbd> dropdown in the upper left corner and then clicking the <kbd>+</kbd> icon.
+To get OAuth working you will need to sign in to the [Google Cloud Platform](console.cloud.google.com/) and create a new project. Which can be done by clicking the <kbd>Select a project</kbd> dropdown in the upper left corner and then clicking the <kbd>+</kbd> icon.
 
 Once your new project has been created use the search field to look for "Credentials" and select it.
 
@@ -70,7 +70,7 @@ Then create a new set of credentials using the Oauth client ID option.
 
 <img src="google_cloud_oauth.png" width="50%">
 
- When selecting the application type check the web application and give it a name. Then add your localhost and heroky app to the authorized URIs. Click create and copy the clientId and secret from the pop-up.
+ When selecting the application type, check the web application and give it a name. Then add your localhost and Heroku app to the authorized URIs. Click create and copy the clientId and secret from the pop-up.
 
 <img src="google_oauth_create.png" width="50%">
 
