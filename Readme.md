@@ -80,7 +80,8 @@ In the settings.json replace the null verbal for clientId and secret with the on
 "google": {
   "clientId": 0000000000000-qfglu1eb95aeo8io4dap4rlu8rtfani4.apps.googleusercontent.com,
   "secret": od4FF2pWouXVk4aMLf59--OO
-},```
+},
+```
 
 ## Deploying to Khan Academy's Hivemind instance
 
