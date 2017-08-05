@@ -64,15 +64,15 @@ To get OAuth working we will need to sign in to the [Google Cloud Platform](cons
 
 Once your new project has been created use the search field to look for "Credentials" and select it.
 
-![](google_cloud_search.png)
+<img src="google_cloud_search.png" width="50%">
 
 Then create a new set of credentials using the Oauth client ID option.
 
-![](google_cloud_oauth.png)
+<img src="google_cloud_oauth.png" width="50%">
 
  When selecting the application type check the web application and give it a name. Then add your localhost and heroky app to the authorized URIs. Click create and copy the clientId and secret from the pop-up.
 
-![Google web application OAuth example credentials](google_oauth_create.png)
+<img src="google_oauth_create.png" width="50%">
 
 In the settings.json replace the null verbal for clientId and secret with the one from the pop-up.
 
