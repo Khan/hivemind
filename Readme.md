@@ -4,7 +4,7 @@ Hivemind is an experimental knowledge-management system built to help Khan Acade
 
 In the course of our research, we review lots of papers, books, games, toys, etc. We’re mining for quotes, great ideas, other promising resources, inspiration. When we find something great, that becomes part of our research team’s shared intellectual context—one of the most valuable things we build!
 
-![Screenshot as of May 5th, 2016](screenshot.png)
+![sample of deployed site](screenshot.png)
 
 Disclaimers: The project is still very young, and it's probably not useful outside of Khan Academy. It's still in a rough prototype stage, intentionally not yet robustly architected.
 
@@ -58,6 +58,30 @@ The site will now work, but you will need to make sure that your [s3 bucket is w
 
 If you are looking for a free smtp service, mailgun has a *very generous* free tier.
 
+## Google OAuth Configuration
+
+To get OAuth working you will need to sign in to the [Google Cloud Platform](console.cloud.google.com/) and create a new project. Which can be done by clicking the <kbd>Select a project</kbd> dropdown in the upper left corner and then clicking the <kbd>+</kbd> icon.
+
+Once your new project has been created use the search field to look for "Credentials" and select it.
+
+<img src="google_cloud_search.png" width="50%">
+
+Then create a new set of credentials using the Oauth client ID option.
+
+<img src="google_cloud_oauth.png" width="50%">
+
+ When selecting the application type, check the web application and give it a name. Then add your localhost and Heroku app to the authorized URIs. Click create and copy the clientId and secret from the pop-up.
+
+<img src="google_oauth_create.png" width="50%">
+
+In the settings.json replace the null verbal for clientId and secret with the one from the pop-up.
+
+```
+"google": {
+  "clientId": 0000000000000-qfglu1eb95aeo8io4dap4rlu8rtfani4.apps.googleusercontent.com,
+  "secret": od4FF2pWouXVk4aMLf59--OO
+},
+```
 
 ## Deploying to Khan Academy's Hivemind instance
 
